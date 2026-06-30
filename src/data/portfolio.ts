@@ -6,8 +6,8 @@ export const profile = {
   github: 'https://github.com/Ho-jin98',
   location: 'SEOUL, KR',
   introduction: [
-    '새로운 기술과 낯선 영역을 빠르게 학습하고,',
-    '실제로 동작하는 서비스 흐름으로 연결합니다.',
+    '낯선 기술도 빠르게 익히고,',
+    '실제 서비스 흐름에 적용하며 성장하고 있습니다.',
   ],
 };
 
