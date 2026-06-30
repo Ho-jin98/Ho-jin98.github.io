@@ -30,6 +30,12 @@ export const projects = [
     role: '만남 인증 · 위치 · 관리자 · UI/UX',
     stack: ['Spring Boot', 'JPA', 'Redis', 'React', 'TypeScript', 'Kakao Maps'],
     keywords: ['GPS 인증', 'QR 인증', '노쇼 판정', '관리자 처리', '포인트 정산'],
+    metadata: [
+      { label: 'TYPE', value: 'Team Project' },
+      { label: 'ROLE', value: 'Backend' },
+      { label: 'FOCUS', value: 'GPS · QR · No-show · Admin' },
+      { label: 'PERIOD', value: '2026.05 — 2026.06' },
+    ],
     href: '/work/hankkipot',
     github: 'https://github.com/Team3-Final-Project-SNS/Final-project',
     overview:
@@ -52,6 +58,12 @@ export const projects = [
     role: '백엔드 전체 설계 및 구현',
     stack: ['Spring Boot', 'Redisson', 'Kafka', 'MySQL', 'Docker', 'k6'],
     keywords: ['Redis Lock', 'DB Lock', 'Kafka Event', 'Transaction', 'Concurrency'],
+    metadata: [
+      { label: 'TYPE', value: 'Solo Project' },
+      { label: 'ROLE', value: 'Backend' },
+      { label: 'FOCUS', value: 'Lock · Transaction · Event' },
+      { label: 'PERIOD', value: '2026.04 — 2026.05' },
+    ],
     href: '/work/k-server',
     github: 'https://github.com/Ho-jin98/k-server-project',
     overview:
@@ -74,6 +86,12 @@ export const projects = [
     role: '인증/인가 · 클라이언트 · 관리자 · 통합 검색',
     stack: ['Spring Security', 'JWT', 'QueryDSL', 'Redis', 'MySQL', 'k6'],
     keywords: ['Redis Cache', 'Search', 'K6 Test', 'Performance', 'Query Optimization'],
+    metadata: [
+      { label: 'TYPE', value: 'Team Project' },
+      { label: 'ROLE', value: 'Backend' },
+      { label: 'FOCUS', value: 'Search · Cache · K6' },
+      { label: 'PERIOD', value: '2026.03 — 2026.04' },
+    ],
     href: '/work/readys7',
     github: 'https://github.com/Ready-s7/Readys7-project',
     overview:
@@ -85,21 +103,26 @@ export const capabilities = [
   {
     number: '01',
     title: 'Backend',
+    description: 'Spring Boot 기반으로 API, 인증, 상태 변경, 트랜잭션 흐름을 구현했습니다.',
     items: 'Java 17 · Spring Boot · Spring Security · JPA · QueryDSL',
   },
   {
     number: '02',
     title: 'Data & Messaging',
+    description: 'Redis와 Kafka를 활용해 캐시, 이벤트 처리, 재시도 흐름을 다뤘습니다.',
     items: 'MySQL · Redis · Redisson · Kafka · Spring Cache',
   },
   {
     number: '03',
     title: 'Quality',
-    items: 'JUnit 5 · Mockito · MockMvc · k6 · E2E Scenarios',
+    description: '테스트 코드와 부하 테스트를 통해 기능 동작과 개선 효과를 확인했습니다.',
+    items: 'JUnit 5 · Mockito · MockMvc · K6 · E2E Scenarios',
   },
   {
     number: '04',
     title: 'Product Connection',
+    description:
+      '백엔드 흐름이 실제 화면과 연결되는지 확인하며 필요한 프론트 영역도 함께 다뤘습니다.',
     items: 'React · TypeScript · Kakao Maps · Geolocation API · Figma',
   },
 ];

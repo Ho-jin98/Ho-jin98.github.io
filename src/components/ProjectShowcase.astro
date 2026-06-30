@@ -8,6 +8,10 @@ interface Project {
   headline: string[];
   description: string[];
   keywords: string[];
+  metadata: {
+    label: string;
+    value: string;
+  }[];
   href: string;
 }
 
@@ -44,6 +48,15 @@ const { project } = Astro.props;
         {project.description.map((paragraph) => <p>{paragraph}</p>)}
       </div>
 
+      <dl class="project-showcase__meta" data-reveal>
+        {project.metadata.map((item) => (
+          <div>
+            <dt>{item.label}</dt>
+            <dd>{item.value}</dd>
+          </div>
+        ))}
+      </dl>
+
       <ul class="project-showcase__keywords" data-reveal aria-label={`${project.title} 핵심 키워드`}>
         {project.keywords.map((keyword) => <li>{keyword}</li>)}
       </ul>
@@ -55,8 +68,10 @@ const { project } = Astro.props;
     </div>
 
     <div class="project-showcase__visual" data-reveal aria-hidden="true">
+      <span class="project-showcase__identity">
+        {project.projectNumber} / {project.name}
+      </span>
       <span class="project-showcase__number">{project.projectNumber}</span>
-      <span class="project-showcase__name">{project.name}</span>
       <i class="project-showcase__axis project-showcase__axis--x"></i>
       <i class="project-showcase__axis project-showcase__axis--y"></i>
       <i class="project-showcase__ring"></i>
