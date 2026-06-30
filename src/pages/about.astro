@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+---
+
+<BaseLayout
+  title="About — 정호진"
+  description="낯선 기술을 학습하고 실제 서비스 흐름에 적용해온 백엔드 개발자 정호진을 소개합니다."
+  bodyClass="document-page"
+>
+  <SiteHeader />
+
+  <main class="info-page">
+    <header class="info-page__hero">
+      <div class="section-index mono-label">
+        <span>ABOUT</span>
+        <span>BACKEND DEVELOPER</span>
+      </div>
+      <h1>낯선 기술을<br /><span>실제 흐름에 적용하며</span><br />배우고 있습니다.</h1>
+    </header>
+
+    <section class="info-page__grid">
+      <div class="info-page__label mono-label">HOW I WORK</div>
+      <div class="info-page__copy">
+        <p>
+          구현 전에 정책과 사용자 흐름을 정리하고, 화면·API·데이터 상태가 의도대로 이어지는지 확인합니다.
+        </p>
+        <p>
+          익숙하지 않은 영역은 작은 구현과 테스트로 먼저 확인한 뒤 프로젝트에 필요한 형태로 적용합니다.
+          빠르게 배우는 것보다, 배운 기술이 실제 서비스 안에서 어떻게 동작하는지 끝까지 확인하는 과정을 중요하게 생각합니다.
+        </p>
+      </div>
+    </section>
+
+    <a class="page-next-link" href="/capabilities">
+      <span>NEXT</span>
+      CAPABILITIES →
+    </a>
+  </main>
+</BaseLayout>

@@ -1,21 +1,13 @@
----
-interface Props {
-  email: string;
-}
-
-const { email } = Astro.props;
----
-
 <header class="site-header">
-  <a class="wordmark magnetic" href="#hero" aria-label="첫 화면으로 이동">
+  <a class="wordmark magnetic" href="/" aria-label="첫 화면으로 이동">
     HOJIN<span class="wordmark-dot">.</span>
   </a>
 
   <nav class="desktop-nav" aria-label="주요 메뉴">
-    <a class="magnetic" href="#work">WORK</a>
-    <a class="magnetic" href="#about">ABOUT</a>
-    <a class="magnetic" href="#capabilities">CAPABILITIES</a>
-    <a class="magnetic" href={`mailto:${email}`}>CONTACT</a>
+    <a class="magnetic" href="/#hankkipot">WORK</a>
+    <a class="magnetic" href="/about">ABOUT</a>
+    <a class="magnetic" href="/capabilities">CAPABILITIES</a>
+    <a class="magnetic" href="/#contact">CONTACT</a>
   </nav>
 
   <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">
@@ -25,9 +17,29 @@ const { email } = Astro.props;
   </button>
 
   <nav id="mobile-menu" class="mobile-menu" aria-label="모바일 메뉴" hidden>
-    <a href="#work">WORK</a>
-    <a href="#about">ABOUT</a>
-    <a href="#capabilities">CAPABILITIES</a>
-    <a href={`mailto:${email}`}>CONTACT</a>
+    <a href="/#hankkipot">WORK</a>
+    <a href="/about">ABOUT</a>
+    <a href="/capabilities">CAPABILITIES</a>
+    <a href="/#contact">CONTACT</a>
   </nav>
 </header>
+
+<script>
+  const menuButton = document.querySelector<HTMLButtonElement>('.menu-button');
+  const mobileMenu = document.querySelector<HTMLElement>('#mobile-menu');
+
+  menuButton?.addEventListener('click', () => {
+    const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+    menuButton.setAttribute('aria-expanded', String(!isOpen));
+    menuButton.classList.toggle('is-open', !isOpen);
+    if (mobileMenu) mobileMenu.hidden = isOpen;
+  });
+
+  mobileMenu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      mobileMenu.hidden = true;
+      menuButton?.setAttribute('aria-expanded', 'false');
+      menuButton?.classList.remove('is-open');
+    });
+  });
+</script>

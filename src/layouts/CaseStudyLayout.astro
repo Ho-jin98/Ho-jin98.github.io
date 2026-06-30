@@ -1,0 +1,160 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { projects } from '../data/portfolio';
+
+interface Props {
+  project: (typeof projects)[number];
+}
+
+const { project } = Astro.props;
+
+const sections = [
+  { number: '01', id: 'overview', title: 'Overview' },
+  { number: '02', id: 'problem', title: 'Problem' },
+  { number: '03', id: 'my-role', title: 'My Role' },
+  { number: '04', id: 'flow', title: 'Flow' },
+  { number: '05', id: 'key-features', title: 'Key Features' },
+  { number: '06', id: 'troubleshooting', title: 'Troubleshooting' },
+  { number: '07', id: 'result', title: 'Result' },
+  { number: '08', id: 'retrospective', title: 'Retrospective' },
+];
+---
+
+<BaseLayout
+  title={`${project.title} Case Study — 정호진`}
+  description={`${project.title} 프로젝트의 문제, 역할, 구현 흐름과 결과를 정리한 케이스 스터디입니다.`}
+  bodyClass="document-page"
+>
+  <SiteHeader />
+
+  <main class="case-study">
+    <header class="case-study__hero">
+      <a class="back-link" href={`/#${project.slug}`}>← BACK TO WORK</a>
+      <div class="case-study__label mono-label">
+        <span>PROJECT {project.projectNumber}</span>
+        <span>{project.name}</span>
+      </div>
+      <h1>{project.title}</h1>
+      <p>{project.overview}</p>
+      <a class="case-study__github" href={project.github} target="_blank" rel="noreferrer">
+        GITHUB ↗
+      </a>
+    </header>
+
+    <div class="case-study__body">
+      <nav class="case-study__toc" aria-label="케이스 스터디 목차">
+        {sections.map((section) => (
+          <a href={`#${section.id}`}>
+            <span>{section.number}</span>
+            {section.title}
+          </a>
+        ))}
+      </nav>
+
+      <div class="case-study__content">
+        <section id="overview" class="case-section">
+          <div class="case-section__heading">
+            <span>01</span>
+            <h2>Overview</h2>
+          </div>
+          <div class="case-overview-grid">
+            <dl>
+              <dt>프로젝트</dt>
+              <dd>{project.subtitle}</dd>
+            </dl>
+            <dl>
+              <dt>기간</dt>
+              <dd>{project.period}</dd>
+            </dl>
+            <dl>
+              <dt>인원</dt>
+              <dd>{project.team}</dd>
+            </dl>
+            <dl>
+              <dt>담당</dt>
+              <dd>{project.role}</dd>
+            </dl>
+            <dl class="case-overview-grid__wide">
+              <dt>기술 스택</dt>
+              <dd>{project.stack.join(' · ')}</dd>
+            </dl>
+          </div>
+        </section>
+
+        <section id="problem" class="case-section">
+          <div class="case-section__heading">
+            <span>02</span>
+            <h2>Problem</h2>
+          </div>
+          <p class="case-section__placeholder">
+            프로젝트에서 해결하려던 문제와 요구사항을 코드와 문서 기준으로 정리할 예정입니다.
+          </p>
+        </section>
+
+        <section id="my-role" class="case-section">
+          <div class="case-section__heading">
+            <span>03</span>
+            <h2>My Role</h2>
+          </div>
+          <div class="case-section__body">
+            <p>{project.role}</p>
+            <p class="case-section__placeholder">
+              직접 맡은 기능과 의사결정 범위를 구체적인 구현 단위로 보완할 예정입니다.
+            </p>
+          </div>
+        </section>
+
+        <section id="flow" class="case-section">
+          <div class="case-section__heading">
+            <span>04</span>
+            <h2>Flow</h2>
+          </div>
+          <p class="case-section__placeholder">
+            서비스 흐름, 상태 변화와 API 호출 순서를 다이어그램으로 구성할 예정입니다.
+          </p>
+        </section>
+
+        <section id="key-features" class="case-section">
+          <div class="case-section__heading">
+            <span>05</span>
+            <h2>Key Features</h2>
+          </div>
+          <ul class="case-keywords">
+            {project.keywords.map((keyword) => <li>{keyword}</li>)}
+          </ul>
+        </section>
+
+        <section id="troubleshooting" class="case-section">
+          <div class="case-section__heading">
+            <span>06</span>
+            <h2>Troubleshooting</h2>
+          </div>
+          <p class="case-section__placeholder">
+            문제 상황 → 원인 → 해결 과정 → 결과 순서로 핵심 사례를 추가할 예정입니다.
+          </p>
+        </section>
+
+        <section id="result" class="case-section">
+          <div class="case-section__heading">
+            <span>07</span>
+            <h2>Result</h2>
+          </div>
+          <p class="case-section__placeholder">
+            테스트 조건과 결과, 적용 전후의 차이와 배운 점을 근거와 함께 정리할 예정입니다.
+          </p>
+        </section>
+
+        <section id="retrospective" class="case-section">
+          <div class="case-section__heading">
+            <span>08</span>
+            <h2>Retrospective</h2>
+          </div>
+          <p class="case-section__placeholder">
+            현재 구조의 아쉬운 점과 다음에 보완할 방향을 정리할 예정입니다.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

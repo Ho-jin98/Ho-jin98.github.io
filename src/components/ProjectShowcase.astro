@@ -1,0 +1,66 @@
+---
+interface Project {
+  number: string;
+  projectNumber: string;
+  slug: string;
+  name: string;
+  title: string;
+  headline: string[];
+  description: string[];
+  keywords: string[];
+  href: string;
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<section
+  id={project.slug}
+  class="panel panel--project"
+  data-panel
+  aria-labelledby={`${project.slug}-title`}
+>
+  <div class="section-index mono-label">
+    <span>{project.number}</span>
+    <span>{project.name}</span>
+  </div>
+
+  <div class="project-showcase">
+    <div class="project-showcase__copy">
+      <p class="project-showcase__kicker" data-reveal>
+        PROJECT {project.projectNumber} / {project.name}
+      </p>
+
+      <h2 id={`${project.slug}-title`} data-reveal>
+        {project.headline[0]}<br />
+        <span>{project.headline[1]}</span>
+      </h2>
+
+      <div class="project-showcase__description" data-reveal>
+        {project.description.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <ul class="project-showcase__keywords" data-reveal aria-label={`${project.title} 핵심 키워드`}>
+        {project.keywords.map((keyword) => <li>{keyword}</li>)}
+      </ul>
+
+      <a class="case-study-link magnetic" href={project.href} data-reveal>
+        <span>VIEW CASE STUDY</span>
+        <i>→</i>
+      </a>
+    </div>
+
+    <div class="project-showcase__visual" data-reveal aria-hidden="true">
+      <span class="project-showcase__number">{project.projectNumber}</span>
+      <span class="project-showcase__name">{project.name}</span>
+      <i class="project-showcase__axis project-showcase__axis--x"></i>
+      <i class="project-showcase__axis project-showcase__axis--y"></i>
+      <i class="project-showcase__ring"></i>
+      <i class="project-showcase__block"></i>
+    </div>
+  </div>
+</section>

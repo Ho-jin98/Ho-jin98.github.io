@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { capabilities } from '../data/portfolio';
+---
+
+<BaseLayout
+  title="Capabilities — 정호진"
+  description="직접 구현하고 테스트한 범위를 중심으로 정리한 백엔드 개발 역량입니다."
+  bodyClass="document-page"
+>
+  <SiteHeader />
+
+  <main class="info-page">
+    <header class="info-page__hero">
+      <div class="section-index mono-label">
+        <span>CAPABILITIES</span>
+        <span>IMPLEMENTED & TESTED</span>
+      </div>
+      <h1>기술 이름보다<br /><span>어디에 적용했는지</span>를<br />설명하려 합니다.</h1>
+    </header>
+
+    <section class="capability-page-list">
+      {capabilities.map((capability) => (
+        <article>
+          <span>{capability.number}</span>
+          <h2>{capability.title}</h2>
+          <p>{capability.items}</p>
+        </article>
+      ))}
+    </section>
+
+    <a class="page-next-link" href="/#contact">
+      <span>NEXT</span>
+      CONTACT →
+    </a>
+  </main>
+</BaseLayout>
