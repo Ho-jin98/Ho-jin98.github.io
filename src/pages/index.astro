@@ -1,0 +1,342 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectRow from '../components/ProjectRow.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { capabilities, profile, projects } from '../data/portfolio';
+---
+
+<BaseLayout
+  title="정호진 — Backend Engineer"
+  description="서비스의 정책과 데이터 흐름을 끝까지 연결하는 백엔드 개발자 정호진의 포트폴리오입니다."
+>
+  <SiteHeader email={profile.email} />
+
+  <main class="scroll-deck" data-scroll-deck>
+    <section id="hero" class="panel panel--hero is-active" data-panel aria-labelledby="hero-title">
+      <div class="hero-meta mono-label">
+        <span>BACKEND</span>
+      </div>
+
+      <div class="hero-copy">
+        <p class="eyebrow">BUILDING RELIABLE SERVICE FLOWS</p>
+        <h1 id="hero-title">
+          <span>안녕하세요<em>!</em></span>
+        </h1>
+        <p class="hero-description">
+          {profile.introduction.map((line) => <span>{line}</span>)}
+        </p>
+      </div>
+
+      <div class="hero-orbit" aria-hidden="true">
+        <div class="orbit-box"></div>
+        <div class="orbit-line orbit-line--x"></div>
+        <div class="orbit-line orbit-line--y"></div>
+        <div class="orbit-circle"></div>
+        <div class="orbit-node cursor-reactive"></div>
+      </div>
+
+      <a class="drag-cue magnetic" href="#about">
+        <span class="drag-cue__circle">↓</span>
+        <span>
+          DRAG TO EXPLORE
+          <small>01 — 05</small>
+        </span>
+      </a>
+    </section>
+
+    <section id="about" class="panel panel--statement" data-panel aria-labelledby="statement-title">
+      <div class="section-index mono-label">
+        <span>02</span>
+        <span>APPROACH</span>
+      </div>
+
+      <div class="statement-layout">
+        <h2 id="statement-title">
+          부족함을 발견하면<br />
+          <span>직접 만들어</span> 확인합니다.
+        </h2>
+
+        <div class="statement-copy">
+          <p>
+            저에게 성실함은 반복이 아니라 <strong>관심</strong>에서 시작합니다.
+            서비스가 어떻게 끝까지 이어지는지 궁금해하고, 부족한 기술은 개인 프로젝트로 직접 검증합니다.
+          </p>
+          <p>
+            구현 전에 정책과 흐름을 정리하고, 화면·API·데이터 상태가 의도대로 연결되는지 확인합니다.
+            낯선 기술을 익히는 데서 멈추지 않고 서비스에 필요한 형태로 적용합니다.
+          </p>
+        </div>
+      </div>
+
+      <div class="statement-ticker" aria-hidden="true">
+        <span>ARCHITECTURE</span><i></i><span>CONSISTENCY</span><i></i><span>VERIFICATION</span>
+      </div>
+    </section>
+
+    <section id="work" class="panel panel--work" data-panel aria-labelledby="work-title">
+      <div class="section-heading">
+        <div class="section-index mono-label">
+          <span>03</span>
+          <span>SELECTED WORK</span>
+        </div>
+        <h2 id="work-title">문제를 구조로<br />설명하는 프로젝트.</h2>
+        <p>프로젝트에 마우스를 올리면 핵심 결과를 확인할 수 있습니다.</p>
+      </div>
+
+      <div class="project-list">
+        {projects.map((project) => <ProjectRow project={project} />)}
+      </div>
+    </section>
+
+    <section
+      id="capabilities"
+      class="panel panel--capabilities"
+      data-panel
+      aria-labelledby="capabilities-title"
+    >
+      <div class="section-index mono-label">
+        <span>04</span>
+        <span>CAPABILITIES</span>
+      </div>
+
+      <div class="capabilities-intro">
+        <h2 id="capabilities-title">기술보다 먼저,<br /><span>선택의 이유</span>를 봅니다.</h2>
+        <p>
+          팀 전체 기술이 아닌, 직접 구현하고 테스트한 범위를 기준으로 정리했습니다.
+        </p>
+      </div>
+
+      <div class="capability-list">
+        {capabilities.map((capability) => (
+          <article class="capability-item">
+            <span>{capability.number}</span>
+            <h3>{capability.title}</h3>
+            <p>{capability.items}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="proof-strip">
+        <span>DESIGN</span>
+        <strong>→</strong>
+        <span>IMPLEMENT</span>
+        <strong>→</strong>
+        <span>MEASURE</span>
+        <strong>→</strong>
+        <span>REFINE</span>
+      </div>
+    </section>
+
+    <section id="contact" class="panel panel--contact" data-panel aria-labelledby="contact-title">
+      <div class="section-index mono-label">
+        <span>05</span>
+        <span>CONTACT</span>
+      </div>
+
+      <div class="contact-copy">
+        <p>새로운 문제를 함께 풀 준비가 되어 있습니다.</p>
+        <h2 id="contact-title">LET'S MAKE<br />IT <span>WORK.</span></h2>
+      </div>
+
+      <div class="contact-actions">
+        <a class="contact-link magnetic" href={`mailto:${profile.email}`}>
+          <span>EMAIL</span>
+          <strong>{profile.email}</strong>
+          <i>↗</i>
+        </a>
+        <a class="contact-link magnetic" href={profile.github} target="_blank" rel="noreferrer">
+          <span>GITHUB</span>
+          <strong>github.com/Ho-jin98</strong>
+          <i>↗</i>
+        </a>
+      </div>
+
+      <footer>
+        <span>© 2026 {profile.nameEn}</span>
+        <span>DESIGNED & BUILT WITH ASTRO</span>
+      </footer>
+    </section>
+  </main>
+
+  <aside class="panel-progress" aria-label="현재 섹션">
+    <span class="panel-progress__line"></span>
+    <a href="#hero" class="is-current" aria-label="첫 화면"><i></i><span>01</span></a>
+    <a href="#about" aria-label="소개"><i></i><span>02</span></a>
+    <a href="#work" aria-label="프로젝트"><i></i><span>03</span></a>
+    <a href="#capabilities" aria-label="기술 역량"><i></i><span>04</span></a>
+    <a href="#contact" aria-label="연락처"><i></i><span>05</span></a>
+  </aside>
+
+  <div class="pointer-dot" aria-hidden="true"></div>
+
+  <script>
+    const deck = document.querySelector<HTMLElement>('[data-scroll-deck]');
+    const panels = [...document.querySelectorAll<HTMLElement>('[data-panel]')];
+    const progressLinks = [...document.querySelectorAll<HTMLAnchorElement>('.panel-progress a')];
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const finePointer = window.matchMedia('(pointer: fine)');
+
+    if (deck) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+
+            panels.forEach((panel) => panel.classList.toggle('is-active', panel === entry.target));
+            progressLinks.forEach((link) => {
+              link.classList.toggle('is-current', link.hash === `#${entry.target.id}`);
+            });
+          });
+        },
+        { root: deck, threshold: 0.55 },
+      );
+
+      panels.forEach((panel) => observer.observe(panel));
+
+      let pointerId: number | null = null;
+      let dragStartY = 0;
+      let dragStartScroll = 0;
+      let hasDragged = false;
+
+      deck.addEventListener('pointerdown', (event) => {
+        if (
+          !finePointer.matches ||
+          event.button !== 0 ||
+          (event.target as HTMLElement).closest('a, button, input, textarea, [data-project-row]')
+        ) {
+          return;
+        }
+
+        pointerId = event.pointerId;
+        dragStartY = event.clientY;
+        dragStartScroll = deck.scrollTop;
+        hasDragged = false;
+        deck.setPointerCapture(pointerId);
+        deck.classList.add('is-dragging');
+      });
+
+      deck.addEventListener('pointermove', (event) => {
+        if (pointerId !== event.pointerId) return;
+        const distance = event.clientY - dragStartY;
+        hasDragged ||= Math.abs(distance) > 5;
+        deck.scrollTop = dragStartScroll - distance * 1.25;
+      });
+
+      const releaseDrag = (event: PointerEvent) => {
+        if (pointerId !== event.pointerId) return;
+        if (deck.hasPointerCapture(pointerId)) deck.releasePointerCapture(pointerId);
+        pointerId = null;
+        deck.classList.remove('is-dragging');
+
+        if (hasDragged && !reducedMotion.matches) {
+          const nearest = panels.reduce((closest, panel) => {
+            const panelDistance = Math.abs(panel.offsetTop - deck.scrollTop);
+            const closestDistance = Math.abs(closest.offsetTop - deck.scrollTop);
+            return panelDistance < closestDistance ? panel : closest;
+          });
+          nearest.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      };
+
+      deck.addEventListener('pointerup', releaseDrag);
+      deck.addEventListener('pointercancel', releaseDrag);
+    }
+
+    const menuButton = document.querySelector<HTMLButtonElement>('.menu-button');
+    const mobileMenu = document.querySelector<HTMLElement>('#mobile-menu');
+
+    menuButton?.addEventListener('click', () => {
+      const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!isOpen));
+      menuButton.classList.toggle('is-open', !isOpen);
+      if (mobileMenu) mobileMenu.hidden = isOpen;
+    });
+
+    mobileMenu?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileMenu.hidden = true;
+        menuButton?.setAttribute('aria-expanded', 'false');
+        menuButton?.classList.remove('is-open');
+      });
+    });
+
+    const pointerDot = document.querySelector<HTMLElement>('.pointer-dot');
+    const orbitCircle = document.querySelector<HTMLElement>('.orbit-circle');
+    const orbitNode = document.querySelector<HTMLElement>('.orbit-node');
+    let pointerX = window.innerWidth / 2;
+    let pointerY = window.innerHeight / 2;
+    let renderedX = pointerX;
+    let renderedY = pointerY;
+
+    const updateOrbitNode = (clientX: number, clientY: number) => {
+      if (!orbitCircle || !orbitNode) return;
+
+      let normalizedX = (clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      let normalizedY = (clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+      const distance = Math.hypot(normalizedX, normalizedY);
+
+      if (distance > 1) {
+        normalizedX /= distance;
+        normalizedY /= distance;
+      }
+
+      const circleRadius = orbitCircle.getBoundingClientRect().width / 2;
+      const nodeRadius = orbitNode.getBoundingClientRect().width / 2;
+      const travelRadius = Math.max(0, circleRadius - nodeRadius - 3);
+
+      orbitNode.style.setProperty('--orbit-x', `${normalizedX * travelRadius}px`);
+      orbitNode.style.setProperty('--orbit-y', `${normalizedY * travelRadius}px`);
+    };
+
+    const renderPointer = () => {
+      renderedX += (pointerX - renderedX) * 0.16;
+      renderedY += (pointerY - renderedY) * 0.16;
+      pointerDot?.style.setProperty('transform', `translate3d(${renderedX}px, ${renderedY}px, 0)`);
+      requestAnimationFrame(renderPointer);
+    };
+
+    if (finePointer.matches && !reducedMotion.matches) {
+      document.documentElement.classList.add('has-custom-pointer');
+      window.addEventListener('pointermove', (event) => {
+        pointerX = event.clientX;
+        pointerY = event.clientY;
+        updateOrbitNode(event.clientX, event.clientY);
+      });
+      window.addEventListener('resize', () => updateOrbitNode(pointerX, pointerY));
+      updateOrbitNode(pointerX, pointerY);
+      renderPointer();
+    }
+
+    document.querySelectorAll<HTMLElement>('[data-project-row]').forEach((row) => {
+      row.addEventListener('pointermove', (event) => {
+        row.style.setProperty('--reveal-x', `${event.clientX + 24}px`);
+        row.style.setProperty('--reveal-y', `${event.clientY - 110}px`);
+      });
+    });
+
+    document.querySelectorAll<HTMLElement>('.magnetic').forEach((element) => {
+      element.addEventListener('pointermove', (event) => {
+        if (reducedMotion.matches) return;
+        const rect = element.getBoundingClientRect();
+        const x = (event.clientX - rect.left - rect.width / 2) * 0.12;
+        const y = (event.clientY - rect.top - rect.height / 2) * 0.12;
+        element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      });
+      element.addEventListener('pointerleave', () => {
+        element.style.transform = '';
+      });
+    });
+
+    const rippleLayer = document.querySelector<HTMLElement>('.ripple-layer');
+    document.addEventListener('pointerdown', (event) => {
+      if (reducedMotion.matches || !rippleLayer) return;
+
+      const ripple = document.createElement('span');
+      ripple.className = 'click-ripple';
+      ripple.style.left = `${event.clientX}px`;
+      ripple.style.top = `${event.clientY}px`;
+      rippleLayer.append(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+    });
+  </script>
+</BaseLayout>

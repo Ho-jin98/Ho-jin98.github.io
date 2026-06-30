@@ -1,0 +1,62 @@
+---
+interface Metric {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  project: {
+    number: string;
+    title: string;
+    subtitle: string;
+    period: string;
+    kind: string;
+    href: string;
+    summary: string;
+    role: string;
+    stack: string[];
+    metrics: Metric[];
+    accent: string;
+  };
+}
+
+const { project } = Astro.props;
+---
+
+<article class:list={['project-row', `project-row--${project.accent}`]} data-project-row>
+  <a href={project.href} target="_blank" rel="noreferrer" class="project-link">
+    <div class="project-index">{project.number}</div>
+
+    <div class="project-heading">
+      <p class="project-kicker">{project.kind} · {project.period}</p>
+      <h3>{project.title}</h3>
+      <p class="project-subtitle">{project.subtitle}</p>
+    </div>
+
+    <div class="project-details">
+      <p>{project.summary}</p>
+      <span>{project.role}</span>
+    </div>
+
+    <div class="project-metric">
+      <strong>{project.metrics[1].value}</strong>
+      <span>{project.metrics[1].label}</span>
+    </div>
+
+    <span class="project-arrow" aria-hidden="true">↗</span>
+  </a>
+
+  <div class="project-reveal" aria-hidden="true">
+    <div class="project-reveal__grid"></div>
+    <p>{project.title}</p>
+    <div class="project-reveal__metrics">
+      {project.metrics.map((metric) => (
+        <span>
+          <strong>{metric.value}</strong>
+          <small>{metric.label}</small>
+        </span>
+      ))}
+    </div>
+    <div class="project-reveal__stack">{project.stack.join(' / ')}</div>
+  </div>
+</article>

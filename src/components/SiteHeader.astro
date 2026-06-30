@@ -1,0 +1,33 @@
+---
+interface Props {
+  email: string;
+}
+
+const { email } = Astro.props;
+---
+
+<header class="site-header">
+  <a class="wordmark magnetic" href="#hero" aria-label="첫 화면으로 이동">
+    HOJIN<span class="wordmark-dot">.</span>
+  </a>
+
+  <nav class="desktop-nav" aria-label="주요 메뉴">
+    <a class="magnetic" href="#work">WORK</a>
+    <a class="magnetic" href="#about">ABOUT</a>
+    <a class="magnetic" href="#capabilities">CAPABILITIES</a>
+    <a class="magnetic" href={`mailto:${email}`}>CONTACT</a>
+  </nav>
+
+  <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">
+    <span class="sr-only">메뉴 열기</span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav id="mobile-menu" class="mobile-menu" aria-label="모바일 메뉴" hidden>
+    <a href="#work">WORK</a>
+    <a href="#about">ABOUT</a>
+    <a href="#capabilities">CAPABILITIES</a>
+    <a href={`mailto:${email}`}>CONTACT</a>
+  </nav>
+</header>
