@@ -5,9 +5,10 @@ interface Project {
   slug: string;
   name: string;
   title: string;
+  landingTitle: string;
+  tagline: string;
   headline: string[];
   description: string[];
-  keywords: string[];
   metadata: {
     label: string;
     value: string;
@@ -36,13 +37,12 @@ const { project } = Astro.props;
   <div class="project-showcase">
     <div class="project-showcase__copy">
       <p class="project-showcase__kicker" data-reveal>
-        PROJECT {project.projectNumber} / {project.name}
+        PROJECT {project.projectNumber}
       </p>
 
-      <h2 id={`${project.slug}-title`} data-reveal>
-        {project.headline[0]}<br />
-        <span>{project.headline[1]}</span>
-      </h2>
+      <h2 id={`${project.slug}-title`} data-reveal>{project.landingTitle}</h2>
+
+      <p class="project-showcase__tagline" data-reveal>{project.tagline}</p>
 
       <div class="project-showcase__description" data-reveal>
         {project.description.map((paragraph) => <p>{paragraph}</p>)}
@@ -57,12 +57,8 @@ const { project } = Astro.props;
         ))}
       </dl>
 
-      <ul class="project-showcase__keywords" data-reveal aria-label={`${project.title} 핵심 키워드`}>
-        {project.keywords.map((keyword) => <li>{keyword}</li>)}
-      </ul>
-
       <a class="case-study-link magnetic" href={project.href} data-reveal>
-        <span>VIEW CASE STUDY</span>
+        <span>프로젝트 자세히 보기</span>
         <i>→</i>
       </a>
     </div>
