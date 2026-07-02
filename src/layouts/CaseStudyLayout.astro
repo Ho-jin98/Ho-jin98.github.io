@@ -2,159 +2,348 @@
 import BaseLayout from './BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import { projects } from '../data/portfolio';
+import { caseStudies } from '../data/caseStudies';
 
 interface Props {
   project: (typeof projects)[number];
 }
 
 const { project } = Astro.props;
+const caseStudy = caseStudies[project.slug];
 
-const sections = [
-  { number: '01', id: 'overview', title: 'Overview' },
-  { number: '02', id: 'problem', title: 'Problem' },
-  { number: '03', id: 'my-role', title: 'My Role' },
-  { number: '04', id: 'flow', title: 'Flow' },
-  { number: '05', id: 'key-features', title: 'Key Features' },
-  { number: '06', id: 'troubleshooting', title: 'Troubleshooting' },
-  { number: '07', id: 'result', title: 'Result' },
-  { number: '08', id: 'retrospective', title: 'Retrospective' },
-];
+if (!caseStudy) {
+  throw new Error(`Case study content is missing for "${project.slug}".`);
+}
 ---
 
 <BaseLayout
   title={`${project.title} Case Study — 정호진`}
-  description={`${project.title} 프로젝트의 문제, 역할, 구현 흐름과 결과를 정리한 케이스 스터디입니다.`}
-  bodyClass="document-page"
+  description={`${project.title} 프로젝트에서 다룬 문제, 판단, 구현 흐름과 결과를 정리한 케이스 스터디입니다.`}
+  bodyClass="document-page case-study-page"
 >
   <SiteHeader />
 
-  <main class="case-study">
-    <header class="case-study__hero">
-      <a class="back-link" href={`/#${project.slug}`}>← BACK TO WORK</a>
-      <div class="case-study__label mono-label">
+  <main class="case-study" data-case-deck>
+    <header class="case-study__topbar">
+      <a class="back-link magnetic" href={`/#${project.slug}`}>← BACK TO WORK</a>
+      <div class="case-study__project">
         <span>PROJECT {project.projectNumber}</span>
-        <span>{project.name}</span>
+        <strong>{caseStudy.projectLabel}</strong>
       </div>
-      <h1>{project.title}</h1>
-      <p>{project.overview}</p>
-      <a class="case-study__github" href={project.github} target="_blank" rel="noreferrer">
-        GITHUB ↗
-      </a>
     </header>
+    <h1 class="sr-only">{project.title} 케이스 스터디</h1>
 
     <div class="case-study__body">
-      <nav class="case-study__toc" aria-label="케이스 스터디 목차">
-        {sections.map((section) => (
-          <a href={`#${section.id}`}>
-            <span>{section.number}</span>
-            {section.title}
-          </a>
-        ))}
+      <nav class="case-study__toc" aria-label={`${project.title} 케이스 스터디 목차`}>
+        <p>CASE STUDY</p>
+        {
+          caseStudy.sections.map((section, index) => (
+            <a
+              href={`#${section.id}`}
+              class={index === 0 ? 'is-active' : undefined}
+              data-toc-link
+            >
+              <span>{section.number}</span>
+              {section.navTitle}
+            </a>
+          ))
+        }
+        <small><span data-case-progress>01</span> / 06</small>
       </nav>
 
       <div class="case-study__content">
-        <section id="overview" class="case-section">
-          <div class="case-section__heading">
-            <span>01</span>
-            <h2>Overview</h2>
-          </div>
-          <div class="case-overview-grid">
-            <dl>
-              <dt>프로젝트</dt>
-              <dd>{project.subtitle}</dd>
-            </dl>
-            <dl>
-              <dt>기간</dt>
-              <dd>{project.period}</dd>
-            </dl>
-            <dl>
-              <dt>인원</dt>
-              <dd>{project.team}</dd>
-            </dl>
-            <dl>
-              <dt>담당</dt>
-              <dd>{project.role}</dd>
-            </dl>
-            <dl class="case-overview-grid__wide">
-              <dt>기술 스택</dt>
-              <dd>{project.stack.join(' · ')}</dd>
-            </dl>
-          </div>
-        </section>
+        {
+          caseStudy.sections.map((section, index) => {
+            const previous = caseStudy.sections[index - 1];
+            const next = caseStudy.sections[index + 1];
 
-        <section id="problem" class="case-section">
-          <div class="case-section__heading">
-            <span>02</span>
-            <h2>Problem</h2>
-          </div>
-          <p class="case-section__placeholder">
-            프로젝트에서 해결하려던 문제와 요구사항을 코드와 문서 기준으로 정리할 예정입니다.
-          </p>
-        </section>
+            return (
+              <section
+                id={section.id}
+                class:list={['case-section', index === 0 && 'is-active']}
+                data-case-section
+                aria-labelledby={`${section.id}-title`}
+              >
+                <div class="case-section__topline">
+                  <h2 id={`${section.id}-title`}>
+                    <span>{section.number}</span>
+                    <span aria-hidden="true">/</span>
+                    {section.navTitle}
+                  </h2>
+                  <div class="case-section__pager">
+                    {previous && <a href={`#${previous.id}`}>← 이전 페이지</a>}
+                    {next ? (
+                      <a class="case-section__next" href={`#${next.id}`}>다음 페이지 →</a>
+                    ) : (
+                      <a class="case-section__next" href={`/#${project.slug}`}>
+                        목록으로 돌아가기 →
+                      </a>
+                    )}
+                  </div>
+                </div>
 
-        <section id="my-role" class="case-section">
-          <div class="case-section__heading">
-            <span>03</span>
-            <h2>My Role</h2>
-          </div>
-          <div class="case-section__body">
-            <p>{project.role}</p>
-            <p class="case-section__placeholder">
-              직접 맡은 기능과 의사결정 범위를 구체적인 구현 단위로 보완할 예정입니다.
-            </p>
-          </div>
-        </section>
+                <header class="case-section__heading">
+                  <p>{section.lead}</p>
+                </header>
 
-        <section id="flow" class="case-section">
-          <div class="case-section__heading">
-            <span>04</span>
-            <h2>Flow</h2>
-          </div>
-          <p class="case-section__placeholder">
-            서비스 흐름, 상태 변화와 API 호출 순서를 다이어그램으로 구성할 예정입니다.
-          </p>
-        </section>
+                {section.facts && (
+                  <dl class="case-facts">
+                    {section.facts.map((fact) => (
+                      <div>
+                        <dt>{fact.label}</dt>
+                        <dd>{fact.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
 
-        <section id="key-features" class="case-section">
-          <div class="case-section__heading">
-            <span>05</span>
-            <h2>Key Features</h2>
-          </div>
-          <ul class="case-keywords">
-            {project.keywords.map((keyword) => <li>{keyword}</li>)}
-          </ul>
-        </section>
+                {section.flow && (
+                  <ol class="case-flow" aria-label={`${section.title} 처리 흐름`}>
+                    {section.flow.map((step, flowIndex) => (
+                      <li>
+                        <span>{String(flowIndex + 1).padStart(2, '0')}</span>
+                        <strong>{step}</strong>
+                      </li>
+                    ))}
+                  </ol>
+                )}
 
-        <section id="troubleshooting" class="case-section">
-          <div class="case-section__heading">
-            <span>06</span>
-            <h2>Troubleshooting</h2>
-          </div>
-          <p class="case-section__placeholder">
-            문제 상황 → 원인 → 해결 과정 → 결과 순서로 핵심 사례를 추가할 예정입니다.
-          </p>
-        </section>
+                {section.states && (
+                  <dl class="case-states">
+                    {section.states.map((state) => (
+                      <div>
+                        <dt>{state.label}</dt>
+                        <dd>{state.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
 
-        <section id="result" class="case-section">
-          <div class="case-section__heading">
-            <span>07</span>
-            <h2>Result</h2>
-          </div>
-          <p class="case-section__placeholder">
-            테스트 조건과 결과, 적용 전후의 차이와 배운 점을 근거와 함께 정리할 예정입니다.
-          </p>
-        </section>
+                {section.blocks && (
+                  <div class="case-blocks">
+                    {section.blocks.map((block) => (
+                      <article>
+                        <span>{block.label}</span>
+                        <p>{block.text}</p>
+                      </article>
+                    ))}
+                  </div>
+                )}
 
-        <section id="retrospective" class="case-section">
-          <div class="case-section__heading">
-            <span>08</span>
-            <h2>Retrospective</h2>
-          </div>
-          <p class="case-section__placeholder">
-            현재 구조의 아쉬운 점과 다음에 보완할 방향을 정리할 예정입니다.
-          </p>
-        </section>
+                {section.metrics && (
+                  <div class="case-metrics">
+                    {section.metrics.map((metric) => (
+                      <article class:list={[metric.tone && `case-metric--${metric.tone}`]}>
+                        <span>{metric.label}</span>
+                        <strong>{metric.value}</strong>
+                        {metric.note && <small>{metric.note}</small>}
+                      </article>
+                    ))}
+                  </div>
+                )}
+
+                {section.bullets && section.id !== 'result' && (
+                  <ul class="case-points">
+                    {section.bullets.map((bullet) => <li>{bullet}</li>)}
+                  </ul>
+                )}
+
+                {section.bullets && section.id === 'result' && (
+                  <div class="case-result">
+                    <article>
+                      <span>RESULT</span>
+                      <ul>
+                        {section.bullets.slice(0, 2).map((bullet) => <li>{bullet}</li>)}
+                      </ul>
+                    </article>
+                    <article>
+                      <span>LEARNED</span>
+                      <ul>
+                        {section.bullets.slice(2).map((bullet) => <li>{bullet}</li>)}
+                      </ul>
+                    </article>
+                  </div>
+                )}
+              </section>
+            );
+          })
+        }
       </div>
     </div>
   </main>
+
+  <div class="pointer-dot" aria-hidden="true"></div>
+
+  <script>
+    const deck = document.querySelector<HTMLElement>('[data-case-deck]');
+    const sections = [...document.querySelectorAll<HTMLElement>('[data-case-section]')];
+    const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')];
+    const progress = document.querySelector<HTMLElement>('[data-case-progress]');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const finePointer = window.matchMedia('(pointer: fine)');
+    const desktopLayout = window.matchMedia('(min-width: 721px)');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const activeIndex = sections.indexOf(entry.target as HTMLElement);
+          const activeId = (entry.target as HTMLElement).id;
+
+          sections.forEach((section) => section.classList.toggle('is-active', section.id === activeId));
+          tocLinks.forEach((link) => link.classList.toggle('is-active', link.hash === `#${activeId}`));
+          if (progress && activeIndex >= 0) {
+            progress.textContent = String(activeIndex + 1).padStart(2, '0');
+          }
+        });
+      },
+      { root: deck, threshold: 0.55 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    if (deck) {
+      let wheelTotal = 0;
+      let wheelReset: number | undefined;
+      let isChangingSection = false;
+      let changeReset: number | undefined;
+
+      const activeSectionIndex = () => {
+        const activeIndex = sections.findIndex((section) => section.classList.contains('is-active'));
+        if (activeIndex >= 0) return activeIndex;
+
+        return sections.reduce((nearestIndex, section, index) => {
+          const sectionDistance = Math.abs(section.offsetTop - deck.scrollTop);
+          const nearestDistance = Math.abs(sections[nearestIndex].offsetTop - deck.scrollTop);
+          return sectionDistance < nearestDistance ? index : nearestIndex;
+        }, 0);
+      };
+
+      const moveToSection = (index: number) => {
+        const target = sections[Math.max(0, Math.min(sections.length - 1, index))];
+        if (!target) return;
+
+        isChangingSection = true;
+        target.scrollIntoView({
+          behavior: reducedMotion.matches ? 'auto' : 'smooth',
+          block: 'start',
+        });
+
+        window.clearTimeout(changeReset);
+        changeReset = window.setTimeout(() => {
+          isChangingSection = false;
+        }, reducedMotion.matches ? 80 : 760);
+      };
+
+      deck.addEventListener(
+        'wheel',
+        (event) => {
+          if (!desktopLayout.matches || reducedMotion.matches || event.ctrlKey) return;
+
+          event.preventDefault();
+          if (isChangingSection) return;
+
+          wheelTotal += event.deltaY;
+          window.clearTimeout(wheelReset);
+          wheelReset = window.setTimeout(() => {
+            wheelTotal = 0;
+          }, 140);
+
+          if (Math.abs(wheelTotal) < 18) return;
+
+          const direction = wheelTotal > 0 ? 1 : -1;
+          wheelTotal = 0;
+          moveToSection(activeSectionIndex() + direction);
+        },
+        { passive: false },
+      );
+
+      let pointerId: number | null = null;
+      let dragStartY = 0;
+      let dragStartScroll = 0;
+      let hasDragged = false;
+
+      deck.addEventListener('pointerdown', (event) => {
+        if (
+          !finePointer.matches ||
+          event.button !== 0 ||
+          (event.target as HTMLElement).closest('a, button, input, textarea')
+        ) {
+          return;
+        }
+
+        pointerId = event.pointerId;
+        dragStartY = event.clientY;
+        dragStartScroll = deck.scrollTop;
+        hasDragged = false;
+        deck.setPointerCapture(pointerId);
+        deck.classList.add('is-dragging');
+      });
+
+      deck.addEventListener('pointermove', (event) => {
+        if (pointerId !== event.pointerId) return;
+        const distance = event.clientY - dragStartY;
+        hasDragged ||= Math.abs(distance) > 5;
+        deck.scrollTop = dragStartScroll - distance * 1.25;
+      });
+
+      const releaseDrag = (event: PointerEvent) => {
+        if (pointerId !== event.pointerId) return;
+        if (deck.hasPointerCapture(pointerId)) deck.releasePointerCapture(pointerId);
+        pointerId = null;
+        deck.classList.remove('is-dragging');
+
+        if (hasDragged) moveToSection(activeSectionIndex());
+      };
+
+      deck.addEventListener('pointerup', releaseDrag);
+      deck.addEventListener('pointercancel', releaseDrag);
+    }
+
+    const pointerDot = document.querySelector<HTMLElement>('.pointer-dot');
+    let pointerX = window.innerWidth / 2;
+    let pointerY = window.innerHeight / 2;
+    let renderedX = pointerX;
+    let renderedY = pointerY;
+
+    const renderPointer = () => {
+      renderedX += (pointerX - renderedX) * 0.16;
+      renderedY += (pointerY - renderedY) * 0.16;
+      pointerDot?.style.setProperty('transform', `translate3d(${renderedX}px, ${renderedY}px, 0)`);
+      requestAnimationFrame(renderPointer);
+    };
+
+    if (finePointer.matches && !reducedMotion.matches) {
+      document.documentElement.classList.add('has-custom-pointer');
+      window.addEventListener('pointermove', (event) => {
+        pointerX = event.clientX;
+        pointerY = event.clientY;
+      });
+      renderPointer();
+    }
+
+    document.querySelectorAll<HTMLElement>('.magnetic').forEach((element) => {
+      element.addEventListener('pointermove', (event) => {
+        if (reducedMotion.matches) return;
+        const rect = element.getBoundingClientRect();
+        const x = (event.clientX - rect.left - rect.width / 2) * 0.12;
+        const y = (event.clientY - rect.top - rect.height / 2) * 0.12;
+        element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      });
+      element.addEventListener('pointerleave', () => {
+        element.style.transform = '';
+      });
+    });
+
+    const rippleLayer = document.querySelector<HTMLElement>('.ripple-layer');
+    document.addEventListener('pointerdown', (event) => {
+      if (reducedMotion.matches || !rippleLayer) return;
+      const ripple = document.createElement('span');
+      ripple.className = 'click-ripple';
+      ripple.style.left = `${event.clientX}px`;
+      ripple.style.top = `${event.clientY}px`;
+      rippleLayer.append(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+    });
+  </script>
 </BaseLayout>
