@@ -7,8 +7,8 @@ export const profile = {
   blog: 'https://hojin98.tistory.com/',
   location: 'SEOUL, KR',
   introduction: [
-    '빠르게 배우고, 직접 적용하며,',
-    '실제로 동작하는 서비스 흐름을 만들어가고 있습니다.',
+    '빠르게 배우고, 직접 적용하며',
+    '실제로 동작하는 서비스 흐름을 만들어가는 정호진입니다.',
   ],
 };
 
@@ -20,7 +20,7 @@ export const projects = [
     name: 'HANKKIPOT',
     title: '한끼팟',
     landingTitle: '한끼팟',
-    tagline: '대학생을 위한 폐쇄형 식사 매칭 플랫폼',
+    tagline: '대학생을 위한 식사 매칭 플랫폼',
     subtitle: '대학생 식사 매칭 플랫폼',
     period: '2026.05 — 2026.06',
     team: '5인 팀 프로젝트',
@@ -35,7 +35,7 @@ export const projects = [
     metadata: [
       { label: 'ROLE', value: 'Backend' },
       { label: 'TYPE', value: 'Team Project' },
-      { label: 'FOCUS', value: '대학생 매칭' },
+      { label: 'FOCUS', value: 'Campus Meal Matching' },
     ],
     href: '/work/hankkipot',
     github: 'https://github.com/Team3-Final-Project-SNS/Final-project',
