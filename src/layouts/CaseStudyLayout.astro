@@ -24,18 +24,12 @@ if (!caseStudy) {
   <SiteHeader />
 
   <main class="case-study" data-case-deck>
-    <header class="case-study__topbar">
-      <a class="back-link magnetic" href={`/#${project.slug}`}>← BACK TO WORK</a>
-      <div class="case-study__project">
-        <span>PROJECT {project.projectNumber}</span>
-        <strong>{caseStudy.projectLabel}</strong>
-      </div>
-    </header>
     <h1 class="sr-only">{project.title} 케이스 스터디</h1>
 
     <div class="case-study__body">
       <nav class="case-study__toc" aria-label={`${project.title} 케이스 스터디 목차`}>
-        <p>CASE STUDY</p>
+        <a class="case-study__back" href={`/#${project.slug}`}>← Back to Work</a>
+        <p>목차</p>
         {
           caseStudy.sections.map((section, index) => (
             <a
@@ -48,7 +42,9 @@ if (!caseStudy) {
             </a>
           ))
         }
-        <small><span data-case-progress>01</span> / 06</small>
+        <small>
+          <span data-case-progress>01</span> / {String(caseStudy.sections.length).padStart(2, '0')}
+        </small>
       </nav>
 
       <div class="case-study__content">
@@ -64,106 +60,104 @@ if (!caseStudy) {
                 data-case-section
                 aria-labelledby={`${section.id}-title`}
               >
-                <div class="case-section__topline">
-                  <h2 id={`${section.id}-title`}>
-                    <span>{section.number}</span>
-                    <span aria-hidden="true">/</span>
-                    {section.navTitle}
-                  </h2>
-                  <div class="case-section__pager">
-                    {previous && <a href={`#${previous.id}`}>← 이전 페이지</a>}
-                    {next ? (
-                      <a class="case-section__next" href={`#${next.id}`}>다음 페이지 →</a>
-                    ) : (
-                      <a class="case-section__next" href={`/#${project.slug}`}>
-                        목록으로 돌아가기 →
-                      </a>
-                    )}
+                <h2 id={`${section.id}-title`} class="sr-only">{section.navTitle}</h2>
+                <div class="case-section__inner">
+                  <div class="case-section__topline">
+                    <div class="case-section__pager">
+                      {previous && <a href={`#${previous.id}`}>← 이전 페이지</a>}
+                      {next ? (
+                        <a class="case-section__next" href={`#${next.id}`}>다음 페이지 →</a>
+                      ) : (
+                        <a class="case-section__next" href={`/#${project.slug}`}>
+                          목록으로 돌아가기 →
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                <header class="case-section__heading">
-                  <p>{section.lead}</p>
-                </header>
+                  <header class="case-section__heading">
+                    <p>{section.lead}</p>
+                  </header>
 
-                {section.facts && (
-                  <dl class="case-facts">
-                    {section.facts.map((fact) => (
-                      <div>
-                        <dt>{fact.label}</dt>
-                        <dd>{fact.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                )}
+                  {section.facts && (
+                    <dl class="case-facts">
+                      {section.facts.map((fact) => (
+                        <div>
+                          <dt>{fact.label}</dt>
+                          <dd>{fact.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
 
-                {section.flow && (
-                  <ol class="case-flow" aria-label={`${section.title} 처리 흐름`}>
-                    {section.flow.map((step, flowIndex) => (
-                      <li>
-                        <span>{String(flowIndex + 1).padStart(2, '0')}</span>
-                        <strong>{step}</strong>
-                      </li>
-                    ))}
-                  </ol>
-                )}
+                  {section.flow && (
+                    <ol class="case-flow" aria-label={`${section.title} 처리 흐름`}>
+                      {section.flow.map((step, flowIndex) => (
+                        <li>
+                          <span>{String(flowIndex + 1).padStart(2, '0')}</span>
+                          <strong>{step}</strong>
+                        </li>
+                      ))}
+                    </ol>
+                  )}
 
-                {section.states && (
-                  <dl class="case-states">
-                    {section.states.map((state) => (
-                      <div>
-                        <dt>{state.label}</dt>
-                        <dd>{state.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                )}
+                  {section.states && (
+                    <dl class="case-states">
+                      {section.states.map((state) => (
+                        <div>
+                          <dt>{state.label}</dt>
+                          <dd>{state.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
 
-                {section.blocks && (
-                  <div class="case-blocks">
-                    {section.blocks.map((block) => (
+                  {section.blocks && (
+                    <div class="case-blocks">
+                      {section.blocks.map((block) => (
+                        <article>
+                          <span>{block.label}</span>
+                          <p>{block.text}</p>
+                        </article>
+                      ))}
+                    </div>
+                  )}
+
+                  {section.metrics && (
+                    <div class="case-metrics">
+                      {section.metrics.map((metric) => (
+                        <article class:list={[metric.tone && `case-metric--${metric.tone}`]}>
+                          <span>{metric.label}</span>
+                          <strong>{metric.value}</strong>
+                          {metric.note && <small>{metric.note}</small>}
+                        </article>
+                      ))}
+                    </div>
+                  )}
+
+                  {section.bullets && section.id !== 'result' && (
+                    <ul class="case-points">
+                      {section.bullets.map((bullet) => <li>{bullet}</li>)}
+                    </ul>
+                  )}
+
+                  {section.bullets && section.id === 'result' && (
+                    <div class="case-result">
                       <article>
-                        <span>{block.label}</span>
-                        <p>{block.text}</p>
+                        <span>RESULT</span>
+                        <ul>
+                          {section.bullets.slice(0, 2).map((bullet) => <li>{bullet}</li>)}
+                        </ul>
                       </article>
-                    ))}
-                  </div>
-                )}
-
-                {section.metrics && (
-                  <div class="case-metrics">
-                    {section.metrics.map((metric) => (
-                      <article class:list={[metric.tone && `case-metric--${metric.tone}`]}>
-                        <span>{metric.label}</span>
-                        <strong>{metric.value}</strong>
-                        {metric.note && <small>{metric.note}</small>}
+                      <article>
+                        <span>LEARNED</span>
+                        <ul>
+                          {section.bullets.slice(2).map((bullet) => <li>{bullet}</li>)}
+                        </ul>
                       </article>
-                    ))}
-                  </div>
-                )}
-
-                {section.bullets && section.id !== 'result' && (
-                  <ul class="case-points">
-                    {section.bullets.map((bullet) => <li>{bullet}</li>)}
-                  </ul>
-                )}
-
-                {section.bullets && section.id === 'result' && (
-                  <div class="case-result">
-                    <article>
-                      <span>RESULT</span>
-                      <ul>
-                        {section.bullets.slice(0, 2).map((bullet) => <li>{bullet}</li>)}
-                      </ul>
-                    </article>
-                    <article>
-                      <span>LEARNED</span>
-                      <ul>
-                        {section.bullets.slice(2).map((bullet) => <li>{bullet}</li>)}
-                      </ul>
-                    </article>
-                  </div>
-                )}
+                    </div>
+                  )}
+                </div>
               </section>
             );
           })
@@ -183,6 +177,8 @@ if (!caseStudy) {
     const finePointer = window.matchMedia('(pointer: fine)');
     const desktopLayout = window.matchMedia('(min-width: 721px)');
 
+    window.scrollTo(0, 0);
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -190,6 +186,7 @@ if (!caseStudy) {
           const activeIndex = sections.indexOf(entry.target as HTMLElement);
           const activeId = (entry.target as HTMLElement).id;
 
+          (entry.target as HTMLElement).classList.add('has-entered');
           sections.forEach((section) => section.classList.toggle('is-active', section.id === activeId));
           tocLinks.forEach((link) => link.classList.toggle('is-active', link.hash === `#${activeId}`));
           if (progress && activeIndex >= 0) {
@@ -197,7 +194,7 @@ if (!caseStudy) {
           }
         });
       },
-      { root: deck, threshold: 0.55 },
+      { root: deck, rootMargin: '-22% 0px -62% 0px', threshold: 0 },
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -224,9 +221,10 @@ if (!caseStudy) {
         if (!target) return;
 
         isChangingSection = true;
-        target.scrollIntoView({
+        const deckPaddingTop = parseFloat(getComputedStyle(deck).paddingTop);
+        deck.scrollTo({
+          top: Math.max(0, target.offsetTop - deckPaddingTop),
           behavior: reducedMotion.matches ? 'auto' : 'smooth',
-          block: 'start',
         });
 
         window.clearTimeout(changeReset);
@@ -239,10 +237,13 @@ if (!caseStudy) {
         'wheel',
         (event) => {
           if (!desktopLayout.matches || reducedMotion.matches || event.ctrlKey) return;
+          if (isChangingSection) {
+            event.preventDefault();
+            return;
+          }
 
+          const currentIndex = activeSectionIndex();
           event.preventDefault();
-          if (isChangingSection) return;
-
           wheelTotal += event.deltaY;
           window.clearTimeout(wheelReset);
           wheelReset = window.setTimeout(() => {
@@ -253,51 +254,21 @@ if (!caseStudy) {
 
           const direction = wheelTotal > 0 ? 1 : -1;
           wheelTotal = 0;
-          moveToSection(activeSectionIndex() + direction);
+          moveToSection(currentIndex + direction);
         },
         { passive: false },
       );
 
-      let pointerId: number | null = null;
-      let dragStartY = 0;
-      let dragStartScroll = 0;
-      let hasDragged = false;
+      deck.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', (event) => {
+          const targetId = link.hash.slice(1);
+          const targetIndex = sections.findIndex((section) => section.id === targetId);
+          if (targetIndex < 0) return;
 
-      deck.addEventListener('pointerdown', (event) => {
-        if (
-          !finePointer.matches ||
-          event.button !== 0 ||
-          (event.target as HTMLElement).closest('a, button, input, textarea')
-        ) {
-          return;
-        }
-
-        pointerId = event.pointerId;
-        dragStartY = event.clientY;
-        dragStartScroll = deck.scrollTop;
-        hasDragged = false;
-        deck.setPointerCapture(pointerId);
-        deck.classList.add('is-dragging');
+          event.preventDefault();
+          moveToSection(targetIndex);
+        });
       });
-
-      deck.addEventListener('pointermove', (event) => {
-        if (pointerId !== event.pointerId) return;
-        const distance = event.clientY - dragStartY;
-        hasDragged ||= Math.abs(distance) > 5;
-        deck.scrollTop = dragStartScroll - distance * 1.25;
-      });
-
-      const releaseDrag = (event: PointerEvent) => {
-        if (pointerId !== event.pointerId) return;
-        if (deck.hasPointerCapture(pointerId)) deck.releasePointerCapture(pointerId);
-        pointerId = null;
-        deck.classList.remove('is-dragging');
-
-        if (hasDragged) moveToSection(activeSectionIndex());
-      };
-
-      deck.addEventListener('pointerup', releaseDrag);
-      deck.addEventListener('pointercancel', releaseDrag);
     }
 
     const pointerDot = document.querySelector<HTMLElement>('.pointer-dot');
