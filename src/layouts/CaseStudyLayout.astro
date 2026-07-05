@@ -18,18 +18,35 @@ if (!caseStudy) {
 
 <BaseLayout
   title={`${project.title} Case Study — 정호진`}
-  description={`${project.title} 프로젝트에서 다룬 문제, 판단, 구현 흐름과 결과를 정리한 케이스 스터디입니다.`}
-  bodyClass="document-page case-study-page"
+  description={caseStudy.description ??
+    `${project.title} 프로젝트에서 다룬 문제, 판단, 구현 흐름과 결과를 정리한 케이스 스터디입니다.`}
+  bodyClass={`document-page case-study-page case-study-page--${project.slug}`}
 >
   <SiteHeader />
 
-  <main class="case-study" data-case-deck>
+  <main
+    class:list={['case-study', `case-study--${project.slug}`]}
+    data-case-deck
+    data-scroll-mode={project.slug === 'hankkipot' ? 'chapter' : 'section'}
+  >
     <h1 class="sr-only">{project.title} 케이스 스터디</h1>
 
     <div class="case-study__body">
       <nav class="case-study__toc" aria-label={`${project.title} 케이스 스터디 목차`}>
-        <a class="case-study__back" href={`/#${project.slug}`}>← Back to Work</a>
-        <p>목차</p>
+        <a class="case-study__back" href={`/#${project.slug}`}>← 모든 프로젝트</a>
+        {project.slug === 'hankkipot' && (
+          <div class="case-study__project">
+            <div class="case-study__project-logo" aria-hidden="true">
+              <span>한끼</span>
+              <strong>POT</strong>
+            </div>
+            <div class="case-study__project-copy">
+              <strong>한끼팟</strong>
+              <p>대학생 식사 매칭 서비스</p>
+            </div>
+          </div>
+        )}
+        <p>{project.slug === 'hankkipot' ? '프로젝트 단계' : '목차'}</p>
         {
           caseStudy.sections.map((section, index) => (
             <a
@@ -38,13 +55,22 @@ if (!caseStudy) {
               data-toc-link
             >
               <span>{section.number}</span>
-              {section.navTitle}
+              {section.navSubtitle ? (
+                <span class="case-study__toc-label">
+                  <strong>{section.navTitle}</strong>
+                  <small>{section.navSubtitle}</small>
+                </span>
+              ) : (
+                section.navTitle
+              )}
             </a>
           ))
         }
-        <small>
-          <span data-case-progress>01</span> / {String(caseStudy.sections.length).padStart(2, '0')}
-        </small>
+        {project.slug !== 'hankkipot' && (
+          <small>
+            <span data-case-progress>01</span> / {String(caseStudy.sections.length).padStart(2, '0')}
+          </small>
+        )}
       </nav>
 
       <div class="case-study__content">
@@ -60,7 +86,6 @@ if (!caseStudy) {
                 data-case-section
                 aria-labelledby={`${section.id}-title`}
               >
-                <h2 id={`${section.id}-title`} class="sr-only">{section.navTitle}</h2>
                 <div class="case-section__inner">
                   <div class="case-section__topline">
                     <div class="case-section__pager">
@@ -69,17 +94,373 @@ if (!caseStudy) {
                         <a class="case-section__next" href={`#${next.id}`}>다음 페이지 →</a>
                       ) : (
                         <a class="case-section__next" href={`/#${project.slug}`}>
-                          목록으로 돌아가기 →
+                          {project.slug === 'hankkipot'
+                            ? '프로젝트 목록으로 돌아가기 →'
+                            : '목록으로 돌아가기 →'}
                         </a>
                       )}
                     </div>
                   </div>
 
                   <header class="case-section__heading">
-                    <p>{section.lead}</p>
+                    <h2 id={`${section.id}-title`}>{section.lead}</h2>
                   </header>
 
-                  {section.facts && (
+                  {section.content && (
+                    <div class="case-content-stack">
+                      {section.content.map((block) => (
+                        <>
+                          {block.type === 'hero' && (
+                            project.slug === 'hankkipot' ? (
+                              <div class="hankki-overview">
+                                <div class="hankki-overview__hero">
+                                  <div class="hankki-overview__copy">
+                                    <span class="hankki-overview__badge">한끼팟 · 만남 인증</span>
+                                    <h3>
+                                      인증 화면을 만든 것이 아니라,<br />
+                                      <em>만남 완료 기준</em>을 설계했습니다.
+                                    </h3>
+                                    <div class="hankki-overview__prose">
+                                      {block.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+                                    </div>
+                                    <ul class="hankki-overview__chips" aria-label="한끼팟 핵심 구현 범위">
+                                      <li>GPS 인증</li>
+                                      <li>QR 인증</li>
+                                      <li>Match/Post 상태</li>
+                                      <li>정산 흐름</li>
+                                    </ul>
+                                  </div>
+
+                                  <figure class="hankki-overview__visual">
+                                    <img
+                                      src="/hankkipot-verification-hero.png"
+                                      alt="GPS 장소 인증과 QR 대면 인증을 연결한 흐름"
+                                    />
+                                    <span class="is-gps">GPS 장소 인증</span>
+                                    <span class="is-qr">QR 만남 인증</span>
+                                  </figure>
+                                </div>
+
+                                <div class="hankki-summary-cards">
+                                  <article>
+                                    <i aria-hidden="true">◎</i>
+                                    <div>
+                                      <span>SVG → Kakao Maps GPS 인증</span>
+                                      <p>고정 좌표 화면을 장소 검색, 현재 위치 표시와 서버 거리 검증이 가능한 인증 화면으로 전환했습니다.</p>
+                                    </div>
+                                  </article>
+                                  <article>
+                                    <i aria-hidden="true">⌁</i>
+                                    <div>
+                                      <span>1:1 QR → 신청자별 완료 구조</span>
+                                      <p>QR 토큰 공유 단위와 완료 처리 단위를 분리해 첫 신청자의 인증이 Post를 먼저 완료시키지 않도록 했습니다.</p>
+                                    </div>
+                                  </article>
+                                  <article>
+                                    <i aria-hidden="true">♙</i>
+                                    <div>
+                                      <span>인증 결과 → 상태·정산 흐름</span>
+                                      <p>Match 완료, 위치 삭제와 신청자 반환부터 Post 완료와 등록자 반환까지 연결했습니다.</p>
+                                    </div>
+                                  </article>
+                                </div>
+
+                              </div>
+                            ) : (
+                              <div class="case-overview-hero">
+                                <div class="case-overview-hero__copy">
+                                  <span class="case-overview-hero__label">{block.label}</span>
+                                  <div class="case-overview-hero__prose">
+                                    {block.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+                                  </div>
+                                  <ul class="case-overview-hero__scope">
+                                    {block.scope.map((item) => <li>{item}</li>)}
+                                  </ul>
+                                </div>
+                              </div>
+                            )
+                          )}
+
+                          {block.type === 'prose' && (
+                            <div class="case-prose">
+                              {block.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+                            </div>
+                          )}
+
+                          {block.type === 'facts' && (
+                            <dl class="case-facts">
+                              {block.items.map((fact) => (
+                                <div>
+                                  <dt>{fact.label}</dt>
+                                  <dd>{fact.value}</dd>
+                                </div>
+                              ))}
+                            </dl>
+                          )}
+
+                          {block.type === 'scope' && (
+                            <div class="case-scope">
+                              <span>{block.label}</span>
+                              <p>{block.text}</p>
+                            </div>
+                          )}
+
+                          {block.type === 'flow' && (
+                            <ol class="case-flow" aria-label={`${section.title} 처리 흐름`}>
+                              {block.items.map((step, flowIndex) => (
+                                <li>
+                                  <span>{String(flowIndex + 1).padStart(2, '0')}</span>
+                                  <strong>{step}</strong>
+                                </li>
+                              ))}
+                            </ol>
+                          )}
+
+                          {block.type === 'states' && (
+                            <dl class="case-states">
+                              {block.items.map((state) => (
+                                <div>
+                                  <dt>{state.label}</dt>
+                                  <dd>{state.value}</dd>
+                                </div>
+                              ))}
+                            </dl>
+                          )}
+
+                          {block.type === 'cards' && (
+                            <div class="case-content-group">
+                              {block.label && <h3>{block.label}</h3>}
+                              <div
+                                class:list={[
+                                  'case-blocks',
+                                  'case-story-cards',
+                                  `case-story-cards--${block.columns ?? 4}`,
+                                ]}
+                              >
+                                {block.items.map((item) => (
+                                  <article class:list={[item.tone && `case-story-card--${item.tone}`]}>
+                                    <span>{item.label}</span>
+                                    <p>{item.text}</p>
+                                  </article>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {block.type === 'metrics' && (
+                            <div class="case-content-group">
+                              {block.label && <h3>{block.label}</h3>}
+                              <div class="case-metrics">
+                                {block.items.map((metric) => (
+                                  <article class:list={[metric.tone && `case-metric--${metric.tone}`]}>
+                                    <span>{metric.label}</span>
+                                    <strong>{metric.value}</strong>
+                                    {metric.note && <small>{metric.note}</small>}
+                                  </article>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {block.type === 'subsection' && (
+                            <header class="case-subsection">
+                              {block.label && <span>{block.label}</span>}
+                              <h3>{block.title}</h3>
+                              {block.text && <p>{block.text}</p>}
+                            </header>
+                          )}
+
+                          {block.type === 'feature' && (
+                            <div class="case-feature">
+                              <div class="case-feature__copy">
+                                {block.label && <span>{block.label}</span>}
+                                <h3>{block.title}</h3>
+                                <div class="case-feature__cards">
+                                  {block.items.map((item) => (
+                                    <article class:list={[item.tone && `case-story-card--${item.tone}`]}>
+                                      <strong>{item.label}</strong>
+                                      <p>{item.text}</p>
+                                    </article>
+                                  ))}
+                                </div>
+                              </div>
+                              <figure class="case-evidence">
+                                <div class="case-evidence__frame" aria-hidden="true">
+                                  <i></i>
+                                  <i></i>
+                                  <i></i>
+                                </div>
+                                <figcaption>
+                                  <strong>{block.evidence.label}</strong>
+                                  {block.evidence.caption && <span>{block.evidence.caption}</span>}
+                                </figcaption>
+                              </figure>
+                            </div>
+                          )}
+
+                          {block.type === 'evidence' && (
+                            <div class="case-content-group">
+                              {block.label && <h3>{block.label}</h3>}
+                              <div class="case-evidence-grid">
+                                {block.items.map((item) => (
+                                  <figure class="case-evidence">
+                                    <div class="case-evidence__frame" aria-hidden="true">
+                                      <i></i>
+                                      <i></i>
+                                      <i></i>
+                                    </div>
+                                    <figcaption>
+                                      <strong>{item.label}</strong>
+                                      {item.caption && <span>{item.caption}</span>}
+                                    </figcaption>
+                                  </figure>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {block.type === 'hierarchy' && (
+                            <div class="case-hierarchy">
+                              {block.label && <span class="case-hierarchy__label">{block.label}</span>}
+                              <strong class="case-hierarchy__parent">{block.parent}</strong>
+                              <div class="case-hierarchy__children">
+                                {block.items.map((item) => (
+                                  <article class:list={[item.tone && `is-${item.tone}`]}>
+                                    <span>{item.label}</span>
+                                    <strong>{item.value}</strong>
+                                  </article>
+                                ))}
+                              </div>
+                              <p>{block.footer}</p>
+                            </div>
+                          )}
+
+                          {block.type === 'tabs' && (
+                            <div class="case-tabs" data-case-tabs>
+                              <div class="case-tabs__list" role="tablist" aria-label={`${section.navTitle} 상세`}>
+                                {block.tabs.map((tab, tabIndex) => (
+                                  <button
+                                    id={`${section.id}-${tab.id}-tab`}
+                                    type="button"
+                                    role="tab"
+                                    aria-controls={`${section.id}-${tab.id}-panel`}
+                                    aria-selected={tabIndex === 0 ? 'true' : 'false'}
+                                    tabindex={tabIndex === 0 ? 0 : -1}
+                                    data-case-tab
+                                  >
+                                    <span>{String(tabIndex + 1).padStart(2, '0')}</span>
+                                    {tab.label}
+                                  </button>
+                                ))}
+                              </div>
+
+                              {block.tabs.map((tab, tabIndex) => (
+                                <div
+                                  id={`${section.id}-${tab.id}-panel`}
+                                  class:list={['case-tabs__panel', tabIndex === 0 && 'is-active']}
+                                  role="tabpanel"
+                                  aria-labelledby={`${section.id}-${tab.id}-tab`}
+                                  hidden={tabIndex !== 0}
+                                  data-case-tab-panel
+                                >
+                                  <h3>{tab.title}</h3>
+                                  {tab.text && <p class="case-tabs__intro">{tab.text}</p>}
+
+                                  {tab.featureItems && tab.evidence && (
+                                    <div class="case-tab-feature">
+                                      <div class="case-feature__cards">
+                                        {tab.featureItems.map((item) => (
+                                          <article class:list={[item.tone && `case-story-card--${item.tone}`]}>
+                                            <strong>{item.label}</strong>
+                                            <p>{item.text}</p>
+                                          </article>
+                                        ))}
+                                      </div>
+                                      <figure class="case-evidence case-evidence--device">
+                                        <div class="case-evidence__browser" aria-hidden="true">
+                                          <span></span><span></span><span></span>
+                                        </div>
+                                        <div class="case-evidence__frame" aria-hidden="true">
+                                          <i></i>
+                                          <i></i>
+                                          <i></i>
+                                        </div>
+                                        <figcaption>
+                                          <strong>{tab.evidence.label}</strong>
+                                          {tab.evidence.caption && <span>{tab.evidence.caption}</span>}
+                                        </figcaption>
+                                      </figure>
+                                    </div>
+                                  )}
+
+                                  {tab.flow && (
+                                    <ol class="case-flow case-flow--deck" aria-label={`${tab.title} 처리 흐름`}>
+                                      {tab.flow.map((step, flowIndex) => (
+                                        <li>
+                                          <span>{String(flowIndex + 1).padStart(2, '0')}</span>
+                                          <strong>{step}</strong>
+                                        </li>
+                                      ))}
+                                    </ol>
+                                  )}
+
+                                  {tab.hierarchy && (
+                                    <div class="case-hierarchy case-hierarchy--deck">
+                                      <strong class="case-hierarchy__parent">{tab.hierarchy.parent}</strong>
+                                      <div class="case-hierarchy__children">
+                                        {tab.hierarchy.items.map((item) => (
+                                          <article class:list={[item.tone && `is-${item.tone}`]}>
+                                            <span>{item.label}</span>
+                                            <strong>{item.value}</strong>
+                                          </article>
+                                        ))}
+                                      </div>
+                                      <p>{tab.hierarchy.footer}</p>
+                                    </div>
+                                  )}
+
+                                  {tab.cards && (
+                                    <div class="case-content-group case-content-group--deck">
+                                      {tab.cards.label && <h4>{tab.cards.label}</h4>}
+                                      <div
+                                        class:list={[
+                                          'case-blocks',
+                                          'case-story-cards',
+                                          `case-story-cards--${tab.cards.columns ?? 3}`,
+                                        ]}
+                                      >
+                                        {tab.cards.items.map((item) => (
+                                          <article class:list={[item.tone && `case-story-card--${item.tone}`]}>
+                                            <span>{item.label}</span>
+                                            <p>{item.text}</p>
+                                          </article>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {tab.callout && (
+                                    <aside class:list={['case-tab-callout', `is-${tab.calloutTone ?? 'dark'}`]}>
+                                      {tab.callout}
+                                    </aside>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {block.type === 'callout' && (
+                            <aside class="case-callout">
+                              {block.label && <span>{block.label}</span>}
+                              <p>{block.text}</p>
+                            </aside>
+                          )}
+                        </>
+                      ))}
+                    </div>
+                  )}
+
+                  {!section.content && section.facts && (
                     <dl class="case-facts">
                       {section.facts.map((fact) => (
                         <div>
@@ -90,7 +471,7 @@ if (!caseStudy) {
                     </dl>
                   )}
 
-                  {section.flow && (
+                  {!section.content && section.flow && (
                     <ol class="case-flow" aria-label={`${section.title} 처리 흐름`}>
                       {section.flow.map((step, flowIndex) => (
                         <li>
@@ -101,7 +482,7 @@ if (!caseStudy) {
                     </ol>
                   )}
 
-                  {section.states && (
+                  {!section.content && section.states && (
                     <dl class="case-states">
                       {section.states.map((state) => (
                         <div>
@@ -112,7 +493,7 @@ if (!caseStudy) {
                     </dl>
                   )}
 
-                  {section.blocks && (
+                  {!section.content && section.blocks && (
                     <div class="case-blocks">
                       {section.blocks.map((block) => (
                         <article>
@@ -123,7 +504,7 @@ if (!caseStudy) {
                     </div>
                   )}
 
-                  {section.metrics && (
+                  {!section.content && section.metrics && (
                     <div class="case-metrics">
                       {section.metrics.map((metric) => (
                         <article class:list={[metric.tone && `case-metric--${metric.tone}`]}>
@@ -135,13 +516,13 @@ if (!caseStudy) {
                     </div>
                   )}
 
-                  {section.bullets && section.id !== 'result' && (
+                  {!section.content && section.bullets && section.id !== 'result' && (
                     <ul class="case-points">
                       {section.bullets.map((bullet) => <li>{bullet}</li>)}
                     </ul>
                   )}
 
-                  {section.bullets && section.id === 'result' && (
+                  {!section.content && section.bullets && section.id === 'result' && (
                     <div class="case-result">
                       <article>
                         <span>RESULT</span>
@@ -172,10 +553,12 @@ if (!caseStudy) {
     const deck = document.querySelector<HTMLElement>('[data-case-deck]');
     const sections = [...document.querySelectorAll<HTMLElement>('[data-case-section]')];
     const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')];
+    const toc = document.querySelector<HTMLElement>('.case-study__toc');
     const progress = document.querySelector<HTMLElement>('[data-case-progress]');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const finePointer = window.matchMedia('(pointer: fine)');
     const desktopLayout = window.matchMedia('(min-width: 721px)');
+    const chapterDeck = deck?.dataset.scrollMode === 'chapter';
 
     window.scrollTo(0, 0);
 
@@ -197,13 +580,41 @@ if (!caseStudy) {
       { root: deck, rootMargin: '-22% 0px -62% 0px', threshold: 0 },
     );
 
-    sections.forEach((section) => observer.observe(section));
+    if (!chapterDeck) {
+      sections.forEach((section) => observer.observe(section));
+    }
 
     if (deck) {
       let wheelTotal = 0;
       let wheelReset: number | undefined;
       let isChangingSection = false;
       let changeReset: number | undefined;
+
+      const setActiveSection = (index: number) => {
+        const activeIndex = Math.max(0, Math.min(sections.length - 1, index));
+        const target = sections[activeIndex];
+        if (!target) return;
+
+        target.classList.add('has-entered');
+        sections.forEach((section, sectionIndex) => {
+          section.classList.toggle('is-active', sectionIndex === activeIndex);
+        });
+        tocLinks.forEach((link, linkIndex) => {
+          link.classList.toggle('is-active', linkIndex === activeIndex);
+        });
+        if (!desktopLayout.matches && toc) {
+          const activeLink = tocLinks[activeIndex];
+          if (activeLink) {
+            toc.scrollTo({
+              left: Math.max(0, activeLink.offsetLeft - (toc.clientWidth - activeLink.clientWidth) / 2),
+              behavior: reducedMotion.matches ? 'auto' : 'smooth',
+            });
+          }
+        }
+        if (progress) {
+          progress.textContent = String(activeIndex + 1).padStart(2, '0');
+        }
+      };
 
       const activeSectionIndex = () => {
         const activeIndex = sections.findIndex((section) => section.classList.contains('is-active'));
@@ -221,6 +632,19 @@ if (!caseStudy) {
         if (!target) return;
 
         isChangingSection = true;
+        if (chapterDeck) {
+          const targetIndex = sections.indexOf(target);
+          setActiveSection(targetIndex);
+          deck.scrollTo({ top: 0, behavior: 'auto' });
+          window.history.replaceState(null, '', `#${target.id}`);
+
+          window.clearTimeout(changeReset);
+          changeReset = window.setTimeout(() => {
+            isChangingSection = false;
+          }, reducedMotion.matches ? 0 : 220);
+          return;
+        }
+
         const deckPaddingTop = parseFloat(getComputedStyle(deck).paddingTop);
         deck.scrollTo({
           top: Math.max(0, target.offsetTop - deckPaddingTop),
@@ -236,13 +660,64 @@ if (!caseStudy) {
       deck.addEventListener(
         'wheel',
         (event) => {
-          if (!desktopLayout.matches || reducedMotion.matches || event.ctrlKey) return;
+          if (!desktopLayout.matches || event.ctrlKey) return;
+
+          if (chapterDeck) {
+            const currentSection = sections[activeSectionIndex()];
+            const direction = event.deltaY > 0 ? 1 : -1;
+            const maxSectionScroll = currentSection
+              ? currentSection.scrollHeight - currentSection.clientHeight
+              : 0;
+            const canScrollWithinSection =
+              currentSection &&
+              (direction > 0
+                ? currentSection.scrollTop < maxSectionScroll - 2
+                : currentSection.scrollTop > 2);
+
+            if (canScrollWithinSection) {
+              wheelTotal = 0;
+              return;
+            }
+
+            event.preventDefault();
+            if (isChangingSection) return;
+
+            wheelTotal += event.deltaY;
+            window.clearTimeout(wheelReset);
+            wheelReset = window.setTimeout(() => {
+              wheelTotal = 0;
+            }, 180);
+
+            if (Math.abs(wheelTotal) < 64) return;
+
+            const chapterDirection = wheelTotal > 0 ? 1 : -1;
+            wheelTotal = 0;
+            moveToSection(activeSectionIndex() + chapterDirection);
+            return;
+          }
+
+          if (reducedMotion.matches) return;
           if (isChangingSection) {
             event.preventDefault();
             return;
           }
 
           const currentIndex = activeSectionIndex();
+          const currentSection = sections[currentIndex];
+          const direction = event.deltaY > 0 ? 1 : -1;
+          const sectionTop = currentSection?.offsetTop ?? 0;
+          const sectionBottom = sectionTop + (currentSection?.offsetHeight ?? 0);
+          const viewportBottom = deck.scrollTop + deck.clientHeight;
+          const canScrollWithinSection =
+            direction > 0
+              ? viewportBottom < sectionBottom - 2
+              : deck.scrollTop > sectionTop + 2;
+
+          if (canScrollWithinSection) {
+            wheelTotal = 0;
+            return;
+          }
+
           event.preventDefault();
           wheelTotal += event.deltaY;
           window.clearTimeout(wheelReset);
@@ -252,9 +727,9 @@ if (!caseStudy) {
 
           if (Math.abs(wheelTotal) < 18) return;
 
-          const direction = wheelTotal > 0 ? 1 : -1;
+          const jumpDirection = wheelTotal > 0 ? 1 : -1;
           wheelTotal = 0;
-          moveToSection(currentIndex + direction);
+          moveToSection(currentIndex + jumpDirection);
         },
         { passive: false },
       );
@@ -269,7 +744,61 @@ if (!caseStudy) {
           moveToSection(targetIndex);
         });
       });
+
+      if (chapterDeck) {
+        const initialIndex = sections.findIndex((section) => `#${section.id}` === window.location.hash);
+        setActiveSection(initialIndex >= 0 ? initialIndex : 0);
+        deck.scrollTo({ top: 0, behavior: 'auto' });
+
+        window.addEventListener('hashchange', () => {
+          const hashIndex = sections.findIndex((section) => `#${section.id}` === window.location.hash);
+          if (hashIndex >= 0) {
+            setActiveSection(hashIndex);
+            deck.scrollTo({ top: 0, behavior: 'auto' });
+          }
+        });
+
+        window.addEventListener('keydown', (event) => {
+          if (
+            event.altKey ||
+            event.ctrlKey ||
+            event.metaKey ||
+            (event.target as HTMLElement).closest('a, button, input, textarea, select')
+          ) {
+            return;
+          }
+
+          const nextKeys = ['ArrowRight', 'ArrowDown', 'PageDown'];
+          const previousKeys = ['ArrowLeft', 'ArrowUp', 'PageUp'];
+          if (!nextKeys.includes(event.key) && !previousKeys.includes(event.key)) return;
+
+          event.preventDefault();
+          moveToSection(activeSectionIndex() + (nextKeys.includes(event.key) ? 1 : -1));
+        });
+      }
     }
+
+    document.querySelectorAll<HTMLElement>('[data-case-tabs]').forEach((tabGroup) => {
+      const tabButtons = [...tabGroup.querySelectorAll<HTMLButtonElement>('[data-case-tab]')];
+      const tabPanels = [...tabGroup.querySelectorAll<HTMLElement>('[data-case-tab-panel]')];
+
+      const activateTab = (index: number) => {
+        tabButtons.forEach((button, buttonIndex) => {
+          const isActive = buttonIndex === index;
+          button.setAttribute('aria-selected', String(isActive));
+          button.tabIndex = isActive ? 0 : -1;
+        });
+        tabPanels.forEach((panel, panelIndex) => {
+          const isActive = panelIndex === index;
+          panel.hidden = !isActive;
+          panel.classList.toggle('is-active', isActive);
+        });
+      };
+
+      tabButtons.forEach((button, index) => {
+        button.addEventListener('click', () => activateTab(index));
+      });
+    });
 
     const pointerDot = document.querySelector<HTMLElement>('.pointer-dot');
     let pointerX = window.innerWidth / 2;
