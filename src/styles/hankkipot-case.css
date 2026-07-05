@@ -925,3 +925,998 @@ body.case-study-page--hankkipot {
     font-size: 0.56rem;
   }
 }
+
+/* Second refinement: chapter hierarchy, distinct visual systems, and stable controls. */
+.case-study.case-study--hankkipot .case-section {
+  padding: 1.35rem clamp(2.5rem, 4.5vw, 5rem) 1.75rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.case-study--hankkipot .case-section__inner {
+  width: min(100%, 82rem);
+}
+
+.case-study--hankkipot .case-section__topline {
+  position: relative;
+  top: auto;
+  z-index: 2;
+  display: flex;
+  min-height: 2.35rem;
+  margin: 0 0 0.65rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.case-study--hankkipot .case-section__pager {
+  position: static;
+  display: flex;
+  margin: 0;
+  gap: 0.55rem;
+  justify-content: flex-end;
+}
+
+.case-study--hankkipot .case-section__pager a {
+  display: inline-flex;
+  min-height: 2.2rem;
+  padding: 0.55rem 0.85rem;
+  align-items: center;
+  justify-content: center;
+  color: #626b81;
+  border: 1px solid #dfe3ee;
+  border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0.3rem 0.9rem rgba(31, 43, 79, 0.04);
+  font-size: 0.72rem;
+  font-weight: 740;
+  line-height: 1;
+}
+
+.case-study--hankkipot .case-section__pager .case-section__next {
+  color: #fff;
+  border-color: #575ff4;
+  background: #575ff4;
+}
+
+.case-study--hankkipot .case-section__heading {
+  margin-bottom: clamp(1rem, 2vh, 1.45rem);
+  padding: 0 0 clamp(0.85rem, 1.5vh, 1.15rem);
+}
+
+.case-study--hankkipot .case-section__heading h2 {
+  width: min(100%, 68rem);
+  font-size: clamp(2rem, 2.45vw, 2.85rem);
+  line-height: 1.18;
+}
+
+.case-study--hankkipot .case-section__heading h2 em {
+  color: #565ff2;
+  font-style: normal;
+}
+
+.case-study--hankkipot .case-content-stack {
+  gap: clamp(0.8rem, 1.55vh, 1.2rem);
+}
+
+.case-study--hankkipot .case-content-group > h3 {
+  color: #596178;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Overview */
+.case-study--hankkipot #overview {
+  padding-top: clamp(1.7rem, 3vh, 2.5rem);
+}
+
+.case-study--hankkipot .hankki-overview__hero {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 3.5vw, 3.35rem);
+}
+
+.case-study--hankkipot .hankki-overview {
+  min-height: 0;
+}
+
+.case-study--hankkipot .hankki-overview__visual {
+  height: clamp(18.5rem, 40vh, 25rem);
+}
+
+.case-study--hankkipot .hankki-summary-cards article {
+  min-height: 7.25rem;
+  border-top: 3px solid #646cf4;
+}
+
+.case-study--hankkipot .hankki-summary-cards span {
+  font-size: 1.06rem;
+}
+
+/* Problem: a numbered sequence of trust gaps. */
+.case-study--hankkipot #problem .case-flow {
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  gap: 0.65rem;
+}
+
+.case-study--hankkipot #problem .case-flow li {
+  position: relative;
+  min-height: 4.5rem;
+  border: 1px solid #e0e4ef;
+  border-radius: 0.75rem;
+  background: linear-gradient(145deg, #fff, #f7f8fd);
+}
+
+.case-study--hankkipot #problem .case-flow li:not(:last-child)::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: -0.62rem;
+  z-index: 2;
+  content: "→";
+  color: #777ff2;
+  font-size: 0.8rem;
+  transform: translateY(-50%);
+}
+
+.case-study--hankkipot #problem .case-story-cards article {
+  position: relative;
+  min-height: 7.5rem;
+  padding: 2.1rem 1.35rem 1.15rem;
+  overflow: hidden;
+  border-top: 2px solid #d9dded;
+}
+
+.case-study--hankkipot #problem .case-story-cards article::before {
+  position: absolute;
+  top: 0.75rem;
+  left: 1.35rem;
+  color: #6a72e9;
+  font-size: 0.6rem;
+  font-weight: 850;
+  letter-spacing: 0.09em;
+}
+
+.case-study--hankkipot #problem .case-story-cards article:nth-child(1)::before {
+  content: "01 · LOCATION GAP";
+}
+
+.case-study--hankkipot #problem .case-story-cards article:nth-child(2)::before {
+  content: "02 · FACE-TO-FACE GAP";
+}
+
+.case-study--hankkipot #problem .case-story-cards article:nth-child(3)::before {
+  content: "03 · GROUP MATCHING GAP";
+}
+
+.case-study--hankkipot #problem .case-story-cards article:nth-child(4)::before {
+  content: "04 · SETTLEMENT GAP";
+}
+
+/* Service flow: three grouped stages instead of a nine-cell table. */
+.case-flow-groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.case-flow-groups > article {
+  position: relative;
+  min-width: 0;
+  padding: 0.95rem;
+  overflow: hidden;
+  border: 1px solid #dde1ef;
+  border-radius: 0.9rem;
+  background: #fff;
+  box-shadow: 0 0.6rem 1.5rem rgba(31, 43, 79, 0.05);
+}
+
+.case-flow-groups > article:nth-child(2) {
+  border-color: #d6d9ff;
+  background: linear-gradient(145deg, #f0f1ff, #fff);
+}
+
+.case-flow-groups > article:nth-child(3) {
+  color: #fff;
+  border-color: #283250;
+  background: #1d2744;
+}
+
+.case-flow-groups > article > span {
+  color: #686ff0;
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.case-flow-groups > article:nth-child(3) > span {
+  color: #aeb4ff;
+}
+
+.case-flow-groups h3 {
+  margin: 0.3rem 0 0.65rem;
+  color: inherit;
+  font-size: 1.02rem;
+  letter-spacing: -0.03em;
+}
+
+.case-flow-groups ol {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  gap: 0.42rem;
+  list-style: none;
+}
+
+.case-flow-groups li {
+  display: grid;
+  min-height: 2.1rem;
+  padding: 0.42rem 0.6rem;
+  grid-template-columns: 1.35rem minmax(0, 1fr);
+  gap: 0.45rem;
+  align-items: center;
+  border: 1px solid #e7e9f2;
+  border-radius: 0.55rem;
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.case-flow-groups > article:nth-child(3) li {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.case-flow-groups li i {
+  color: #747bf0;
+  font-size: 0.58rem;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.case-flow-groups > article:nth-child(3) li i {
+  color: #aeb4ff;
+}
+
+.case-flow-groups li strong {
+  color: inherit;
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
+.case-study--hankkipot #service-flow .case-story-cards article {
+  min-height: 6rem;
+  padding: 0.95rem 1.05rem;
+  border-bottom: 3px solid #e8eaff;
+}
+
+.case-study--hankkipot #service-flow .case-story-cards article p {
+  font-size: 0.84rem;
+  line-height: 1.52;
+}
+
+.case-study--hankkipot #service-flow .case-story-cards article > span {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.case-study--hankkipot #service-flow .case-story-cards article > span::before {
+  display: inline-flex;
+  width: 1.7rem;
+  height: 1.7rem;
+  align-items: center;
+  justify-content: center;
+  color: #5961ec;
+  border-radius: 50%;
+  background: #eef0ff;
+  content: "•";
+  font-size: 1rem;
+}
+
+/* GPS decision: reasoning, transition, policy, lifecycle. */
+.case-study.case-study--hankkipot #gps-verification {
+  padding-top: 1.15rem;
+  padding-bottom: 1.25rem;
+}
+
+.case-decision {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.5rem minmax(0, 1fr);
+  align-items: stretch;
+  border: 1px solid #dde1ee;
+  border-radius: 0.9rem;
+  background: #fff;
+  box-shadow: 0 0.6rem 1.5rem rgba(31, 43, 79, 0.045);
+}
+
+.case-decision article {
+  padding: 1rem 1.2rem;
+}
+
+.case-decision article:last-child {
+  background: linear-gradient(145deg, #f0f1ff, #fff);
+}
+
+.case-decision span {
+  color: #5961ed;
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.case-decision p {
+  margin: 0.45rem 0 0;
+  color: #4d566c;
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.case-decision > i {
+  display: grid;
+  width: 2.15rem;
+  height: 2.15rem;
+  margin: auto;
+  place-items: center;
+  color: #fff;
+  border-radius: 50%;
+  background: #5961ed;
+  font-size: 0.82rem;
+  font-style: normal;
+}
+
+.case-study--hankkipot #gps-verification [data-block-label="Before / After"] .case-story-cards {
+  position: relative;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.8rem;
+}
+
+.case-study--hankkipot #gps-verification [data-block-label="Before / After"] .case-story-cards::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  color: #5961ed;
+  border: 1px solid #d9ddf5;
+  border-radius: 50%;
+  background: #fff;
+  content: "→";
+  font-weight: 850;
+  transform: translate(-50%, -50%);
+}
+
+.case-study--hankkipot #gps-verification [data-block-label="Before / After"] article {
+  min-height: 5.2rem;
+  padding: 1rem 1.15rem;
+}
+
+.case-study--hankkipot #gps-verification [data-block-label="GPS 인증 정책"] .case-story-cards {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.case-study--hankkipot #gps-verification [data-block-label="GPS 인증 정책"] article {
+  min-height: 5.8rem;
+  padding: 1rem;
+  border-top: 3px solid #6870f2;
+}
+
+.case-study--hankkipot #gps-verification [data-block-label="GPS 인증 정책"] article p {
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.case-study--hankkipot #gps-verification [data-block-label="위치 데이터 생명주기"] {
+  min-height: 0;
+  padding: 0.85rem 1.1rem;
+  grid-template-columns: minmax(9rem, 0.2fr) minmax(0, 0.8fr);
+  align-items: center;
+  border-color: #d9ddf4;
+  background: #f4f5ff;
+}
+
+.case-study--hankkipot #gps-verification [data-block-label="위치 데이터 생명주기"] p {
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+/* QR: summary remains visible while detail is split into three focused tabs. */
+.case-study.case-study--hankkipot #qr-completion {
+  padding-top: 1.15rem;
+  padding-bottom: 1.35rem;
+}
+
+.case-study--hankkipot #qr-completion .case-content-stack {
+  gap: 0.75rem;
+}
+
+.case-study--hankkipot #qr-completion [data-block-label="핵심 구조"] {
+  display: grid;
+  min-height: 0;
+  padding: 0.8rem 1rem;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  align-items: center;
+  border-color: #d4d8ff;
+  background: linear-gradient(100deg, #eef0ff, #fff);
+}
+
+.case-study--hankkipot #qr-completion [data-block-label="핵심 구조"] > span {
+  position: static;
+}
+
+.case-study--hankkipot #qr-completion [data-block-label="핵심 구조"] p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.case-study--hankkipot #qr-completion .case-tabs {
+  display: grid;
+  grid-template-columns: 12.5rem minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.case-study--hankkipot #qr-completion .case-tabs__list {
+  display: grid;
+  padding: 0.45rem;
+  gap: 0.35rem;
+  border: 1px solid #e0e4ef;
+  border-radius: 0.85rem;
+  background: #f5f6fa;
+}
+
+.case-study--hankkipot #qr-completion .case-tabs__list button {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.65rem 0.75rem;
+  justify-content: flex-start;
+  border-radius: 0.6rem;
+  text-align: left;
+}
+
+.case-study--hankkipot #qr-completion .case-tabs__panel {
+  min-height: 18.4rem;
+  padding: 1.1rem 1.2rem;
+}
+
+.case-study--hankkipot #qr-completion .case-tabs__panel > h3 {
+  margin-bottom: 0.4rem;
+  font-size: 1.12rem;
+}
+
+.case-study--hankkipot #qr-completion .case-tabs__intro {
+  max-width: 59rem;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.case-study--hankkipot #qr-completion .case-content-group--deck {
+  margin-top: 0.8rem;
+}
+
+.case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards {
+  gap: 0.65rem;
+}
+
+.case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article {
+  min-height: 5.7rem;
+  padding: 0.85rem 0.95rem;
+}
+
+.case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article p {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.case-study--hankkipot #qr-completion .case-hierarchy--deck {
+  margin-top: 0.8rem;
+  padding: 0.8rem 1rem;
+}
+
+.case-study--hankkipot #qr-completion .case-hierarchy__children {
+  min-height: 4.6rem;
+}
+
+.case-study--hankkipot #qr-completion .case-flow--deck {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 0.8rem;
+}
+
+.case-study--hankkipot #qr-completion .case-flow--deck li {
+  min-height: 3.5rem;
+}
+
+/* Result: outcome tiles and editorial learning notes use different rhythms. */
+.case-study--hankkipot #result .case-prose {
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  border-left: 4px solid #5a63ef;
+  border-radius: 0 0.7rem 0.7rem 0;
+  background: linear-gradient(90deg, #f0f1ff, rgba(255, 255, 255, 0));
+}
+
+.case-study--hankkipot #result .case-prose p {
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.case-study--hankkipot #result .case-content-group {
+  display: block !important;
+}
+
+.case-study--hankkipot #result .case-content-group > h3 {
+  margin: 0 0 0.65rem;
+}
+
+.case-study--hankkipot #result [data-block-label="성과"] .case-story-cards {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.case-study--hankkipot #result [data-block-label="성과"] article {
+  position: relative;
+  min-height: 8rem;
+  padding-top: 2.5rem;
+  border: 0;
+  background: linear-gradient(155deg, #fff, #f4f5fb);
+}
+
+.case-study--hankkipot #result [data-block-label="성과"] article::before {
+  position: absolute;
+  top: 1rem;
+  left: 1.3rem;
+  color: #6971ed;
+  content: "✓";
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.case-study--hankkipot #result [data-block-label="배운 점"] .case-story-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.case-study--hankkipot #result [data-block-label="배운 점"] article {
+  display: grid;
+  min-height: 6.5rem;
+  padding: 1rem;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: 0.65rem;
+  border: 0;
+  border-radius: 0.2rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.case-study--hankkipot #result [data-block-label="배운 점"] article::before {
+  grid-row: 1 / 3;
+  color: #757cef;
+  font-size: 0.68rem;
+  font-weight: 850;
+}
+
+.case-study--hankkipot #result [data-block-label="배운 점"] article:nth-child(1)::before {
+  content: "01";
+}
+
+.case-study--hankkipot #result [data-block-label="배운 점"] article:nth-child(2)::before {
+  content: "02";
+}
+
+.case-study--hankkipot #result [data-block-label="배운 점"] article:nth-child(3)::before {
+  content: "03";
+}
+
+.case-study--hankkipot #result [data-block-label="배운 점"] article > span,
+.case-study--hankkipot #result [data-block-label="배운 점"] article p {
+  grid-column: 2;
+}
+
+@media (max-width: 1180px) {
+  .case-study--hankkipot #gps-verification [data-block-label="GPS 인증 정책"] .case-story-cards,
+  .case-study--hankkipot #result [data-block-label="성과"] .case-story-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .case-study--hankkipot #qr-completion .case-tabs {
+    grid-template-columns: 10.5rem minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 880px) {
+  .case-study.case-study--hankkipot .case-section {
+    padding: 1.2rem var(--gutter) 4rem;
+  }
+
+  .case-study--hankkipot .case-section__topline {
+    min-height: 2.25rem;
+  }
+
+  .case-study--hankkipot .case-section__heading h2 {
+    font-size: clamp(1.75rem, 6vw, 2.35rem);
+  }
+
+  .case-flow-groups,
+  .case-study--hankkipot #result [data-block-label="배운 점"] .case-story-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .case-study--hankkipot #qr-completion .case-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .case-study--hankkipot #qr-completion .case-tabs__list {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .case-study--hankkipot #qr-completion .case-tabs__list button {
+    min-width: max-content;
+  }
+}
+
+@media (max-width: 720px) {
+  .case-study--hankkipot .case-section__pager {
+    width: 100%;
+  }
+
+  .case-study--hankkipot .case-section__pager a {
+    flex: 1;
+  }
+
+  .case-decision,
+  .case-study--hankkipot #gps-verification [data-block-label="위치 데이터 생명주기"],
+  .case-study--hankkipot #qr-completion [data-block-label="핵심 구조"] {
+    grid-template-columns: 1fr;
+  }
+
+  .case-decision > i {
+    transform: rotate(90deg);
+  }
+
+  .case-study--hankkipot #gps-verification [data-block-label="Before / After"] .case-story-cards,
+  .case-study--hankkipot #gps-verification [data-block-label="GPS 인증 정책"] .case-story-cards,
+  .case-study--hankkipot #result [data-block-label="성과"] .case-story-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .case-study--hankkipot #gps-verification [data-block-label="Before / After"] .case-story-cards {
+    gap: 2.5rem;
+  }
+
+  .case-study--hankkipot #gps-verification [data-block-label="Before / After"] .case-story-cards::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .case-study--hankkipot #qr-completion .case-flow--deck {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Readability pass: isolate Hankkipot from the shared two-column case layout. */
+.case-study.case-study--hankkipot .case-section {
+  position: relative;
+  display: none;
+  padding: clamp(2.4rem, 4vh, 3.8rem) clamp(3rem, 5.5vw, 6rem)
+    clamp(3.5rem, 6vh, 5rem);
+}
+
+.case-study.case-study--hankkipot .case-section.is-active {
+  display: block;
+}
+
+.case-study--hankkipot .case-section__inner {
+  width: min(100%, 86rem);
+  margin-inline: auto;
+}
+
+.case-study--hankkipot .case-section__heading {
+  display: block !important;
+  grid-template-columns: none !important;
+  margin-bottom: clamp(1.4rem, 2.5vh, 2rem);
+  padding: 0 0 clamp(1.2rem, 2vh, 1.6rem);
+  border-bottom: 1px solid #e2e5ee;
+}
+
+.case-study--hankkipot #overview .case-section__heading {
+  display: none !important;
+}
+
+.case-study--hankkipot .case-section__heading h2 {
+  width: min(100%, 72rem);
+  max-width: none;
+  margin: 0;
+  font-size: clamp(2.1rem, 2.8vw, 3.2rem);
+  line-height: 1.16;
+  letter-spacing: -0.055em;
+  word-break: keep-all;
+  text-wrap: balance;
+}
+
+.case-study--hankkipot .case-content-stack {
+  gap: clamp(1.1rem, 2vh, 1.7rem);
+}
+
+.case-study--hankkipot .case-content-group {
+  gap: 0.85rem;
+}
+
+.case-study--hankkipot .case-prose {
+  width: min(100%, 72rem);
+}
+
+.case-study--hankkipot .case-prose p {
+  font-size: clamp(1rem, 1.1vw, 1.14rem);
+  line-height: 1.75;
+}
+
+.hankki-overview {
+  min-height: min(42rem, calc(100svh - var(--header-height) - 6rem));
+  display: grid;
+  align-content: start;
+  gap: clamp(1.4rem, 2.8vh, 2.2rem);
+}
+
+.hankki-overview__hero {
+  grid-template-columns: minmax(32rem, 0.9fr) minmax(36rem, 1.1fr);
+  gap: clamp(2.4rem, 4vw, 4rem);
+  align-items: center;
+}
+
+.hankki-overview__copy h3 {
+  font-size: clamp(2.35rem, 2.35vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.055em;
+}
+
+.hankki-overview__prose p {
+  max-width: 43rem;
+  font-size: clamp(0.98rem, 1.05vw, 1.12rem);
+  line-height: 1.78;
+}
+
+.hankki-overview__visual {
+  height: clamp(22rem, 43vh, 28rem);
+}
+
+.hankki-summary-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.hankki-summary-cards article {
+  min-height: 8rem;
+  padding: 1.35rem 1.45rem;
+}
+
+.hankki-summary-cards span {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.hankki-summary-cards p {
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.case-study--hankkipot .case-story-cards article {
+  min-height: 7rem;
+  padding: 1.15rem 1.25rem;
+}
+
+.case-study--hankkipot .case-story-cards article > span,
+.case-study--hankkipot .case-story-cards article > strong {
+  display: block;
+  color: #1d263b;
+  font-size: 0.98rem;
+  font-weight: 820;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+.case-study--hankkipot .case-story-cards article p {
+  margin-top: 0.55rem;
+  color: #4d566c;
+  font-size: 0.88rem;
+  line-height: 1.62;
+}
+
+.case-study--hankkipot .case-story-cards .case-story-card--primary {
+  color: #1d263b;
+  border-color: #d9dcff;
+  background: linear-gradient(145deg, #f2f3ff, #ffffff);
+}
+
+.case-study--hankkipot .case-story-cards .case-story-card--primary > span,
+.case-study--hankkipot .case-story-cards .case-story-card--primary > strong,
+.case-study--hankkipot .case-story-cards .case-story-card--primary p {
+  color: #1d263b;
+}
+
+.case-study--hankkipot #problem .case-story-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-study--hankkipot #problem .case-story-cards article {
+  min-height: 8rem;
+}
+
+.case-study--hankkipot #problem .case-flow li {
+  min-height: 5rem;
+  padding: 0.9rem 1rem;
+}
+
+.case-study--hankkipot #service-flow .case-flow {
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.case-study--hankkipot #service-flow .case-flow li {
+  min-height: 5.2rem;
+  padding: 0.85rem 0.9rem;
+}
+
+.case-study--hankkipot .case-flow li strong {
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.case-study--hankkipot #service-flow .case-story-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.case-study--hankkipot #service-flow .case-story-cards article {
+  min-height: 7.2rem;
+}
+
+.case-study--hankkipot #gps-verification .case-story-cards--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.case-study.case-study--hankkipot #gps-verification {
+  padding-top: 1.6rem;
+  padding-bottom: 1.75rem;
+}
+
+.case-study--hankkipot #gps-verification .case-section__heading {
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+}
+
+.case-study--hankkipot #gps-verification .case-content-stack {
+  gap: 0.8rem;
+}
+
+.case-study--hankkipot #gps-verification .case-story-cards--2 article {
+  min-height: 8rem;
+  padding: 1.35rem 1.45rem;
+}
+
+.case-study--hankkipot #gps-verification .case-story-cards--4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-study--hankkipot #gps-verification .case-story-cards article {
+  min-height: 7.4rem;
+  padding: 1.25rem 1.35rem;
+}
+
+.case-study--hankkipot #gps-verification .case-story-cards article p {
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.case-study--hankkipot #gps-verification .case-callout {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.2fr) minmax(0, 0.8fr);
+  gap: 1.25rem;
+  padding: 1.25rem 1.45rem;
+  align-items: start;
+}
+
+.case-study--hankkipot #gps-verification .case-callout > span {
+  position: static;
+}
+
+.case-study--hankkipot #gps-verification .case-callout p {
+  font-size: 0.98rem;
+  line-height: 1.68;
+}
+
+.case-study--hankkipot #qr-completion .case-story-cards--4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-study--hankkipot #qr-completion .case-story-cards article {
+  min-height: 6.8rem;
+  padding: 1.1rem 1.2rem;
+}
+
+.case-study--hankkipot #qr-completion .case-hierarchy {
+  padding: 1rem 1.2rem;
+}
+
+.case-study--hankkipot #qr-completion .case-hierarchy__children {
+  min-height: 7rem;
+  align-items: stretch;
+}
+
+.case-study--hankkipot #qr-completion .case-hierarchy__parent {
+  margin: 0.1rem auto 1rem;
+}
+
+.case-study--hankkipot #qr-completion .case-flow {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.case-study--hankkipot #result .case-story-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-study--hankkipot #result .case-story-cards article {
+  min-height: 7.2rem;
+  padding: 1.2rem 1.3rem;
+}
+
+@media (max-width: 1180px) {
+  .case-study.case-study--hankkipot .case-section {
+    padding-inline: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .hankki-overview__hero {
+    grid-template-columns: minmax(20rem, 0.85fr) minmax(25rem, 1.15fr);
+    gap: 1.75rem;
+  }
+
+  .hankki-overview__copy h3 {
+    font-size: clamp(2.2rem, 3.6vw, 3rem);
+  }
+}
+
+@media (max-width: 880px) {
+  .case-study.case-study--hankkipot .case-section {
+    padding: 1.5rem var(--gutter) 4rem;
+  }
+
+  .case-study--hankkipot .case-section__heading h2 {
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+  }
+
+  .hankki-overview {
+    min-height: 0;
+  }
+
+  .hankki-overview__hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hankki-summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .case-study--hankkipot #service-flow .case-flow,
+  .case-study--hankkipot #qr-completion .case-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .case-study--hankkipot #gps-verification .case-callout {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .case-study--hankkipot #problem .case-story-cards,
+  .case-study--hankkipot #service-flow .case-story-cards,
+  .case-study--hankkipot #gps-verification .case-story-cards--2,
+  .case-study--hankkipot #gps-verification .case-story-cards--4,
+  .case-study--hankkipot #qr-completion .case-story-cards--4,
+  .case-study--hankkipot #result .case-story-cards {
+    grid-template-columns: 1fr;
+  }
+}
