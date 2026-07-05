@@ -1,14 +1,24 @@
+---
+const isProjectPage = Astro.url.pathname.startsWith('/work/');
+const isHankkipotPage = Astro.url.pathname.startsWith('/work/hankkipot');
+const isWorkPage = Astro.url.pathname === '/' || isProjectPage;
+---
+
 <header class="site-header">
   <a class="wordmark magnetic" href="/" aria-label="첫 화면으로 이동">
     HOJIN<span class="wordmark-dot">.</span>
   </a>
 
   <nav class="desktop-nav" aria-label="주요 메뉴">
-    <a class="magnetic" href="/#hankkipot">WORK</a>
+    <a class:list={['magnetic', isWorkPage && 'is-active']} href="/#hankkipot">WORK</a>
     <a class="magnetic" href="/about">ABOUT</a>
     <a class="magnetic" href="/capabilities">CAPABILITIES</a>
     <a class="magnetic" href="/#contact">CONTACT</a>
   </nav>
+
+  {isHankkipotPage && (
+    <a class="project-list-button" href="/#hankkipot">프로젝트 목록으로 →</a>
+  )}
 
   <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">
     <span class="sr-only">메뉴 열기</span>
