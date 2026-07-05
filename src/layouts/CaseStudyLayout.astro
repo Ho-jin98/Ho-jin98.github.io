@@ -14,6 +14,21 @@ const caseStudy = caseStudies[project.slug];
 if (!caseStudy) {
   throw new Error(`Case study content is missing for "${project.slug}".`);
 }
+
+const splitLead = (lead: string, accent?: string | string[]) => {
+  const accents = accent ? (Array.isArray(accent) ? accent : [accent]) : [];
+  if (accents.length === 0) return [{ text: lead, accent: false }];
+
+  const pattern = new RegExp(
+    `(${accents.map((item) => item.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+    'g',
+  );
+
+  return lead
+    .split(pattern)
+    .filter(Boolean)
+    .map((text) => ({ text, accent: accents.includes(text) }));
+};
 ---
 
 <BaseLayout
@@ -78,6 +93,7 @@ if (!caseStudy) {
           caseStudy.sections.map((section, index) => {
             const previous = caseStudy.sections[index - 1];
             const next = caseStudy.sections[index + 1];
+            const leadParts = splitLead(section.lead, section.accent);
 
             return (
               <section
@@ -103,7 +119,9 @@ if (!caseStudy) {
                   </div>
 
                   <header class="case-section__heading">
-                    <h2 id={`${section.id}-title`}>{section.lead}</h2>
+                    <h2 id={`${section.id}-title`}>
+                      {leadParts.map((part) => part.accent ? <em>{part.text}</em> : part.text)}
+                    </h2>
                   </header>
 
                   {section.content && (
@@ -117,7 +135,7 @@ if (!caseStudy) {
                                   <div class="hankki-overview__copy">
                                     <span class="hankki-overview__badge">한끼팟 · 만남 인증</span>
                                     <h3>
-                                      인증 화면을 만든 것이 아니라,<br />
+                                      인증 화면이 아니라,<br />
                                       <em>만남 완료 기준</em>을 설계했습니다.
                                     </h3>
                                     <div class="hankki-overview__prose">
@@ -216,6 +234,39 @@ if (!caseStudy) {
                             </ol>
                           )}
 
+                          {block.type === 'flowGroups' && (
+                            <div class="case-flow-groups" aria-label={`${section.title} 처리 흐름`}>
+                              {block.groups.map((group) => (
+                                <article>
+                                  <span>{group.label}</span>
+                                  <h3>{group.title}</h3>
+                                  <ol>
+                                    {group.items.map((step, groupIndex) => (
+                                      <li>
+                                        <i>{String(groupIndex + 1).padStart(2, '0')}</i>
+                                        <strong>{step}</strong>
+                                      </li>
+                                    ))}
+                                  </ol>
+                                </article>
+                              ))}
+                            </div>
+                          )}
+
+                          {block.type === 'decision' && (
+                            <div class="case-decision">
+                              <article>
+                                <span>{block.from.label}</span>
+                                <p>{block.from.text}</p>
+                              </article>
+                              <i aria-hidden="true">→</i>
+                              <article>
+                                <span>{block.to.label}</span>
+                                <p>{block.to.text}</p>
+                              </article>
+                            </div>
+                          )}
+
                           {block.type === 'states' && (
                             <dl class="case-states">
                               {block.items.map((state) => (
@@ -228,7 +279,7 @@ if (!caseStudy) {
                           )}
 
                           {block.type === 'cards' && (
-                            <div class="case-content-group">
+                            <div class="case-content-group" data-block-label={block.label}>
                               {block.label && <h3>{block.label}</h3>}
                               <div
                                 class:list={[
@@ -450,7 +501,7 @@ if (!caseStudy) {
                           )}
 
                           {block.type === 'callout' && (
-                            <aside class="case-callout">
+                            <aside class="case-callout" data-block-label={block.label}>
                               {block.label && <span>{block.label}</span>}
                               <p>{block.text}</p>
                             </aside>

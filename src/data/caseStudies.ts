@@ -74,6 +74,25 @@ export type CaseStudyContentBlock =
       items: string[];
     }
   | {
+      type: 'flowGroups';
+      groups: {
+        label: string;
+        title: string;
+        items: string[];
+      }[];
+    }
+  | {
+      type: 'decision';
+      from: {
+        label: string;
+        text: string;
+      };
+      to: {
+        label: string;
+        text: string;
+      };
+    }
+  | {
       type: 'states';
       items: CaseStudyFact[];
     }
@@ -130,6 +149,7 @@ export interface CaseStudySection {
   navTitle: string;
   navSubtitle?: string;
   lead: string;
+  accent?: string | string[];
   content?: CaseStudyContentBlock[];
   facts?: CaseStudyFact[];
   bullets?: string[];
@@ -183,6 +203,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
         navTitle: '문제 정의',
         navSubtitle: '핵심 문제와 배경',
         lead: '매칭 완료와 실제 만남 사이에는 검증 공백이 있었습니다.',
+        accent: '검증 공백',
         content: [
           {
             type: 'prose',
@@ -227,19 +248,26 @@ export const caseStudies: Record<string, CaseStudyContent> = {
         navTitle: '접근 방식',
         navSubtitle: '해결 방향과 전략',
         lead: '인증·상태·정산의 역할을 분리했습니다.',
+        accent: '인증·상태·정산',
         content: [
           {
-            type: 'flow',
-            items: [
-              '매칭 생성',
-              'GPS 장소 인증',
-              'QR 만남 인증',
-              'Match 완료',
-              '위치 데이터 삭제',
-              '신청자 책임비 반환',
-              '완료 대상 Match 확인',
-              'Post 완료',
-              '등록자 책임비 반환',
+            type: 'flowGroups',
+            groups: [
+              {
+                label: '01 · VERIFY',
+                title: '검증 단계',
+                items: ['매칭 생성', 'GPS 장소 인증', 'QR 만남 인증'],
+              },
+              {
+                label: '02 · MATCH',
+                title: '신청자 완료 처리',
+                items: ['Match 완료', '위치 데이터 삭제', '신청자 책임비 반환'],
+              },
+              {
+                label: '03 · POST',
+                title: '전체 완료 처리',
+                items: ['완료 대상 Match 확인', 'Post 완료', '등록자 책임비 반환'],
+              },
             ],
           },
           {
@@ -268,12 +296,19 @@ export const caseStudies: Record<string, CaseStudyContent> = {
         title: 'GPS Verification',
         navTitle: '핵심 의사결정',
         navSubtitle: '주요 결정과 근거',
-        lead: 'SVG 좌표 화면을 서버 검증이 가능한 GPS 인증으로 바꿨습니다.',
+        lead: 'SVG 좌표 화면을 서버 검증 가능한 GPS 인증으로 바꿨습니다.',
+        accent: '서버 검증 가능한 GPS 인증',
         content: [
           {
-            type: 'callout',
-            label: '왜 SVG를 그대로 쓰지 않았는가',
-            text: 'SVG는 고정된 두 점의 상대 위치를 표현할 수는 있었지만 실제 장소 검색과 지도 기반 위치 확인에는 한계가 있었습니다. 픽셀 거리도 실제 미터 거리와 일치하지 않아 GPS 인증 기준으로 사용할 수 없었습니다.',
+            type: 'decision',
+            from: {
+              label: '왜 바꿨는가',
+              text: 'SVG는 고정 좌표를 표현할 수는 있었지만 실제 장소 검색과 미터 단위 거리 검증에는 적합하지 않았습니다.',
+            },
+            to: {
+              label: '무엇으로 바꿨는가',
+              text: 'Kakao Maps와 Geolocation API로 위치를 표시하고, 서버가 Haversine 거리와 시간 조건으로 최종 인증을 판단하도록 바꿨습니다.',
+            },
           },
           {
             type: 'cards',
@@ -317,60 +352,84 @@ export const caseStudies: Record<string, CaseStudyContent> = {
         navTitle: '구현 포인트',
         navSubtitle: '기능 설계와 구현',
         lead: 'QR 토큰은 Post 단위로 공유하고, 완료 처리는 Match 단위로 분리했습니다.',
+        accent: ['Post 단위', 'Match 단위'],
         content: [
           {
-            type: 'cards',
-            label: 'QR 대면 인증',
-            columns: 4,
-            items: [
-              { label: 'QR의 역할', text: 'GPS는 장소 근처 도착까지만 증명합니다. QR은 등록자와 신청자의 실제 대면을 확인하는 마지막 단계였습니다.' },
-              { label: '권한 분리', text: '등록자만 QR을 표시하고 신청자만 QR을 스캔하도록 역할을 나눴습니다.', tone: 'primary' },
-              { label: '토큰 저장', text: 'hp_qr_ 접두사와 UUID로 생성하고 JWT/Redis가 아닌 meet_verifications.qr_token 컬럼에 저장했습니다.' },
-              { label: '변경 감지와 만료', text: '트랜잭션 안에서 엔티티를 수정해 JPA 변경 감지로 반영하며, 만료 시간은 실제 코드 기준 10분입니다.' },
-            ],
+            type: 'callout',
+            label: '핵심 구조',
+            text: 'QR은 Post 단위로 공유하고, 완료 상태와 정산은 신청자별 Match 단위로 처리했습니다.',
           },
           {
-            type: 'hierarchy',
-            label: '완료 단위 분리',
-            parent: 'Post · QR 토큰 공유',
-            items: [
-              { label: 'Match A', value: 'COMPLETED', tone: 'complete' },
-              { label: 'Match B', value: 'MATCHED', tone: 'pending' },
-              { label: 'Match C', value: 'COMPLETED', tone: 'complete' },
-            ],
-            footer: '각 신청자는 자신의 MeetVerification과 Match만 완료하며, GUEST_NO_SHOW를 제외한 마지막 완료 대상이 끝났을 때 Post를 COMPLETE 처리',
-          },
-          {
-            type: 'cards',
-            label: '그룹 매칭 문제 해결',
-            columns: 3,
-            items: [
-              { label: '문제', text: '초기 1:1 로직은 첫 신청자의 QR 인증과 함께 Post까지 완료해 나머지 신청자의 인증을 막았습니다.' },
-              { label: '판단', text: 'QR 토큰의 공유 단위는 Post로 유지하고, 인증 완료 상태는 신청자별 matchId로 분리했습니다.', tone: 'primary' },
-              { label: '완료 기준', text: '마지막 완료 대상 Match가 끝났을 때만 Post를 COMPLETE 처리하고 등록자 책임비를 반환했습니다.' },
-            ],
-          },
-          {
-            type: 'flow',
-            items: [
-              '신청자 QR 스캔',
-              'Verification DONE',
-              'isMeetVerified = true',
-              'matchId 위치 삭제',
-              'Match COMPLETED',
-              '신청자 책임비 반환',
-              '마지막 대상 확인',
-              'Post COMPLETE',
-              '등록자 책임비 반환',
-            ],
-          },
-          {
-            type: 'cards',
-            label: '실행 경계',
-            columns: 2,
-            items: [
-              { label: 'DB 트랜잭션', text: '인증 상태, Match 상태, 위치 삭제와 신청자 책임비 반환을 트랜잭션 안에서 처리했습니다.', tone: 'primary' },
-              { label: '후속 실행 흐름', text: '알림 예약 정리, 후기 알림 예약, 완료 알림과 채팅방 비활성화 예약은 DB 트랜잭션 이후 흐름으로 분리했습니다.' },
+            type: 'tabs',
+            tabs: [
+              {
+                id: 'verification',
+                label: 'QR 대면 인증',
+                title: 'GPS 이후 실제 대면을 확인하는 마지막 인증 단계',
+                text: 'GPS는 장소 도착까지만 확인하고, QR은 등록자와 신청자가 실제로 대면했는지를 검증했습니다.',
+                cards: {
+                  columns: 3,
+                  items: [
+                    {
+                      label: '권한 분리',
+                      text: '등록자만 QR을 표시하고 신청자만 스캔하도록 역할을 나눴습니다.',
+                      tone: 'primary',
+                    },
+                    {
+                      label: '토큰 저장',
+                      text: 'hp_qr_ + UUID 문자열을 meet_verifications.qr_token 컬럼에 저장했습니다.',
+                    },
+                    {
+                      label: '변경 감지와 만료',
+                      text: '트랜잭션 안에서 엔티티를 수정해 JPA 변경 감지로 반영했으며, 만료 시간은 코드 기준 10분입니다.',
+                    },
+                  ],
+                },
+              },
+              {
+                id: 'unit-separation',
+                label: 'Match/Post 분리',
+                title: '공유 단위와 완료 단위를 분리해 그룹 매칭을 보호했습니다.',
+                text: '초기 1:1 로직은 첫 신청자의 인증과 함께 Post까지 완료했습니다. QR 토큰은 Post 단위로 유지하되, 인증 완료는 matchId별로 분리했습니다.',
+                hierarchy: {
+                  parent: 'Post · QR 토큰 공유',
+                  items: [
+                    { label: 'Match A', value: 'COMPLETED', tone: 'complete' },
+                    { label: 'Match B', value: 'MATCHED', tone: 'pending' },
+                    { label: 'Match C', value: 'COMPLETED', tone: 'complete' },
+                  ],
+                  footer: '각 신청자는 자신의 MeetVerification과 Match만 완료하며, GUEST_NO_SHOW를 제외한 마지막 완료 대상이 끝났을 때만 Post를 COMPLETE 처리했습니다.',
+                },
+              },
+              {
+                id: 'completion-flow',
+                label: '완료 처리 흐름',
+                title: '인증 완료와 후속 실행의 경계를 나눴습니다.',
+                flow: [
+                  'QR 스캔',
+                  'Verification DONE',
+                  '위치 데이터 삭제',
+                  'Match COMPLETED',
+                  '신청자 책임비 반환',
+                  '마지막 완료 대상 확인',
+                  'Post COMPLETE',
+                  '등록자 책임비 반환',
+                ],
+                cards: {
+                  columns: 2,
+                  items: [
+                    {
+                      label: 'DB 트랜잭션',
+                      text: '인증 상태, Match 상태, 위치 삭제와 신청자 책임비 반환을 함께 처리했습니다.',
+                      tone: 'primary',
+                    },
+                    {
+                      label: '후속 실행 흐름',
+                      text: '알림 예약 정리, 후기 알림, 완료 알림과 채팅방 비활성화 예약은 이후 흐름으로 분리했습니다.',
+                    },
+                  ],
+                },
+              },
             ],
           },
         ],
@@ -381,8 +440,15 @@ export const caseStudies: Record<string, CaseStudyContent> = {
         title: 'Result',
         navTitle: '결과',
         navSubtitle: '성과와 배운 점',
-        lead: '인증 결과가 화면에서 끝나지 않고 상태와 정산까지 이어졌습니다.',
+        lead: '인증 결과를 상태와 정산 흐름까지 연결했습니다.',
+        accent: '상태와 정산 흐름',
         content: [
+          {
+            type: 'prose',
+            paragraphs: [
+              'GPS/QR 인증 결과가 Match 완료, 위치 데이터 삭제, 책임비 반환과 Post 완료까지 이어지도록 연결하면서 인증 기능을 서비스 흐름으로 확장했습니다.',
+            ],
+          },
           {
             type: 'cards',
             label: '성과',
