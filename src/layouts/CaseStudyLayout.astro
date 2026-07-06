@@ -48,7 +48,7 @@ const splitLead = (lead: string, accent?: string | string[]) => {
 
     <div class="case-study__body">
       <nav class="case-study__toc" aria-label={`${project.title} 케이스 스터디 목차`}>
-        <a class="case-study__back" href={`/#${project.slug}`}>← 모든 프로젝트</a>
+        <a class="case-study__back" href={`/#${project.slug}`}>← 프로젝트 목록으로</a>
         {project.slug === 'hankkipot' && (
           <div class="case-study__project">
             <div class="case-study__project-logo" aria-hidden="true">
@@ -91,8 +91,6 @@ const splitLead = (lead: string, accent?: string | string[]) => {
       <div class="case-study__content">
         {
           caseStudy.sections.map((section, index) => {
-            const previous = caseStudy.sections[index - 1];
-            const next = caseStudy.sections[index + 1];
             const leadParts = splitLead(section.lead, section.accent);
 
             return (
@@ -103,21 +101,6 @@ const splitLead = (lead: string, accent?: string | string[]) => {
                 aria-labelledby={`${section.id}-title`}
               >
                 <div class="case-section__inner">
-                  <div class="case-section__topline">
-                    <div class="case-section__pager">
-                      {previous && <a href={`#${previous.id}`}>← 이전 페이지</a>}
-                      {next ? (
-                        <a class="case-section__next" href={`#${next.id}`}>다음 페이지 →</a>
-                      ) : (
-                        <a class="case-section__next" href={`/#${project.slug}`}>
-                          {project.slug === 'hankkipot'
-                            ? '프로젝트 목록으로 돌아가기 →'
-                            : '목록으로 돌아가기 →'}
-                        </a>
-                      )}
-                    </div>
-                  </div>
-
                   <header class="case-section__heading">
                     <h2 id={`${section.id}-title`}>
                       {leadParts.map((part) => part.accent ? <em>{part.text}</em> : part.text)}
@@ -135,17 +118,14 @@ const splitLead = (lead: string, accent?: string | string[]) => {
                                   <div class="hankki-overview__copy">
                                     <span class="hankki-overview__badge">한끼팟 · 만남 인증</span>
                                     <h3>
-                                      인증 화면이 아니라,<br />
-                                      <em>만남 완료 기준</em>을 설계했습니다.
+                                      장소 인증과 QR 만남 인증을<br />
+                                      서비스 완료 흐름으로 연결했습니다.
                                     </h3>
                                     <div class="hankki-overview__prose">
                                       {block.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
                                     </div>
                                     <ul class="hankki-overview__chips" aria-label="한끼팟 핵심 구현 범위">
-                                      <li>GPS 인증</li>
-                                      <li>QR 인증</li>
-                                      <li>Match/Post 상태</li>
-                                      <li>정산 흐름</li>
+                                      {block.scope.map((item) => <li>{item}</li>)}
                                     </ul>
                                   </div>
 
@@ -163,22 +143,22 @@ const splitLead = (lead: string, accent?: string | string[]) => {
                                   <article>
                                     <i aria-hidden="true">◎</i>
                                     <div>
-                                      <span>SVG → Kakao Maps GPS 인증</span>
-                                      <p>고정 좌표 화면을 장소 검색, 현재 위치 표시와 서버 거리 검증이 가능한 인증 화면으로 전환했습니다.</p>
+                                      <span>Kakao Maps GPS 인증</span>
+                                      <p>약속 장소와 현재 위치를 지도에 표시하고, 서버 거리 검증으로 장소 인증 여부를 판단하도록 연결했습니다.</p>
                                     </div>
                                   </article>
                                   <article>
                                     <i aria-hidden="true">⌁</i>
                                     <div>
-                                      <span>1:1 QR → 신청자별 완료 구조</span>
-                                      <p>QR 토큰 공유 단위와 완료 처리 단위를 분리해 첫 신청자의 인증이 Post를 먼저 완료시키지 않도록 했습니다.</p>
+                                      <span>QR 만남 인증</span>
+                                      <p>등록자는 QR을 표시하고 신청자는 스캔하는 구조로, GPS 이후 실제 대면 여부를 검증했습니다.</p>
                                     </div>
                                   </article>
                                   <article>
                                     <i aria-hidden="true">♙</i>
                                     <div>
-                                      <span>인증 결과 → 상태·정산 흐름</span>
-                                      <p>Match 완료, 위치 삭제와 신청자 반환부터 Post 완료와 등록자 반환까지 연결했습니다.</p>
+                                      <span>신청자별 완료 흐름</span>
+                                      <p>QR 인증 결과가 각 Match 완료, 위치 데이터 삭제, 책임비 반환과 후속 상태 처리로 이어지도록 구성했습니다.</p>
                                     </div>
                                   </article>
                                 </div>
@@ -249,6 +229,99 @@ const splitLead = (lead: string, accent?: string | string[]) => {
                                     ))}
                                   </ol>
                                 </article>
+                              ))}
+                            </div>
+                          )}
+
+                          {block.type === 'approach' && (
+                            <div class="case-approach">
+                              <div class="case-approach__timeline">
+                                <span>인증 흐름</span>
+                                <ol>
+                                  {block.steps.map((step, stepIndex) => (
+                                    <li>
+                                      <i>{String(stepIndex + 1).padStart(2, '0')}</i>
+                                      <strong>{step}</strong>
+                                    </li>
+                                  ))}
+                                </ol>
+                              </div>
+                              <div class="case-approach__cards">
+                                {block.items.map((item, itemIndex) => (
+                                  <article class:list={[item.tone && `case-story-card--${item.tone}`]}>
+                                    <i aria-hidden="true">{String(itemIndex + 1).padStart(2, '0')}</i>
+                                    <span>{item.label}</span>
+                                    <p>{item.text}</p>
+                                  </article>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {block.type === 'comparison' && (
+                            <div class="case-comparison">
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th scope="col">비교 항목</th>
+                                    {block.columns.map((column, columnIndex) => (
+                                      <th
+                                        scope="col"
+                                        class={columnIndex === block.highlightColumn ? 'is-highlighted' : undefined}
+                                      >
+                                        {column}
+                                      </th>
+                                    ))}
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {block.rows.map((row) => (
+                                    <tr>
+                                      <th scope="row">{row.label}</th>
+                                      {row.values.map((value, columnIndex) => (
+                                        <td class={columnIndex === block.highlightColumn ? 'is-highlighted' : undefined}>
+                                          {value}
+                                        </td>
+                                      ))}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          )}
+
+                          {block.type === 'accordion' && (
+                            <div class="case-accordions">
+                              {block.items.map((item) => (
+                                <details>
+                                  <summary>
+                                    <span>{item.title}</span>
+                                    <i aria-hidden="true">+</i>
+                                  </summary>
+                                  <div class="case-accordion__body">
+                                    {item.text && <p>{item.text}</p>}
+                                    {item.cards && (
+                                      <div class="case-accordion__cards">
+                                        {item.cards.map((card) => (
+                                          <article>
+                                            <strong>{card.label}</strong>
+                                            <p>{card.text}</p>
+                                          </article>
+                                        ))}
+                                      </div>
+                                    )}
+                                    {item.facts && (
+                                      <dl class="case-accordion__facts">
+                                        {item.facts.map((fact) => (
+                                          <div>
+                                            <dt>{fact.label}</dt>
+                                            <dd>{fact.value}</dd>
+                                          </div>
+                                        ))}
+                                      </dl>
+                                    )}
+                                  </div>
+                                </details>
                               ))}
                             </div>
                           )}
@@ -490,13 +563,121 @@ const splitLead = (lead: string, accent?: string | string[]) => {
                                     </div>
                                   )}
 
+                                  {tab.comparison && (
+                                    <div class="case-comparison">
+                                      <table>
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">비교 항목</th>
+                                            {tab.comparison.columns.map((column, columnIndex) => (
+                                              <th
+                                                scope="col"
+                                                class={columnIndex === tab.comparison?.highlightColumn ? 'is-highlighted' : undefined}
+                                              >
+                                                {column}
+                                              </th>
+                                            ))}
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {tab.comparison.rows.map((row) => (
+                                            <tr>
+                                              <th scope="row">{row.label}</th>
+                                              {row.values.map((value, columnIndex) => (
+                                                <td
+                                                  class={columnIndex === tab.comparison?.highlightColumn ? 'is-highlighted' : undefined}
+                                                >
+                                                  {value}
+                                                </td>
+                                              ))}
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  )}
+
                                   {tab.callout && (
                                     <aside class:list={['case-tab-callout', `is-${tab.calloutTone ?? 'dark'}`]}>
                                       {tab.callout}
                                     </aside>
                                   )}
+
+                                  {tab.supportCards && (
+                                    <div class="case-tab-support">
+                                      {tab.supportCards.map((support) => (
+                                        <article>
+                                          <h4>{support.title}</h4>
+                                          {support.text && <p>{support.text}</p>}
+                                          <dl>
+                                            {support.items.map((item) => (
+                                              <div>
+                                                <dt>{item.label}</dt>
+                                                <dd>{item.value}</dd>
+                                              </div>
+                                            ))}
+                                          </dl>
+                                        </article>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  {tab.accordions && (
+                                    <div class="case-accordions">
+                                      {tab.accordions.map((item) => (
+                                        <details>
+                                          <summary>
+                                            <span>{item.title}</span>
+                                            <i aria-hidden="true">+</i>
+                                          </summary>
+                                          <div class="case-accordion__body">
+                                            {item.text && <p>{item.text}</p>}
+                                            {item.cards && (
+                                              <div class="case-accordion__cards">
+                                                {item.cards.map((card) => (
+                                                  <article>
+                                                    <strong>{card.label}</strong>
+                                                    <p>{card.text}</p>
+                                                  </article>
+                                                ))}
+                                              </div>
+                                            )}
+                                            {item.facts && (
+                                              <dl class="case-accordion__facts">
+                                                {item.facts.map((fact) => (
+                                                  <div>
+                                                    <dt>{fact.label}</dt>
+                                                    <dd>{fact.value}</dd>
+                                                  </div>
+                                                ))}
+                                              </dl>
+                                            )}
+                                          </div>
+                                        </details>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
                               ))}
+                            </div>
+                          )}
+
+                          {block.type === 'video' && (
+                            <div class="case-demo" data-demo-ready={block.src ? 'true' : 'false'}>
+                              {block.src ? (
+                                <video controls poster={block.poster} class="case-demo-video" preload="metadata">
+                                  <source src={block.src} type={block.mimeType ?? 'video/mp4'} />
+                                  브라우저가 비디오 재생을 지원하지 않습니다.
+                                </video>
+                              ) : (
+                                <div class="case-demo__placeholder" role="status">
+                                  <span aria-hidden="true">▶</span>
+                                  <div>
+                                    <strong>{block.title}</strong>
+                                    <p>{block.description}</p>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           )}
 

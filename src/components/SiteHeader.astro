@@ -1,6 +1,5 @@
 ---
 const isProjectPage = Astro.url.pathname.startsWith('/work/');
-const isHankkipotPage = Astro.url.pathname.startsWith('/work/hankkipot');
 const isWorkPage = Astro.url.pathname === '/' || isProjectPage;
 ---
 
@@ -15,10 +14,6 @@ const isWorkPage = Astro.url.pathname === '/' || isProjectPage;
     <a class="magnetic" href="/capabilities">CAPABILITIES</a>
     <a class="magnetic" href="/#contact">CONTACT</a>
   </nav>
-
-  {isHankkipotPage && (
-    <a class="project-list-button" href="/#hankkipot">프로젝트 목록으로 →</a>
-  )}
 
   <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">
     <span class="sr-only">메뉴 열기</span>
