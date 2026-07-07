@@ -1322,3 +1322,857 @@ export const caseStudies: Record<string, CaseStudyContent> = {
     ],
   },
 };
+
+caseStudies['k-server'] = {
+  projectLabel: 'K-server',
+  description:
+    '다중 인스턴스 주문 환경에서 포인트 정합성과 Kafka 후속 이벤트 흐름을 분리해 검증한 백엔드 Case Study입니다.',
+  sections: [
+    {
+      number: '01',
+      id: 'overview',
+      title: 'Overview',
+      navTitle: '개요',
+      navSubtitle: '정합성 중심 설계',
+      lead: '다중 인스턴스 주문 환경에서\n포인트 정합성과 이벤트 흐름을 검증했습니다.',
+      content: [
+        {
+          type: 'prose',
+          paragraphs: [
+            '동일 사용자의 주문, 충전, 취소 요청이 동시에 들어와도 포인트 잔액과 거래 이력이 어긋나지 않도록 처리했습니다.',
+            'Redis 분산락과 DB 비관락으로 포인트 변경 경합을 제어하고, DB 커밋 이후에만 Kafka 이벤트가 발행되도록 후속 처리 경계를 분리했습니다.',
+          ],
+        },
+        {
+          type: 'facts',
+          items: [
+            { label: '역할', value: 'Solo Backend' },
+            { label: '프로젝트 유형', value: 'Personal Project' },
+            { label: '기간', value: '2026.04 - 2026.05' },
+            { label: '서비스', value: '다중 인스턴스 환경을 가정한 커피숍 주문 시스템' },
+          ],
+        },
+        {
+          type: 'cards',
+          label: '구현 범위',
+          columns: 3,
+          items: [
+            {
+              label: '주문 동시성 제어',
+              text: '동일 사용자 주문 요청을 Redis 분산락으로 직렬화하고,\n트랜잭션 내부에서는 DB 비관락으로 포인트 잔액을 검증했습니다.',
+            },
+            {
+              label: '트랜잭션 경계 분리',
+              text: 'Facade는 분산락을 담당하고,\nService는 주문 트랜잭션을 담당하도록 책임을 나눴습니다.',
+            },
+            {
+              label: 'Kafka 후속 처리',
+              text: 'DB 커밋 이후에만 Kafka 이벤트가 발행되도록 분리해\n롤백 주문이 후속 처리로 넘어가지 않게 했습니다.',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '02',
+      id: 'problem',
+      title: 'Problem',
+      navTitle: '동시성 문제',
+      navSubtitle: '포인트 경합과 이벤트',
+      lead: '동시 주문과 후속 이벤트가 포인트 정합성을 깨뜨릴 수 있었습니다.',
+      content: [
+        {
+          type: 'cards',
+          columns: 3,
+          items: [
+            {
+              label: '동일 사용자 주문 경합',
+              text: '같은 사용자의 주문이 동시에 들어오면 잔액 차감이 중복되거나 갱신이 누락될 수 있었습니다.',
+            },
+            {
+              label: '공통 잔액 변경',
+              text: '주문, 충전, 취소가 모두 같은 포인트 잔액을 변경하므로 처리 기준이 일관돼야 했습니다.',
+            },
+            {
+              label: '롤백 주문 이벤트',
+              text: 'DB에서 롤백된 주문이 Kafka 후속 처리로 넘어가면 인기 메뉴 집계가 실제 주문과 달라질 수 있었습니다.',
+            },
+          ],
+        },
+        {
+          type: 'callout',
+          text: '핵심은 락을 하나 더 쓰는 것이 아니라, 사용자 단위 요청 직렬화와 트랜잭션 내부 정합성 검증, 이벤트 발행 시점을 분리하는 것이었습니다.',
+        },
+      ],
+    },
+    {
+      number: '03',
+      id: 'approach',
+      title: 'Approach',
+      navTitle: '접근 방식',
+      navSubtitle: '락과 트랜잭션 분리',
+      lead: '락, 트랜잭션, 이벤트 발행 시점을 역할별로 분리했습니다.',
+      content: [
+        {
+          type: 'approach',
+          steps: ['요청 진입', 'Redis 분산락', 'Service 트랜잭션', 'DB 비관락', 'DB Commit', 'AFTER_COMMIT', 'Kafka 처리'],
+          items: [
+            {
+              label: 'Redis 분산락',
+              text: '다중 인스턴스 환경에서 동일 사용자의 주문 요청이 동시에 처리되지 않도록 사용자 단위 요청을 직렬화했습니다.',
+            },
+            {
+              label: 'DB 비관락',
+              text: '주문, 충전, 취소 트랜잭션 내부에서 포인트 잔액을 다시 확인해 거래 이력과 잔액이 함께 맞도록 처리했습니다.',
+              tone: 'primary',
+            },
+            {
+              label: 'AFTER_COMMIT 이벤트',
+              text: '주문 트랜잭션이 커밋된 이후에만 Kafka 이벤트가 발행되도록 분리해 롤백 주문의 후속 처리를 차단했습니다.',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '04',
+      id: 'decision',
+      title: 'Decision',
+      navTitle: '핵심 의사결정',
+      navSubtitle: '기술 선택과 책임 분리',
+      lead: '포인트 정합성과 이벤트 신뢰성을 기준으로 처리 경계를 나눴습니다.',
+      content: [
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              id: 'lock-strategy',
+              label: 'Redis 분산락 + DB 비관락',
+              title: '분산 환경 직렬화와 트랜잭션 내부 검증을 함께 사용했습니다.',
+              text: 'Redis 분산락은 여러 인스턴스로 들어오는 동일 사용자 요청을 먼저 직렬화합니다.\nDB 비관락은 실제 포인트 변경 트랜잭션 안에서 잔액과 거래 이력을 다시 검증하는 기준으로 사용했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: 'Redis 분산락', text: '사용자 단위 요청을 먼저 묶어 같은 사용자의 주문이 동시에 통과하지 않도록 했습니다.' },
+                  { label: 'DB 비관락', text: '잔액 차감, 충전, 취소처럼 같은 포인트 row를 변경하는 흐름에서 최종 정합성을 확인했습니다.' },
+                  { label: '적용 기준', text: '주문 생성은 분산락과 DB 비관락을 함께 사용하고, 충전과 취소는 DB 비관락 중심으로 처리했습니다.' },
+                ],
+              },
+              callout: '분산락은 진입 순서를 제어하고, DB 락은 트랜잭션 내부의 포인트 정합성을 확인하는 역할로 나눴습니다.',
+              calloutTone: 'soft',
+            },
+            {
+              id: 'facade-service',
+              label: 'Facade / Service 책임 분리',
+              title: '락 책임과 주문 트랜잭션 책임을 분리했습니다.',
+              text: 'Facade는 Redis 분산락의 획득과 해제를 담당하고, Service는 주문 생성과 포인트 변경 트랜잭션을 담당했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: 'Facade', text: '분산락 키 생성, 락 획득, Service 호출, 락 해제 경계를 담당했습니다.' },
+                  { label: 'Service', text: '포인트 잔액 검증, 차감, 거래 이력 저장, 주문 저장을 하나의 DB 처리 흐름으로 관리했습니다.' },
+                  { label: '경계', text: 'DB 커밋 이전에 락이 풀리지 않도록 트랜잭션과 락 해제 시점을 분리해 관리했습니다.' },
+                ],
+              },
+              callout: '락과 트랜잭션을 같은 메서드에 섞지 않고, 실패 위치를 추적하기 쉬운 책임 구조로 나눴습니다.',
+              calloutTone: 'soft',
+            },
+            {
+              id: 'after-commit',
+              label: 'AFTER_COMMIT 이벤트 발행',
+              title: 'DB 커밋 이후에만 Kafka 이벤트가 발행되도록 분리했습니다.',
+              text: 'OrderService는 내부 이벤트만 발행하고, Kafka Producer 호출은 AFTER_COMMIT 리스너에서 수행하도록 분리했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: '커밋 이전', text: '주문 저장과 포인트 차감이 DB 트랜잭션 안에서 처리됩니다.' },
+                  { label: '커밋 이후', text: '커밋이 완료된 주문만 Kafka 이벤트 발행 대상으로 넘어갑니다.' },
+                  { label: '롤백 주문 차단', text: 'DB에서 롤백된 주문은 인기 메뉴 집계나 주문 후속 처리로 전달되지 않게 했습니다.' },
+                ],
+              },
+              callout: 'Kafka와 DB를 하나의 트랜잭션으로 묶지 않고, DB 커밋 이후 후속 이벤트가 실행되도록 경계를 분리했습니다.',
+              calloutTone: 'soft',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '05',
+      id: 'implementation',
+      title: 'Implementation',
+      navTitle: '구현 포인트',
+      navSubtitle: '주문과 이벤트 처리',
+      lead: '주문 처리, 포인트 변경, Kafka 후속 처리를 각각의 책임으로 구현했습니다.',
+      content: [
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              id: 'order-concurrency',
+              label: '주문 동시성 처리',
+              title: '동일 사용자 주문 요청을 사용자 단위로 직렬화했습니다.',
+              text: '주문 요청은 Facade에서 사용자 기준 Redis 분산락을 먼저 획득한 뒤 Service 트랜잭션으로 진입하도록 구성했습니다.',
+              flow: ['주문 요청', 'lock:order:{userId}', 'Redis 분산락 획득', 'OrderService 호출', 'DB 비관락 조회', '잔액 검증', '주문 저장', '락 해제'],
+              cards: {
+                columns: 3,
+                items: [
+                  { label: '락 키', text: '동일 사용자의 주문 요청이 같은 락 키를 바라보도록 사용자 단위 키를 사용했습니다.' },
+                  { label: '트랜잭션 진입', text: '락 획득 이후에 주문 Service를 호출해 포인트 변경 흐름이 순차적으로 실행되게 했습니다.' },
+                  { label: '실패 처리', text: '잔액 부족 주문은 저장되지 않고 거절되며, 포인트 잔액은 음수로 내려가지 않도록 검증했습니다.' },
+                ],
+              },
+            },
+            {
+              id: 'point-flow',
+              label: '포인트 변경 흐름',
+              title: '주문, 충전, 취소가 같은 잔액 기준을 사용하도록 처리했습니다.',
+              text: '포인트 잔액을 변경하는 기능은 거래 이력과 잔액이 함께 맞는지 확인하는 흐름으로 구성했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: '주문', text: '잔액 확인, 포인트 차감, 거래 이력 저장, 주문 저장을 같은 처리 흐름에서 관리했습니다.' },
+                  { label: '충전', text: '동일 계정 충전 요청이 동시에 들어와도 기준 잔액에 요청 수만큼 누락 없이 반영되도록 검증했습니다.' },
+                  { label: '취소', text: '주문 취소 시 포인트 복구와 거래 이력이 함께 맞도록 DB 비관락 기준으로 처리했습니다.' },
+                ],
+              },
+              callout: '포인트는 단순 숫자 변경이 아니라 잔액, 거래 이력, 주문 상태가 함께 맞아야 하는 도메인으로 다뤘습니다.',
+              calloutTone: 'soft',
+            },
+            {
+              id: 'kafka-processing',
+              label: 'Kafka 후속 처리',
+              title: '커밋된 주문만 Kafka 후속 처리로 이어지도록 구성했습니다.',
+              text: 'Kafka Consumer는 커밋 이후 발행된 주문 이벤트만 받아 주문 후속 처리와 Redis 인기 메뉴 카운트를 갱신합니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: 'Producer 경계', text: 'OrderService 내부에서 Kafka를 직접 호출하지 않고 AFTER_COMMIT 리스너에서 발행했습니다.' },
+                  { label: 'Consumer 처리', text: '커밋된 주문 이벤트를 기준으로 주문 후속 처리와 Redis 인기 메뉴 카운트를 갱신했습니다.' },
+                  { label: '재시도 / DLT', text: '반복 실패 메시지는 재시도 이후 DLT로 이동하도록 구성해 실패 메시지를 추적할 수 있게 했습니다.' },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '06',
+      id: 'result',
+      title: 'Verification Result',
+      navTitle: '검증 결과',
+      navSubtitle: '동시 요청과 이벤트 검증',
+      lead: '동일 조건의 동시 요청과 이벤트 처리 결과로 설계가 동작하는지 확인했습니다.',
+      content: [
+        {
+          type: 'metrics',
+          label: '100 CONCURRENT ORDERS',
+          items: [
+            { label: '초기 잔액', value: '9,000P', tone: 'dark' },
+            { label: '주문 금액', value: '3,000P' },
+            { label: '동시 요청', value: '100건' },
+            { label: '성공', value: '3건', tone: 'primary' },
+            { label: '거절', value: '97건' },
+            { label: '최종 잔액', value: '0P', tone: 'primary' },
+          ],
+        },
+        {
+          type: 'metrics',
+          label: '50 CONCURRENT CHARGES',
+          items: [
+            { label: '충전 금액', value: '1,000P' },
+            { label: '동시 요청', value: '50건' },
+            { label: '반영 금액', value: '+50,000P', tone: 'primary' },
+          ],
+        },
+        {
+          type: 'metrics',
+          label: 'KAFKA EVENT FLOW',
+          items: [
+            { label: '주문 실행', value: '60건', tone: 'dark' },
+            { label: 'Redis 카운트', value: '+60', tone: 'primary' },
+            { label: '롤백 주문', value: '후속 처리 차단' },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+caseStudies['k-server'] = {
+  projectLabel: 'K-server',
+  description:
+    'Redis와 Kafka를 커피 주문 시스템의 주문, 포인트, 인기메뉴 흐름에 적용해 락, 트랜잭션, 이벤트 발행 경계를 검증한 개인 백엔드 Case Study입니다.',
+  sections: [
+    {
+      number: '01',
+      id: 'overview',
+      title: 'Overview',
+      navTitle: '개요',
+      navSubtitle: '학습과 검증 흐름',
+      lead: 'Redis와 Kafka를 주문·포인트 흐름에 적용해\n정합성과 이벤트 경계를 검증했습니다.',
+      content: [
+        {
+          type: 'prose',
+          paragraphs: [
+            'Redis와 Kafka를 단순 예제로만 학습하지 않고, 커피 주문 시스템의 주문, 포인트, 인기메뉴 흐름에 직접 적용했습니다.',
+            '동일 사용자의 동시 주문은 Redis 분산락으로 직렬화하고, 주문·충전·취소처럼 포인트 잔액을 바꾸는 흐름은 DB 비관락으로 검증했습니다.',
+            'DB 커밋 이후에만 Kafka 이벤트가 발행되도록 분리하고, k6 시나리오로 동시 요청과 이벤트 처리 결과가 의도대로 이어지는지 확인했습니다.',
+          ],
+        },
+        {
+          type: 'facts',
+          items: [
+            { label: '역할', value: 'Solo Backend' },
+            { label: '프로젝트 유형', value: 'Personal Project' },
+            { label: '기간', value: '2026.04 - 2026.05' },
+            { label: '서비스', value: '다중 인스턴스 환경을 가정한 커피숍 주문 시스템' },
+          ],
+        },
+        {
+          type: 'cards',
+          label: '구현 범위',
+          columns: 3,
+          items: [
+            {
+              label: 'Redis 분산락',
+              text: '동일 사용자의 주문 요청을 userId 기반 락 키로 직렬화해,\n동시에 주문 트랜잭션에 진입하는 상황을 줄였습니다.',
+            },
+            {
+              label: 'DB 비관락',
+              text: '주문·충전·취소처럼 같은 포인트 잔액을 변경하는 흐름에서\n트랜잭션 내부의 최종 정합성을 확인했습니다.',
+            },
+            {
+              label: 'Kafka 이벤트 경계',
+              text: 'DB 커밋 이후에만 Kafka 이벤트가 발행되도록 분리해,\n롤백된 주문이 후속 처리로 넘어가지 않도록 했습니다.',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '02',
+      id: 'problem',
+      title: 'Problem',
+      navTitle: '동시성 문제',
+      navSubtitle: '포인트 경합과 이벤트',
+      lead: '동시 주문과 후속 이벤트가 포인트 정합성을 깨뜨릴 수 있었습니다.',
+      content: [
+        {
+          type: 'prose',
+          paragraphs: [
+            '단순한 주문 API에서는 문제가 없어 보이지만, 같은 사용자의 주문·충전·취소가 동시에 들어오면 포인트 잔액과 거래 이력이 어긋날 수 있습니다.',
+            '또한 DB에서 롤백된 주문이 Kafka 후속 처리로 넘어가면, 인기 메뉴 집계가 실제 주문 상태와 달라질 수 있습니다.',
+            '이 프로젝트에서는 Redis와 Kafka를 주문 도메인에 적용하면서, 이런 경계가 실제 서비스 흐름에서 어떻게 깨질 수 있는지를 검증 대상으로 삼았습니다.',
+          ],
+        },
+        {
+          type: 'cards',
+          columns: 3,
+          items: [
+            {
+              label: '동일 사용자 주문 경합',
+              text: '같은 사용자의 주문이 동시에 들어오면 잔액 차감이 중복되거나 갱신이 누락될 수 있었습니다.',
+            },
+            {
+              label: '공통 잔액 변경',
+              text: '주문, 충전, 취소가 모두 같은 포인트 잔액을 변경하므로 처리 기준이 일관되어야 했습니다.',
+            },
+            {
+              label: '롤백 주문 이벤트',
+              text: 'DB에서 롤백된 주문이 Kafka 후속 처리로 넘어가면 인기 메뉴 집계가 실제 주문과 달라질 수 있었습니다.',
+            },
+          ],
+        },
+        {
+          type: 'callout',
+          text: '핵심은 기술을 하나 더 쓰는 것이 아니라, 사용자 단위 요청 직렬화, 트랜잭션 내부 정합성, 이벤트 발행 시점을 분리하는 것이었습니다.',
+        },
+      ],
+    },
+    {
+      number: '03',
+      id: 'approach',
+      title: 'Approach',
+      navTitle: '접근 방식',
+      navSubtitle: '락과 트랜잭션 분리',
+      lead: '락, 트랜잭션, 이벤트 발행 시점을 역할별로 분리했습니다.',
+      content: [
+        {
+          type: 'approach',
+          steps: ['요청 진입', 'Redis 분산락', 'Service 트랜잭션', 'DB 비관락', 'DB Commit', 'AFTER_COMMIT', 'Kafka 처리'],
+          items: [
+            {
+              label: 'Redis 분산락',
+              text: '다중 인스턴스 환경에서 같은 사용자의 주문 요청이 동시에 처리되지 않도록 userId 기반 락 키로 먼저 직렬화했습니다.',
+            },
+            {
+              label: 'DB 비관락',
+              text: '주문·충전·취소 트랜잭션 내부에서는 User 행을 다시 확인해 포인트 잔액과 거래 이력이 함께 맞도록 처리했습니다.',
+              tone: 'primary',
+            },
+            {
+              label: 'AFTER_COMMIT 이벤트',
+              text: '주문 트랜잭션이 커밋된 이후에만 Kafka 이벤트가 발행되도록 분리해 롤백 주문의 후속 처리를 차단했습니다.',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '04',
+      id: 'decision',
+      title: 'Decision',
+      navTitle: '핵심 의사결정',
+      navSubtitle: '기술 선택과 책임 분리',
+      lead: '포인트 정합성과 이벤트 신뢰성을 기준으로 처리 경계를 나눴습니다.',
+      content: [
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              id: 'lock-strategy',
+              label: 'Redis 분산락 + DB 비관락',
+              title: '분산 환경 직렬화와 트랜잭션 내부 검증을 함께 사용했습니다.',
+              text: 'Redis 분산락은 여러 인스턴스로 들어오는 동일 사용자 주문 요청을 먼저 직렬화합니다.\nDB 비관락은 실제 포인트 변경 트랜잭션 안에서 잔액과 거래 이력을 다시 검증하는 기준으로 사용했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: 'Redis 분산락', text: '사용자 단위 요청을 먼저 묶어 같은 사용자의 주문이 동시에 통과하지 않도록 했습니다.' },
+                  { label: 'DB 비관락', text: '잔액 차감, 충전, 취소처럼 같은 포인트 row를 변경하는 흐름에서 최종 정합성을 확인했습니다.' },
+                  { label: '적용 기준', text: '주문 생성은 분산락과 DB 비관락을 함께 사용하고,\n충전과 취소는 DB 비관락 중심으로 처리했습니다.' },
+                ],
+              },
+              callout: '분산락은 진입 순서를 제어하고, DB 락은 트랜잭션 내부의 포인트 정합성을 확인하는 역할로 나눴습니다.',
+              calloutTone: 'soft',
+            },
+            {
+              id: 'facade-service',
+              label: 'Facade / Service 책임 분리',
+              title: '락 책임과 주문 트랜잭션 책임을 분리했습니다.',
+              text: 'Facade는 Redis 분산락의 획득과 해제를 담당하고,\nService는 주문 생성과 포인트 변경 트랜잭션을 담당하도록 나눴습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: 'Facade', text: '분산락 키 생성, 락 획득, Service 호출, 락 해제 경계를 담당했습니다.' },
+                  { label: 'Service', text: '포인트 잔액 검증, 차감, 거래 이력 저장, 주문 저장을 하나의 DB 처리 흐름으로 관리했습니다.' },
+                  { label: '경계', text: 'DB 커밋 이전에 락이 풀리지 않도록 락과 트랜잭션의 책임을 분리해 관리했습니다.' },
+                ],
+              },
+              callout: '락과 트랜잭션을 같은 메서드에 섞지 않고, 실패 위치를 추적하기 쉬운 책임 구조로 나눴습니다.',
+              calloutTone: 'soft',
+            },
+            {
+              id: 'after-commit',
+              label: 'AFTER_COMMIT 이벤트 발행',
+              title: 'DB 커밋 이후에만 Kafka 이벤트가 발행되도록 분리했습니다.',
+              text: 'OrderService에서는 Kafka를 직접 호출하지 않고 내부 이벤트만 발행했습니다.\nKafka Producer 호출은 AFTER_COMMIT 리스너에서 수행되도록 분리했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: '커밋 이전', text: '주문 저장과 포인트 차감은 DB 트랜잭션 안에서 처리했습니다.' },
+                  { label: '커밋 이후', text: '커밋이 완료된 주문만 Kafka 이벤트 발행 대상으로 넘겼습니다.' },
+                  { label: '롤백 주문 차단', text: 'DB에서 롤백된 주문은 인기 메뉴 집계나 후속 처리로 전달되지 않도록 했습니다.' },
+                ],
+              },
+              callout: 'Kafka와 DB를 하나의 트랜잭션으로 묶지 않고, DB 커밋 이후 후속 이벤트가 실행되도록 경계를 분리했습니다.',
+              calloutTone: 'soft',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '05',
+      id: 'implementation',
+      title: 'Implementation',
+      navTitle: '구현 포인트',
+      navSubtitle: '주문과 이벤트 처리',
+      lead: '주문 처리, 포인트 변경, Kafka 후속 처리를 각각의 책임으로 구현했습니다.',
+      content: [
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              id: 'order-concurrency',
+              label: '주문 동시성 처리',
+              title: '동일 사용자 주문 요청을 사용자 단위로 직렬화했습니다.',
+              text: '주문 요청은 Facade에서 사용자 기준 Redis 분산락을 먼저 획득한 뒤\nService 트랜잭션으로 진입하도록 구성했습니다.',
+              flow: ['주문 요청', 'lock:order:{userId}', 'Redis 분산락 획득', 'OrderService 호출', 'DB 비관락 조회', '잔액 검증', '주문 저장', '락 해제'],
+              cards: {
+                columns: 3,
+                items: [
+                  { label: '락 키', text: '동일 사용자의 주문 요청이 같은 락 키를 바라보도록 userId 기반 키를 사용했습니다.' },
+                  { label: '트랜잭션 진입', text: '락 획득 이후에만 주문 Service를 호출해 포인트 변경 흐름이 순차적으로 실행되게 했습니다.' },
+                  { label: '실패 처리', text: '잔액 부족 주문은 저장되지 않고 거절되며, 포인트 잔액이 음수로 내려가지 않도록 검증했습니다.' },
+                ],
+              },
+            },
+            {
+              id: 'point-flow',
+              label: '포인트 변경 흐름',
+              title: '주문, 충전, 취소가 같은 잔액 기준을 사용하도록 처리했습니다.',
+              text: '포인트 잔액을 변경하는 기능은 거래 이력과 잔액이 함께 맞는지 확인하는 흐름으로 구성했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: '주문', text: '잔액 확인, 포인트 차감, 거래 이력 저장, 주문 저장을 같은 처리 흐름에서 관리했습니다.' },
+                  { label: '충전', text: '동일 계정 충전 요청이 동시에 들어와도 기준 잔액에 요청 수만큼 누락 없이 반영되도록 검증했습니다.' },
+                  { label: '취소', text: '주문 취소 시 포인트 복구와 거래 이력이 함께 맞도록 DB 비관락 기준으로 처리했습니다.' },
+                ],
+              },
+              callout: '포인트는 단순 숫자 변경이 아니라 잔액, 거래 이력, 주문 상태가 함께 맞아야 하는 도메인으로 다뤘습니다.',
+              calloutTone: 'soft',
+            },
+            {
+              id: 'kafka-processing',
+              label: 'Kafka 후속 처리',
+              title: '커밋된 주문만 Kafka 후속 처리로 이어지도록 구성했습니다.',
+              text: 'Kafka Consumer는 커밋 이후 발행된 주문 이벤트를 받아\n주문 후속 처리와 Redis 인기 메뉴 카운트를 갱신합니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: 'Producer 경계', text: 'OrderService 내부에서 Kafka를 직접 호출하지 않고 AFTER_COMMIT 리스너에서 발행했습니다.' },
+                  { label: 'Consumer 처리', text: '커밋된 주문 이벤트를 기준으로 주문 후속 처리와 Redis 인기 메뉴 카운트를 갱신했습니다.' },
+                  { label: '재시도 / DLT', text: '반복 실패 메시지는 재시도 이후 DLT로 이동하도록 구성해 실패 메시지를 추적할 수 있게 했습니다.' },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '06',
+      id: 'result',
+      title: 'Verification Result',
+      navTitle: '검증 결과',
+      navSubtitle: '동시 요청과 이벤트 검증',
+      lead: '동일 조건의 동시 요청과 이벤트 처리 결과로 설계가 동작하는지 확인했습니다.',
+      content: [
+        {
+          type: 'prose',
+          paragraphs: [
+            '포화 지점을 찾는 테스트가 아니라, 분산락, 비관락, Kafka 이벤트 발행 경계가 필요한 순간에 실제로 동작하는지를 확인했습니다.',
+            '로컬 Docker 환경에서 Redis, Kafka, MySQL을 실행하고, k6 시나리오로 동시 요청과 후속 처리 결과를 검증했습니다.',
+          ],
+        },
+        {
+          type: 'metrics',
+          label: '100 CONCURRENT ORDERS',
+          items: [
+            { label: '초기 잔액', value: '9,000P', tone: 'dark' },
+            { label: '주문 금액', value: '3,000P' },
+            { label: '동시 요청', value: '100건' },
+            { label: '성공', value: '3건', tone: 'primary' },
+            { label: '거절', value: '97건' },
+            { label: '최종 잔액', value: '0P', tone: 'primary' },
+          ],
+        },
+        {
+          type: 'metrics',
+          label: '50 CONCURRENT CHARGES',
+          items: [
+            { label: '충전 금액', value: '1,000P' },
+            { label: '동시 요청', value: '50건' },
+            { label: '반영 금액', value: '+50,000P', tone: 'primary' },
+          ],
+        },
+        {
+          type: 'metrics',
+          label: 'KAFKA EVENT FLOW',
+          items: [
+            { label: '주문 실행', value: '60건', tone: 'dark' },
+            { label: 'Redis 카운트', value: '+60', tone: 'primary' },
+            { label: '롤백 주문', value: '후속 처리 차단' },
+          ],
+        },
+        {
+          type: 'cards',
+          label: '검증 결과 해석',
+          columns: 3,
+          items: [
+            {
+              label: '분산락 검증',
+              text: '9,000P 잔액에서 3,000P 주문 100건을 동시에 요청했을 때\n정확히 3건만 성공하고 최종 잔액이 0P로 유지되는지 확인했습니다.',
+            },
+            {
+              label: '비관락 검증',
+              text: '동일 계정에 1,000P 충전 요청 50건을 동시에 실행해\n기준 잔액에 50,000P가 누락 없이 반영되는지 확인했습니다.',
+            },
+            {
+              label: 'Kafka 경계 검증',
+              text: '커밋된 주문 이벤트만 후속 처리로 이어지고,\nRedis 인기 메뉴 카운트가 주문 수와 맞게 증가하는지 확인했습니다.',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+caseStudies.readys7 = {
+  projectLabel: "Ready's7",
+  description:
+    'Redis Cache로 통합 검색 반복 조회 비용을 줄이고, 데이터 변경 시 캐시 제거 기준을 설계한 백엔드 Case Study입니다.',
+  sections: [
+    {
+      number: '01',
+      id: 'overview',
+      title: 'Overview',
+      navTitle: '개요',
+      navSubtitle: '검색 캐시 설계',
+      lead: '반복 검색 비용을 Redis Cache로 줄이고, 데이터 변경 시 결과 정합성을 맞췄습니다.',
+      content: [
+        {
+          type: 'prose',
+          paragraphs: [
+            '통합 검색은 프로젝트, 카테고리, 스킬, 개발자 데이터를 함께 조회하기 때문에 같은 키워드가 반복될수록 동일한 DB 조회 비용이 계속 발생했습니다.',
+            'Redis Cache로 반복 검색 비용을 줄이고, 데이터 변경 경로에서 검색 캐시를 제거해 오래된 결과가 남지 않도록 구성했습니다.',
+          ],
+        },
+        {
+          type: 'facts',
+          items: [
+            { label: 'ROLE', value: 'Backend' },
+            { label: 'TYPE', value: 'Team Project' },
+            { label: 'PERIOD', value: '2026.03 - 2026.04' },
+            { label: 'DOMAIN', value: '통합 검색, 인증/인가, 고객, 관리자' },
+          ],
+        },
+        {
+          type: 'cards',
+          label: 'IMPLEMENTED SCOPE',
+          columns: 3,
+          items: [
+            {
+              label: '통합 검색 캐시',
+              text: '프로젝트, 카테고리, 스킬, 개발자 데이터를 함께 조회하는 검색 결과를 Redis Cache로 저장했습니다.',
+            },
+            {
+              label: '캐시 키와 TTL',
+              text: 'keyword, page, size를 캐시 키에 포함해 페이지별 결과가 섞이지 않게 하고 TTL은 5분으로 설정했습니다.',
+            },
+            {
+              label: '변경 경로 캐시 제거',
+              text: '데이터 생성, 수정, 삭제 경로에서 검색 캐시를 제거해 오래된 결과가 남지 않도록 처리했습니다.',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '02',
+      id: 'problem',
+      title: 'Problem',
+      navTitle: '검색 문제',
+      navSubtitle: '반복 조회와 오래된 결과',
+      lead: '반복 검색은 느려지고, 데이터 변경 후에는 오래된 결과가 남을 수 있었습니다.',
+      content: [
+        {
+          type: 'cards',
+          columns: 3,
+          items: [
+            {
+              label: '반복 검색 비용',
+              text: '같은 키워드가 반복될 때마다 프로젝트, 카테고리, 스킬, 개발자 조회 비용이 다시 발생했습니다.',
+            },
+            {
+              label: '페이지 결과 분리',
+              text: '키워드가 같아도 page와 size가 다르면 서로 다른 결과이므로 캐시 키에서 구분해야 했습니다.',
+            },
+            {
+              label: '오래된 검색 결과',
+              text: '프로젝트 데이터가 변경된 뒤 기존 캐시가 남아 있으면 사용자가 오래된 검색 결과를 받을 수 있었습니다.',
+            },
+          ],
+        },
+        {
+          type: 'callout',
+          text: '검색 속도만 줄이는 것이 아니라, 반복 조회 비용과 데이터 변경 후 결과 정합성을 함께 고려해야 했습니다.',
+        },
+      ],
+    },
+    {
+      number: '03',
+      id: 'approach',
+      title: 'Approach',
+      navTitle: '접근 방식',
+      navSubtitle: '키와 제거 전략',
+      lead: '검색 조건별 캐시 키와 변경 경로의 캐시 제거 전략을 함께 설계했습니다.',
+      content: [
+        {
+          type: 'approach',
+          steps: ['검색 요청', '캐시 키 생성', 'Cache Hit 확인', 'DB 조회', '결과 캐싱', '데이터 변경', 'Cache Evict'],
+          items: [
+            {
+              label: 'Redis Cache 적용',
+              text: '같은 검색 조건이 반복될 때 DB 조회를 다시 수행하지 않고 캐시된 결과를 반환하도록 구성했습니다.',
+            },
+            {
+              label: 'keyword + page + size',
+              text: '검색어와 페이지 조건을 캐시 키에 포함해 같은 키워드라도 페이지별 결과가 섞이지 않도록 했습니다.',
+              tone: 'primary',
+            },
+            {
+              label: '변경 경로 Cache Evict',
+              text: '생성, 수정, 삭제 경로에서 검색 캐시를 제거해 변경된 데이터가 오래된 캐시에 가려지지 않도록 했습니다.',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '04',
+      id: 'decision',
+      title: 'Decision',
+      navTitle: '핵심 의사결정',
+      navSubtitle: '캐시 기준과 무효화',
+      lead: '반복 조회 비용과 결과 정합성을 기준으로 캐시 전략을 선택했습니다.',
+      content: [
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              id: 'redis-cache',
+              label: 'Redis Cache 선택',
+              title: '반복 검색 결과를 여러 인스턴스가 공유할 수 있도록 Redis Cache를 선택했습니다.',
+              text: '검색 API는 같은 키워드가 반복될 가능성이 높고, 여러 서버 인스턴스가 같은 캐시를 바라봐야 합니다.\n따라서 Local Cache가 아니라 Redis Cache를 사용했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: '반복 조회 감소', text: '같은 조건의 검색 요청은 DB 조회 대신 캐시 결과로 응답하도록 했습니다.' },
+                  { label: '공유 캐시', text: '서버 인스턴스가 늘어나도 동일한 Redis 캐시를 바라볼 수 있게 했습니다.' },
+                  { label: 'TTL 5분', text: '검색 결과가 장시간 남지 않도록 TTL을 5분으로 두었습니다.' },
+                ],
+              },
+              callout: '캐시는 속도 개선 수단이지만, 검색 결과가 오래 남지 않도록 만료 기준도 함께 설정했습니다.',
+              calloutTone: 'soft',
+            },
+            {
+              id: 'cache-key',
+              label: '캐시 키 설계',
+              title: 'keyword, page, size를 캐시 키에 포함했습니다.',
+              text: '같은 키워드라도 페이지 번호와 페이지 크기가 다르면 결과가 달라집니다.\n캐시 키에 keyword, page, size를 함께 넣어 페이지별 결과가 섞이지 않도록 했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: 'keyword', text: '검색어가 달라지면 서로 다른 캐시 항목으로 분리했습니다.' },
+                  { label: 'page', text: '같은 검색어라도 페이지 번호가 다르면 다른 결과로 처리했습니다.' },
+                  { label: 'size', text: '페이지 크기 변경으로 결과 범위가 달라지는 경우도 캐시 키에서 구분했습니다.' },
+                ],
+              },
+              callout: '캐시 키는 검색 조건의 일부가 아니라, 응답 결과를 구분하는 기준으로 설계했습니다.',
+              calloutTone: 'soft',
+            },
+            {
+              id: 'all-entries',
+              label: 'allEntries=true 선택 이유',
+              title: '특정 키 역추적 대신 검색 캐시 전체 제거를 선택했습니다.',
+              text: '프로젝트 데이터 변경이 어떤 검색어와 페이지에 영향을 주는지 역추적하려면 키 관리 복잡도가 커집니다.\n데이터 변경 빈도보다 검색 반복 비용 절감이 더 중요하다고 판단해 변경 경로에서는 검색 캐시 전체를 제거했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: '키 역추적 비용', text: '변경된 프로젝트가 포함될 수 있는 검색어와 페이지 조합을 추적하는 비용이 컸습니다.' },
+                  { label: '전체 제거', text: '@CacheEvict(allEntries=true)로 검색 캐시를 제거해 오래된 결과가 남지 않도록 했습니다.' },
+                  { label: '운영 기준', text: '캐시 적중률보다 데이터 변경 후 결과 신뢰성을 우선한 선택이었습니다.' },
+                ],
+              },
+              callout: '특정 키를 추적하는 대신, 변경 경로에서 오래된 결과가 남지 않도록 검색 캐시 전체 제거를 선택했습니다.',
+              calloutTone: 'soft',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '05',
+      id: 'implementation',
+      title: 'Implementation',
+      navTitle: '구현 포인트',
+      navSubtitle: '검색 캐시와 쿼리',
+      lead: '검색 캐시 적용, 캐시 제거, DTO Projection 쿼리 오류를 구현 단계에서 정리했습니다.',
+      content: [
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              id: 'cacheable',
+              label: '@Cacheable 검색 캐시',
+              title: '통합 검색 결과를 검색 조건 단위로 캐싱했습니다.',
+              text: '검색 요청이 들어오면 keyword, page, size 기반 캐시 키를 만들고, 같은 조건의 반복 요청은 캐시 결과로 응답하도록 구성했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: '검색 대상', text: '프로젝트, 카테고리, 스킬, 개발자 데이터를 함께 조회하는 통합 검색에 캐시를 적용했습니다.' },
+                  { label: '캐시 키', text: 'keyword, page, size를 기준으로 캐시 항목을 분리했습니다.' },
+                  { label: 'TTL', text: '검색 결과는 5분 동안 유지되도록 설정했습니다.' },
+                ],
+              },
+            },
+            {
+              id: 'cache-evict',
+              label: '@CacheEvict 캐시 제거',
+              title: '데이터 변경 경로에서 검색 캐시를 제거했습니다.',
+              text: '프로젝트 생성, 수정, 삭제처럼 검색 결과에 영향을 주는 경로에서 검색 캐시를 제거해 오래된 결과가 남지 않도록 했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: '생성', text: '새 프로젝트가 검색 결과에 포함될 수 있으므로 변경 이후 캐시를 제거했습니다.' },
+                  { label: '수정', text: '제목, 카테고리, 스킬 등 검색 대상 필드가 바뀌는 경우를 고려했습니다.' },
+                  { label: '삭제', text: '삭제된 데이터가 캐시 결과에 남지 않도록 검색 캐시를 제거했습니다.' },
+                ],
+              },
+            },
+            {
+              id: 'dto-projection',
+              label: 'DTO Projection join 오류 해결',
+              title: 'DTO Projection과 fetchJoin 충돌을 일반 join으로 정리했습니다.',
+              text: '검색 결과를 DTO로 바로 조회하는 과정에서 fetchJoin이 맞지 않는 구간이 있어 일반 join으로 변경했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  { label: 'DTO Projection', text: '검색 응답에 필요한 필드만 DTO로 조회하도록 구성했습니다.' },
+                  { label: 'fetchJoin 오류', text: '엔티티 그래프 로딩 목적의 fetchJoin이 DTO 조회와 맞지 않는 구간을 확인했습니다.' },
+                  { label: '일반 join', text: '필요한 조건과 필드 조회만 남기고 일반 join으로 검색 쿼리를 정리했습니다.' },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '06',
+      id: 'result',
+      title: 'Performance Result',
+      navTitle: '성능 검증',
+      navSubtitle: 'k6 비교 결과',
+      lead: '로컬 Docker 환경에서 같은 최대 100 VU 조건으로 캐시 적용 전후를 비교했습니다.',
+      content: [
+        {
+          type: 'metrics',
+          label: 'k6 RAMP-UP SCENARIO',
+          items: [
+            { label: '데이터', value: '50,009건', tone: 'dark' },
+            { label: '최대 VU', value: '100' },
+            { label: '환경', value: 'Local Docker' },
+          ],
+        },
+        {
+          type: 'metrics',
+          label: 'CACHE BEFORE / AFTER',
+          items: [
+            { label: '평균 응답 시간', value: '1,940ms → 3.73ms', tone: 'primary' },
+            { label: '처리량', value: '16.19 TPS → 46.68 TPS', tone: 'primary' },
+          ],
+        },
+        {
+          type: 'callout',
+          text: '같은 최대 100 VU 조건에서 반복 검색 비용을 비교했고, 데이터 변경 시에는 캐시를 제거해 오래된 결과가 남지 않도록 구성했습니다.',
+        },
+      ],
+    },
+  ],
+};
