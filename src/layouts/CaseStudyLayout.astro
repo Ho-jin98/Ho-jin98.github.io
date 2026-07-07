@@ -29,6 +29,28 @@ const splitLead = (lead: string, accent?: string | string[]) => {
     .filter(Boolean)
     .map((text) => ({ text, accent: accents.includes(text) }));
 };
+
+const highlightTerms = [
+  'placeName, placeLat, placeLng',
+  '최종 인증 성공 여부',
+  'Geolocation API',
+  '서버 거리 검증',
+  'Kakao Maps',
+  '서버 검증',
+  '인증 화면',
+  '좌표 흐름',
+];
+
+const highlightPattern = new RegExp(
+  `(${highlightTerms.map((item) => item.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+  'g',
+);
+
+const highlightTextParts = (text: string) =>
+  text
+    .split(highlightPattern)
+    .filter(Boolean)
+    .map((text) => ({ text, highlight: highlightTerms.includes(text) }));
 ---
 
 <BaseLayout
@@ -488,7 +510,13 @@ const splitLead = (lead: string, accent?: string | string[]) => {
                                   data-case-tab-panel
                                 >
                                   <h3>{tab.title}</h3>
-                                  {tab.text && <p class="case-tabs__intro">{tab.text}</p>}
+                                  {tab.text && (
+                                    <p class="case-tabs__intro">
+                                      {highlightTextParts(tab.text).map((part) =>
+                                        part.highlight ? <strong class="case-text-highlight">{part.text}</strong> : part.text,
+                                      )}
+                                    </p>
+                                  )}
 
                                   {tab.featureItems && tab.evidence && (
                                     <div class="case-tab-feature">
@@ -496,7 +524,11 @@ const splitLead = (lead: string, accent?: string | string[]) => {
                                         {tab.featureItems.map((item) => (
                                           <article class:list={[item.tone && `case-story-card--${item.tone}`]}>
                                             <strong>{item.label}</strong>
-                                            <p>{item.text}</p>
+                                            <p>
+                                              {highlightTextParts(item.text).map((part) =>
+                                                part.highlight ? <strong class="case-text-highlight">{part.text}</strong> : part.text,
+                                              )}
+                                            </p>
                                           </article>
                                         ))}
                                       </div>
@@ -556,7 +588,11 @@ const splitLead = (lead: string, accent?: string | string[]) => {
                                         {tab.cards.items.map((item) => (
                                           <article class:list={[item.tone && `case-story-card--${item.tone}`]}>
                                             <span>{item.label}</span>
-                                            <p>{item.text}</p>
+                                            <p>
+                                              {highlightTextParts(item.text).map((part) =>
+                                                part.highlight ? <strong class="case-text-highlight">{part.text}</strong> : part.text,
+                                              )}
+                                            </p>
                                           </article>
                                         ))}
                                       </div>
@@ -599,7 +635,9 @@ const splitLead = (lead: string, accent?: string | string[]) => {
 
                                   {tab.callout && (
                                     <aside class:list={['case-tab-callout', `is-${tab.calloutTone ?? 'dark'}`]}>
-                                      {tab.callout}
+                                      {highlightTextParts(tab.callout).map((part) =>
+                                        part.highlight ? <strong class="case-text-highlight">{part.text}</strong> : part.text,
+                                      )}
                                     </aside>
                                   )}
 

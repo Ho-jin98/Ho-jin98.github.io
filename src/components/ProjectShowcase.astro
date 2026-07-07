@@ -57,10 +57,12 @@ const { project } = Astro.props;
         ))}
       </dl>
 
-      <a class="case-study-link magnetic" href={project.href} data-reveal>
-        <span>프로젝트 자세히 보기</span>
-        <i>→</i>
-      </a>
+      <div class="case-study-link-wrap" data-reveal>
+        <a class="case-study-link magnetic" href={project.href}>
+          <span>프로젝트 자세히 보기</span>
+          <i>→</i>
+        </a>
+      </div>
     </div>
 
     <div class="project-showcase__visual" data-reveal aria-hidden="true">

@@ -323,45 +323,40 @@ export const caseStudies: Record<string, CaseStudyContent> = {
         navTitle: '핵심 의사결정',
         navSubtitle: '주요 결정과 근거',
         lead: 'SVG 프로토타입을\nKakao Maps 기반 GPS 인증으로 전환했습니다.',
-        accent: 'Kakao Maps 기반 GPS 인증',
         content: [
           {
             type: 'tabs',
             tabs: [
               {
-                id: 'svg-reason',
-                label: 'SVG 교체 이유',
-                title: '왜 SVG 원형 지도를 교체했는가',
-                text: 'MVP 단계에서는 SVG 원형 지도로 약속 장소와 현재 위치를 표현했습니다.\n빠른 프로토타이핑에는 충분했지만, 실제 서비스의 장소 인증 기준으로 사용하기에는 한계가 있었습니다.\n\nSVG는 실제 지도 SDK가 아니기 때문에 사용자가 식당이나 건물을 검색해 만남 장소로 지정하기 어려웠고, 화면에 표시된 픽셀 거리도 실제 미터 거리와 일치하지 않았습니다.\n\n결국 장소 검색, 좌표 저장, 인증 화면 표시, 서버 거리 검증까지 이어지는 지도 SDK 기반의 좌표 흐름이 필요했습니다.',
+                id: 'sdk-transition',
+                label: '지도 SDK 전환 판단',
+                title: '왜 지도 SDK로 전환했는가',
+                text: 'MVP 단계에서는 SVG 원형 지도로 인증 흐름을 빠르게 검증했습니다.\n하지만 고도화 단계에서는 사용자가 장소를 검색해 좌표로 저장하고,\n그 좌표를 인증 화면과 서버 거리 검증에서 동일하게 사용하는 구조가 필요했습니다.\n\n따라서 단순 위치 표시용 SVG가 아니라,\n장소 검색 → 좌표 저장 → 지도 표시 → 서버 검증으로 이어지는\n지도 SDK 기반 구조로 전환했습니다.',
                 cards: {
-                  columns: 2,
+                  columns: 3,
                   items: [
                     {
-                      label: '만남 장소 검색이 어려움',
-                      text: 'SVG 원형 지도는 실제 지도 SDK가 아니기 때문에, 사용자가 식당이나 건물을 검색해 만남 장소로 선택하는 흐름을 만들기 어려웠습니다.',
+                      label: '유지한 것',
+                      text: 'Geolocation API와 서버 거리 검증 흐름은 유지했습니다.\n현재 위치를 가져오고, 최종 인증 성공 여부는 서버에서 다시 판단하는 구조는 계속 사용했습니다.',
                     },
                     {
-                      label: '좌표 저장 흐름이 부족함',
-                      text: '게시글 등록 시 선택한 장소의 placeName, placeLat, placeLng를 저장하고, 이후 인증 화면과 서버 검증에서 재사용하는 구조가 필요했습니다.',
+                      label: '교체한 것',
+                      text: 'SVG 원형 지도는 Kakao Maps 기반 지도 화면으로 교체했습니다.\n사용자가 실제 장소와 이동 방향을 이해하고, 약속 장소를 지도 위에서 확인할 수 있게 했습니다.',
                     },
                     {
-                      label: '실제 이동 맥락을 알기 어려움',
-                      text: '고정된 SVG 화면만으로는 사용자가 자신이 실제로 어디에 있는지, 약속 장소까지 어느 방향으로 이동해야 하는지 파악하기 어려웠습니다.',
-                    },
-                    {
-                      label: '서버 거리 검증 기준으로 쓰기 어려움',
-                      text: 'SVG 픽셀 거리는 실제 미터 거리와 일치하지 않아, 인증 성공 여부를 서버 거리 검증 기준으로 연결하기 어려웠습니다.',
+                      label: '연결한 것',
+                      text: '게시글 등록 시 저장한 placeName, placeLat, placeLng를 인증 화면 표시와 서버 거리 검증에서 동일한 기준으로 사용하도록 연결했습니다.',
                     },
                   ],
                 },
-                callout: '따라서 단순 위치 표시가 아니라, 장소 검색 → 좌표 저장 → 지도 표시 → 서버 검증으로 이어지는 구조가 필요했습니다.',
+                callout: '핵심은 지도 화면을 예쁘게 바꾸는 것이 아니라,\n장소 선택부터 서버 검증까지 같은 좌표 흐름으로 이어지게 만드는 것이었습니다.',
                 calloutTone: 'soft',
               },
               {
                 id: 'kakao-choice',
                 label: 'Kakao Maps 선택 이유',
                 title: '왜 Kakao Maps를 선택했는가',
-                text: '지도 SDK는 장소 검색, 지도 표시, 좌표 흐름, 공식 문서, 운영 조건을 기준으로 비교했습니다.\n\nKakao Maps는 장소 검색과 지도 표시를 하나의 SDK 안에서 처리할 수 있어, 게시글 등록부터 GPS 인증 화면까지 같은 좌표 흐름으로 연결하기에 적합했습니다.',
+                text: '지도 SDK는 국내 지도 품질, 무료 사용 범위, 장소 검색, 공식 문서, 보안 방식을 기준으로 비교했습니다.\n\nKakao Maps는 장소 검색과 지도 표시를 하나의 SDK 안에서 처리할 수 있어,\n게시글 등록부터 GPS 인증 화면까지 같은 좌표 흐름으로 연결하기에 적합했습니다.',
                 comparison: {
                   columns: ['Kakao Maps', 'Naver Maps', 'Google Maps'],
                   highlightColumn: 0,
@@ -373,32 +368,8 @@ export const caseStudies: Record<string, CaseStudyContent> = {
                     { label: '보안 방식', values: ['도메인 등록', '클라이언트 ID', 'API 키 제한'] },
                   ],
                 },
-                callout: 'Kakao Maps는 장소 검색과 지도 표시를 같은 SDK 안에서 처리할 수 있어, 게시글 등록부터 GPS 인증 화면까지 하나의 좌표 흐름으로 연결하기에 적합했습니다.',
+                callout: '장소 검색과 지도 표시를 같은 SDK에서 처리할 수 있었기 때문에,\n게시글 등록 → 좌표 저장 → GPS 인증 화면 연결까지 하나의 흐름으로 구성할 수 있었습니다.',
                 calloutTone: 'soft',
-                supportCards: [
-                  {
-                    title: 'SDK 적용 방식 요약',
-                    items: [
-                      { label: 'Places.keywordSearch', value: '장소 검색과 좌표 저장' },
-                      { label: 'Marker', value: '약속 장소 고정 핀 표시' },
-                      { label: 'CustomOverlay', value: '내 위치와 상대방 위치 표시' },
-                      { label: 'useRef', value: '지도 인스턴스와 오버레이 유지' },
-                      { label: 'setPosition', value: '재생성 없이 좌표만 이동' },
-                      { label: 'services · geometry', value: '장소 검색과 거리 계산 기능 연결' },
-                    ],
-                  },
-                  {
-                    title: '서버 최종 검증 정책',
-                    text: '프론트는 사용자가 위치를 이해하고 인증을 요청할 수 있도록 돕고, 최종 인증 성공 여부는 서버에서 다시 판단했습니다.',
-                    items: [
-                      { label: '정책 반경', value: '50m' },
-                      { label: 'GPS 오차', value: '10m 고려' },
-                      { label: '성공 기준', value: '서버 Haversine 기준 60m 이내' },
-                      { label: '인증 시간', value: '약속 10분 전 ~ 10분 후' },
-                      { label: '위치 갱신', value: '5초 주기 API 호출' },
-                    ],
-                  },
-                ],
               },
             ],
           },
@@ -410,84 +381,102 @@ export const caseStudies: Record<string, CaseStudyContent> = {
         title: 'QR Completion',
         navTitle: '구현 포인트',
         navSubtitle: '기능 설계와 구현',
-        lead: 'QR 토큰은 Post 단위로 공유하고, 완료 처리는 Match 단위로 분리했습니다.',
+        lead: 'QR 토큰은 Post 단위로 공유하고,\n완료 상태는 Match 단위로 분리했습니다.',
         accent: ['Post 단위', 'Match 단위'],
         content: [
           {
-            type: 'callout',
-            label: 'GPS 다음의 대면 인증',
-            text: 'GPS가 장소 도착을 확인했다면 QR은 실제 대면 여부를 확인했습니다. 하나의 Post에 여러 Match가 존재하므로 토큰 공유 단위와 완료 처리 단위를 분리했습니다.',
+            type: 'prose',
+            paragraphs: [
+              'GPS 인증 이후 실제 대면 여부를 확인하기 위해 QR 인증 단계를 연결했습니다.',
+              'QR 토큰은 하나의 만남을 나타내는 Post 단위로 공유하고,\n인증 완료 상태와 정산 흐름은 신청자별 Match 단위로 처리했습니다.',
+            ],
           },
           {
             type: 'tabs',
             tabs: [
               {
                 id: 'verification',
-                label: 'QR 대면 인증',
-                title: 'GPS 이후 실제 대면을 확인하는 마지막 인증 단계',
-                text: '등록자만 QR을 표시하고 신청자만 스캔하도록 역할을 나눴습니다. 토큰은 JWT나 Redis가 아닌 DB에 저장하는 UUID 기반 문자열입니다.',
+                label: 'QR 토큰 구현',
+                title: '등록자는 QR을 표시하고, 신청자는 스캔하도록 역할을 분리했습니다.',
+                text: 'QR 인증은 GPS 이후 실제 대면 여부를 확인하는 마지막 인증 단계입니다.\n등록자는 Post 기준 QR을 조회하고, 신청자는 자신의 matchId로 QR을 스캔하도록 구성했습니다.',
                 cards: {
                   columns: 3,
                   items: [
                     {
-                      label: '권한 분리',
-                      text: '등록자만 QR을 표시하고 신청자만 스캔하도록 역할을 나눴습니다.',
-                      tone: 'primary',
+                      label: '역할 분리',
+                      text: '등록자만 QR을 표시하고 신청자만 스캔하도록 역할을 나눴습니다.\n한쪽의 버튼 클릭만으로 만남 완료가 처리되지 않도록 했습니다.',
                     },
                     {
                       label: '토큰 저장',
-                      text: 'hp_qr_ 접두사와 UUID 기반 문자열을 meet_verifications.qr_token 컬럼에 저장했습니다.',
+                      text: 'hp_qr_ 접두사와 UUID 기반 문자열을 생성해\nmeet_verifications.qr_token 컬럼에 저장했습니다.\nJWT나 Redis 토큰이 아니라 DB에 저장되는 만남 인증용 토큰입니다.',
                     },
                     {
-                      label: '변경 감지와 만료',
-                      text: '트랜잭션 안에서 엔티티를 수정해 JPA 변경 감지로 반영했으며, 만료 시간은 코드 기준 10분입니다.',
+                      label: '만료 기준',
+                      text: 'QR 토큰은 코드 기준 10분 동안 유효하도록 처리했습니다.\n트랜잭션 안에서 엔티티를 수정하고 JPA 변경 감지로 반영했습니다.',
                     },
                   ],
                 },
+                callout: 'QR은 단순 화면 기능이 아니라, GPS 이후 실제 대면 여부를 확인하는 인증 단계로 연결했습니다.',
+                calloutTone: 'soft',
               },
               {
                 id: 'unit-separation',
-                label: 'Match/Post 분리',
-                title: '문제의 원인은 토큰 공유 단위와 완료 단위가 섞여 있던 것이었습니다.',
-                text: '초기 1:1 로직에서는 첫 신청자의 인증과 함께 Post까지 완료되어 나머지 신청자가 인증하지 못했습니다. 토큰은 하나의 만남을 나타내므로 Post 단위로 공유하되, 완료는 신청자별 Match 단위로 분리했습니다.',
-                hierarchy: {
-                  parent: 'Post · 공통 QR Token',
+                label: 'Match/Post 완료 분리',
+                title: '신청자별 완료와 전체 만남 완료 기준을 분리했습니다.',
+                text: '하나의 Post에는 여러 Match가 존재할 수 있으므로, QR 토큰 공유 단위와 완료 처리 단위를 다르게 가져갔습니다.\n토큰은 Post 단위로 공유하고, 인증 완료와 책임비 처리는 신청자별 Match 단위로 처리했습니다.',
+                cards: {
+                  columns: 3,
                   items: [
-                    { label: 'Match A', value: 'DONE', tone: 'complete' },
-                    { label: 'Match B', value: 'PENDING', tone: 'pending' },
-                    { label: 'Match C', value: 'PENDING', tone: 'pending' },
+                    {
+                      label: 'Post 단위 QR',
+                      text: '같은 게시글에 속한 참여자들이 하나의 QR 토큰을 공유하도록 Post 기준 QR 조회 API를 사용했습니다.\n등록자는 공통 QR을 표시합니다.',
+                    },
+                    {
+                      label: 'Match 단위 완료',
+                      text: 'QR을 스캔한 신청자의 MeetVerification과 Match만 완료 처리했습니다.\n한 신청자의 인증이 다른 신청자의 상태를 바꾸지 않도록 분리했습니다.',
+                    },
+                    {
+                      label: '전체 완료 조건',
+                      text: '모든 완료 대상 Match가 끝났을 때만 Post를 COMPLETE 처리했습니다.\n노쇼 대상 Match는 전체 완료 대기 대상에서 제외했습니다.',
+                    },
                   ],
-                  footer: '각 신청자는 자신의 MeetVerification과 Match만 완료합니다. 조회에는 MATCHED와 COMPLETED를 함께 포함해 먼저 인증을 마친 신청자도 등록자 화면에 유지하고, GUEST_NO_SHOW를 제외한 마지막 완료 대상이 끝났을 때만 Post를 COMPLETE 처리했습니다.',
                 },
+                callout: '공유 단위는 Post, 완료 단위는 Match로 분리해 그룹 매칭에서도 인증 흐름이 끊기지 않도록 했습니다.',
+                calloutTone: 'soft',
               },
               {
                 id: 'completion-flow',
                 label: '완료 처리 흐름',
-                title: '인증 완료와 후속 실행의 경계를 나눴습니다.',
+                title: 'QR 성공 이후 상태 변경과 완료 처리 흐름을 연결했습니다.',
                 flow: [
                   'QR 스캔',
                   'Verification DONE',
                   '위치 데이터 삭제',
-                  'Match COMPLETED',
+                  'Match 완료',
                   '신청자 책임비 반환',
-                  '마지막 완료 대상 확인',
-                  'Post COMPLETE',
+                  '완료 대상 Match 확인',
+                  'Post 완료',
                   '등록자 책임비 반환',
                 ],
                 cards: {
-                  columns: 2,
+                  columns: 3,
                   items: [
                     {
                       label: 'DB 트랜잭션',
-                      text: '인증 상태, Match 상태, 위치 삭제와 신청자 책임비 반환을 함께 처리했습니다.',
-                      tone: 'primary',
+                      text: '인증 상태 변경, Match 완료, 위치 데이터 삭제, 신청자 책임비 반환을 같은 처리 흐름 안에서 관리했습니다.',
                     },
                     {
-                      label: '후속 실행 흐름',
-                      text: '알림 예약 정리, 후기 알림, 완료 알림과 채팅방 비활성화 예약은 같은 실행 흐름에 있지만 DB 트랜잭션과 원자적으로 묶이지 않습니다.',
+                      label: '책임비 반환',
+                      text: 'QR 성공 이후 신청자 책임비 반환까지 같은 완료 처리 흐름으로 이어지도록 구성했습니다.',
+                    },
+                    {
+                      label: '멱등 처리',
+                      text: '이미 완료된 Match나 Post가 중복 처리되지 않도록 완료 기준을 분리하고 상태를 확인했습니다.',
                     },
                   ],
                 },
+                callout: 'QR 인증 성공이 화면에서 끝나지 않고,\nMatch 완료와 위치 데이터 삭제, 책임비 반환까지 이어지도록 구현했습니다.',
+                calloutTone: 'soft',
               },
             ],
           },
@@ -499,14 +488,13 @@ export const caseStudies: Record<string, CaseStudyContent> = {
         title: 'Demo',
         navTitle: '시연 영상',
         navSubtitle: '동작 흐름 확인',
-        lead: '서비스의 주요 흐름이 실제 화면에서 어떻게 이어지는지 확인할 수 있습니다.',
-        accent: ['서비스의 주요 흐름', '실제 화면'],
+        lead: '서비스의 주요 흐름을 확인할 수 있습니다.',
         content: [
           {
             type: 'prose',
             paragraphs: [
-              '아래 영상에서는 한끼팟의 주요 사용자 흐름과 실제 화면 전환을 확인할 수 있습니다.',
-              '게시글 작성과 매칭, 채팅, 장소 인증, QR 인증, 만남 완료까지 서비스가 어떤 흐름으로 이어지는지 보여줍니다.',
+              '아래 영상에서는 한끼팟의 주요 기능과 실제 화면 전환을 확인할 수 있습니다.',
+              '게시글 작성, 매칭, 채팅, 장소 인증, QR 인증, 만남 완료 화면이 서비스 안에서 어떻게 동작하는지 보여줍니다.',
             ],
           },
           {
@@ -516,26 +504,6 @@ export const caseStudies: Record<string, CaseStudyContent> = {
             mimeType: 'video/mp4',
             title: '한끼팟 주요 사용 흐름 시연',
             description: '게시글 작성과 매칭부터 채팅, 만남 인증과 완료까지 이어지는 흐름입니다.',
-          },
-          {
-            type: 'cards',
-            label: '영상에서 확인할 흐름',
-            columns: 3,
-            items: [
-              {
-                label: '매칭 흐름',
-                text: '게시글 작성과 신청을 통해 식사팟이 생성되는 흐름을 확인합니다.',
-              },
-              {
-                label: '실시간 소통',
-                text: '매칭 이후 채팅을 통해 만남 정보를 조율하는 흐름을 확인합니다.',
-                tone: 'primary',
-              },
-              {
-                label: '만남 인증',
-                text: '장소 인증과 QR 인증을 거쳐 만남 완료로 이어지는 흐름을 확인합니다.',
-              },
-            ],
           },
         ],
       },

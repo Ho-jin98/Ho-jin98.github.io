@@ -247,8 +247,9 @@ import { profile, projects } from '../data/portfolio';
       element.addEventListener('pointermove', (event) => {
         if (reducedMotion.matches) return;
         const rect = element.getBoundingClientRect();
-        const x = (event.clientX - rect.left - rect.width / 2) * 0.12;
-        const y = (event.clientY - rect.top - rect.height / 2) * 0.12;
+        const strength = Number(element.dataset.magneticStrength ?? 0.12);
+        const x = (event.clientX - rect.left - rect.width / 2) * strength;
+        const y = (event.clientY - rect.top - rect.height / 2) * strength;
         element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       });
       element.addEventListener('pointerleave', () => {
