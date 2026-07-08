@@ -103,28 +103,8 @@ const highlightTextParts = (text: string) =>
           </div>
         )}
         <p>{project.slug === 'hankkipot' || project.slug === 'k-server' ? '프로젝트 단계' : 'Case Study'}</p>
-        {project.slug === 'k-server' ? (
-          <div class="case-study__toc-steps">
-            {caseStudy.sections.map((section, index) => (
-              <a
-                href={`#${section.id}`}
-                class={index === 0 ? 'is-active' : undefined}
-                data-toc-link
-              >
-                <span>{section.number}</span>
-                {section.navSubtitle ? (
-                  <span class="case-study__toc-label">
-                    <strong>{section.navTitle}</strong>
-                    <small>{section.navSubtitle}</small>
-                  </span>
-                ) : (
-                  section.navTitle
-                )}
-              </a>
-            ))}
-          </div>
-        ) : (
-          caseStudy.sections.map((section, index) => (
+        <div class="case-study__toc-steps">
+          {caseStudy.sections.map((section, index) => (
             <a
               href={`#${section.id}`}
               class={index === 0 ? 'is-active' : undefined}
@@ -140,8 +120,8 @@ const highlightTextParts = (text: string) =>
                 section.navTitle
               )}
             </a>
-          ))
-        )}
+          ))}
+        </div>
         {project.slug === 'hankkipot' && (
           <a
             class="case-study__github magnetic"
