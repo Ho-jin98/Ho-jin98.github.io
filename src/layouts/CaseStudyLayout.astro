@@ -65,13 +65,13 @@ const highlightTextParts = (text: string) =>
   <main
     class:list={['case-study', `case-study--${project.slug}`]}
     data-case-deck
-    data-scroll-mode={project.slug === 'hankkipot' ? 'chapter' : 'section'}
+    data-scroll-mode={project.slug === 'hankkipot' || project.slug === 'k-server' ? 'chapter' : 'section'}
   >
     <h1 class="sr-only">{project.title} 케이스 스터디</h1>
 
     <div class="case-study__body">
       <nav class="case-study__toc" aria-label={`${project.title} 케이스 스터디 목차`}>
-        <a class:list={['case-study__back', project.slug === 'hankkipot' && 'magnetic']} href={`/#${project.slug}`}>← 프로젝트 목록으로</a>
+        <a class:list={['case-study__back', (project.slug === 'hankkipot' || project.slug === 'k-server') && 'magnetic']} href={`/#${project.slug}`}>← 프로젝트 목록으로</a>
         {project.slug === 'hankkipot' && (
           <div class="case-study__project">
             <div class="case-study__project-logo" aria-hidden="true">
@@ -103,7 +103,27 @@ const highlightTextParts = (text: string) =>
           </div>
         )}
         <p>{project.slug === 'hankkipot' || project.slug === 'k-server' ? '프로젝트 단계' : 'Case Study'}</p>
-        {
+        {project.slug === 'k-server' ? (
+          <div class="case-study__toc-steps">
+            {caseStudy.sections.map((section, index) => (
+              <a
+                href={`#${section.id}`}
+                class={index === 0 ? 'is-active' : undefined}
+                data-toc-link
+              >
+                <span>{section.number}</span>
+                {section.navSubtitle ? (
+                  <span class="case-study__toc-label">
+                    <strong>{section.navTitle}</strong>
+                    <small>{section.navSubtitle}</small>
+                  </span>
+                ) : (
+                  section.navTitle
+                )}
+              </a>
+            ))}
+          </div>
+        ) : (
           caseStudy.sections.map((section, index) => (
             <a
               href={`#${section.id}`}
@@ -121,7 +141,7 @@ const highlightTextParts = (text: string) =>
               )}
             </a>
           ))
-        }
+        )}
         {project.slug === 'hankkipot' && (
           <a
             class="case-study__github magnetic"
@@ -131,6 +151,20 @@ const highlightTextParts = (text: string) =>
           >
             <span class="case-study__github-text">
               <span>한끼팟</span>
+              <span>GITHUB 보러가기</span>
+            </span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        )}
+        {project.slug === 'k-server' && (
+          <a
+            class="case-study__github case-study__github--compact magnetic"
+            href="https://github.com/Ho-jin98/k-server-project"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="case-study__github-text">
+              <span>K-Server</span>
               <span>GITHUB 보러가기</span>
             </span>
             <span aria-hidden="true">↗</span>
@@ -305,7 +339,7 @@ const highlightTextParts = (text: string) =>
                           {block.type === 'approach' && (
                             <div class="case-approach">
                               <div class="case-approach__timeline">
-                                <span>인증 흐름</span>
+                                <span>{project.slug === 'k-server' ? '처리 흐름' : '인증 흐름'}</span>
                                 <ol>
                                   {block.steps.map((step, stepIndex) => (
                                     <li>
@@ -512,6 +546,33 @@ const highlightTextParts = (text: string) =>
                             </div>
                           )}
 
+                          {block.type === 'proofs' && (
+                            <div class="case-content-group case-proof-summary" data-block-label={block.label}>
+                              {block.label && <h3>{block.label}</h3>}
+                              <div class="case-proof-grid">
+                                {block.items.map((item) => (
+                                  <article>
+                                    <figure>
+                                      <img src={item.image.src} alt={item.image.alt} loading="lazy" />
+                                    </figure>
+                                    <div>
+                                      <h4>{item.title}</h4>
+                                      <p>{item.text}</p>
+                                      <dl>
+                                        {item.items.map((fact) => (
+                                          <div>
+                                            <dt>{fact.label}</dt>
+                                            <dd>{fact.value}</dd>
+                                          </div>
+                                        ))}
+                                      </dl>
+                                    </div>
+                                  </article>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
                           {block.type === 'hierarchy' && (
                             <div class="case-hierarchy">
                               {block.label && <span class="case-hierarchy__label">{block.label}</span>}
@@ -534,7 +595,7 @@ const highlightTextParts = (text: string) =>
                                 {block.tabs.map((tab, tabIndex) => (
                                   <button
                                     id={`${section.id}-${tab.id}-tab`}
-                                    class:list={[(project.slug === 'hankkipot' || project.slug === 'readys7') && 'magnetic']}
+                                    class:list={[project.slug === 'readys7' && 'magnetic']}
                                     type="button"
                                     role="tab"
                                     aria-controls={`${section.id}-${tab.id}-panel`}
@@ -693,6 +754,11 @@ const highlightTextParts = (text: string) =>
                                     <div class="case-tab-support">
                                       {tab.supportCards.map((support) => (
                                         <article>
+                                          {support.image && (
+                                            <figure class="case-tab-support__image">
+                                              <img src={support.image.src} alt={support.image.alt} loading="lazy" />
+                                            </figure>
+                                          )}
                                           <h4>{support.title}</h4>
                                           {support.text && <p>{support.text}</p>}
                                           <dl>
@@ -718,6 +784,11 @@ const highlightTextParts = (text: string) =>
                                           </summary>
                                           <div class="case-accordion__body">
                                             {item.text && <p>{item.text}</p>}
+                                            {item.image && (
+                                              <figure class="case-accordion__image">
+                                                <img src={item.image.src} alt={item.image.alt} loading="lazy" />
+                                              </figure>
+                                            )}
                                             {item.cards && (
                                               <div class="case-accordion__cards">
                                                 {item.cards.map((card) => (

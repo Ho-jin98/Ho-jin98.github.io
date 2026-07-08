@@ -58,12 +58,20 @@ export interface CaseStudyTab {
   accordions?: {
     title: string;
     text?: string;
+    image?: {
+      src: string;
+      alt: string;
+    };
     cards?: CaseStudyBlock[];
     facts?: CaseStudyFact[];
   }[];
   supportCards?: {
     title: string;
     text?: string;
+    image?: {
+      src: string;
+      alt: string;
+    };
     items: CaseStudyFact[];
   }[];
 }
@@ -166,6 +174,19 @@ export type CaseStudyContentBlock =
       type: 'evidence';
       label?: string;
       items: CaseStudyEvidence[];
+    }
+  | {
+      type: 'proofs';
+      label?: string;
+      items: {
+        title: string;
+        text: string;
+        image: {
+          src: string;
+          alt: string;
+        };
+        items: CaseStudyFact[];
+      }[];
     }
   | {
       type: 'hierarchy';
@@ -1326,48 +1347,61 @@ export const caseStudies: Record<string, CaseStudyContent> = {
 caseStudies['k-server'] = {
   projectLabel: 'K-server',
   description:
-    '다중 인스턴스 주문 환경에서 포인트 정합성과 Kafka 후속 이벤트 흐름을 분리해 검증한 백엔드 Case Study입니다.',
+    'Redis 분산락, DB 비관락, AFTER_COMMIT Kafka 발행, Consumer DLT, k6 검증으로 커피 주문 흐름의 정합성과 이벤트 경계를 확인한 백엔드 Case Study입니다.',
   sections: [
     {
       number: '01',
       id: 'overview',
       title: 'Overview',
       navTitle: '개요',
-      navSubtitle: '정합성 중심 설계',
-      lead: '다중 인스턴스 주문 환경에서\n포인트 정합성과 이벤트 흐름을 검증했습니다.',
+      navSubtitle: '정합성 검증 요약',
+      lead: 'Redis와 Kafka를 커피 주문 흐름에 적용해\n주문 정합성과 후속 처리 경계를 분리했습니다.',
       content: [
         {
           type: 'prose',
           paragraphs: [
-            '동일 사용자의 주문, 충전, 취소 요청이 동시에 들어와도 포인트 잔액과 거래 이력이 어긋나지 않도록 처리했습니다.',
-            'Redis 분산락과 DB 비관락으로 포인트 변경 경합을 제어하고, DB 커밋 이후에만 Kafka 이벤트가 발행되도록 후속 처리 경계를 분리했습니다.',
-          ],
-        },
-        {
-          type: 'facts',
-          items: [
-            { label: '역할', value: 'Solo Backend' },
-            { label: '프로젝트 유형', value: 'Personal Project' },
-            { label: '기간', value: '2026.04 - 2026.05' },
-            { label: '서비스', value: '다중 인스턴스 환경을 가정한 커피숍 주문 시스템' },
+            '커피 주문 시스템에서 동일 사용자의 동시 주문, 포인트 충전, 주문 완료 후 인기 메뉴 집계 흐름을 분리해 구현했습니다.',
+            '동일 사용자의 주문 요청은 Redis 분산락으로 먼저 직렬화하고, 실제 포인트 변경은 DB 비관락으로 다시 확인했습니다.',
+            '주문 저장 트랜잭션이 커밋된 이후에만 Kafka 이벤트가 발행되도록 분리해, 롤백된 주문이 후속 처리로 넘어가지 않도록 구성했습니다.',
           ],
         },
         {
           type: 'cards',
-          label: '구현 범위',
+          label: '핵심 구현 결과',
           columns: 3,
           items: [
             {
-              label: '주문 동시성 제어',
-              text: '동일 사용자 주문 요청을 Redis 분산락으로 직렬화하고,\n트랜잭션 내부에서는 DB 비관락으로 포인트 잔액을 검증했습니다.',
+              label: '주문 정합성',
+              text: '동일 사용자의 동시 주문 요청이 잔액을 초과해 성공하지 않도록 처리했습니다.\n\n- 사용자 단위 Redis 분산락으로 주문 진입 순서 제어\n- 주문 트랜잭션 내부에서 DB 기준 잔액 재확인\n- 잔액 부족 주문은 거절하고 성공 가능한 주문만 저장\n\n결과: 100건 요청 / 3건 성공 / 97건 거절 / 최종 잔액 0P',
+              tone: 'primary',
             },
             {
-              label: '트랜잭션 경계 분리',
-              text: 'Facade는 분산락을 담당하고,\nService는 주문 트랜잭션을 담당하도록 책임을 나눴습니다.',
+              label: '포인트 변경 정합성',
+              text: '충전, 주문, 취소가 같은 포인트 기준과 거래 이력을 사용하도록 처리했습니다.\n\n- 포인트 변경은 User point row 기준으로 처리\n- PointHistory와 최종 잔액이 함께 맞도록 관리\n- 동시 충전 요청에서도 기대 잔액과 실제 잔액 일치 확인\n\n결과: 50건 충전 / +50,000P 반영 / deadlock 0건',
             },
             {
-              label: 'Kafka 후속 처리',
-              text: 'DB 커밋 이후에만 Kafka 이벤트가 발행되도록 분리해\n롤백 주문이 후속 처리로 넘어가지 않게 했습니다.',
+              label: 'Kafka 후속 처리 경계',
+              text: '주문 트랜잭션이 커밋된 이후에만 Kafka 이벤트가 발행되도록 분리했습니다.\n\n- OrderService 내부에서는 Kafka를 직접 호출하지 않음\n- AFTER_COMMIT 리스너에서 Kafka Producer 호출\n- Consumer는 커밋된 주문 이벤트 기준으로 인기 메뉴 카운트 갱신\n\n결과: 주문 이벤트 60건 / Redis 카운트 +60 / 실패 메시지 DLT 격리',
+            },
+          ],
+        },
+        {
+          type: 'cards',
+          label: '최종 처리 구조',
+          columns: 3,
+          items: [
+            {
+              label: 'Redis 분산락',
+              text: '요청 진입 제어\n\n동일 사용자 주문 요청이 동시에 트랜잭션에 진입하지 않도록 앞단에서 순서를 제어했습니다.',
+            },
+            {
+              label: 'DB 비관락',
+              text: '포인트 변경 정합성 확인\n\n실제 포인트 잔액과 거래 이력의 최종 정합성을 트랜잭션 내부에서 확인했습니다.',
+              tone: 'primary',
+            },
+            {
+              label: 'AFTER_COMMIT + Kafka',
+              text: '커밋된 주문만 후속 처리\n\nDB 커밋 이후에만 주문 이벤트를 발행해 커밋된 주문만 후속 처리로 연결했습니다.',
             },
           ],
         },
@@ -1376,295 +1410,18 @@ caseStudies['k-server'] = {
     {
       number: '02',
       id: 'problem',
-      title: 'Problem',
-      navTitle: '동시성 문제',
-      navSubtitle: '포인트 경합과 이벤트',
-      lead: '동시 주문과 후속 이벤트가 포인트 정합성을 깨뜨릴 수 있었습니다.',
-      content: [
-        {
-          type: 'cards',
-          columns: 3,
-          items: [
-            {
-              label: '동일 사용자 주문 경합',
-              text: '같은 사용자의 주문이 동시에 들어오면 잔액 차감이 중복되거나 갱신이 누락될 수 있었습니다.',
-            },
-            {
-              label: '공통 잔액 변경',
-              text: '주문, 충전, 취소가 모두 같은 포인트 잔액을 변경하므로 처리 기준이 일관돼야 했습니다.',
-            },
-            {
-              label: '롤백 주문 이벤트',
-              text: 'DB에서 롤백된 주문이 Kafka 후속 처리로 넘어가면 인기 메뉴 집계가 실제 주문과 달라질 수 있었습니다.',
-            },
-          ],
-        },
-        {
-          type: 'callout',
-          text: '핵심은 락을 하나 더 쓰는 것이 아니라, 사용자 단위 요청 직렬화와 트랜잭션 내부 정합성 검증, 이벤트 발행 시점을 분리하는 것이었습니다.',
-        },
-      ],
-    },
-    {
-      number: '03',
-      id: 'approach',
-      title: 'Approach',
-      navTitle: '접근 방식',
-      navSubtitle: '락과 트랜잭션 분리',
-      lead: '락, 트랜잭션, 이벤트 발행 시점을 역할별로 분리했습니다.',
-      content: [
-        {
-          type: 'approach',
-          steps: ['요청 진입', 'Redis 분산락', 'Service 트랜잭션', 'DB 비관락', 'DB Commit', 'AFTER_COMMIT', 'Kafka 처리'],
-          items: [
-            {
-              label: 'Redis 분산락',
-              text: '다중 인스턴스 환경에서 동일 사용자의 주문 요청이 동시에 처리되지 않도록 사용자 단위 요청을 직렬화했습니다.',
-            },
-            {
-              label: 'DB 비관락',
-              text: '주문, 충전, 취소 트랜잭션 내부에서 포인트 잔액을 다시 확인해 거래 이력과 잔액이 함께 맞도록 처리했습니다.',
-              tone: 'primary',
-            },
-            {
-              label: 'AFTER_COMMIT 이벤트',
-              text: '주문 트랜잭션이 커밋된 이후에만 Kafka 이벤트가 발행되도록 분리해 롤백 주문의 후속 처리를 차단했습니다.',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      number: '04',
-      id: 'decision',
-      title: 'Decision',
-      navTitle: '핵심 의사결정',
-      navSubtitle: '기술 선택과 책임 분리',
-      lead: '포인트 정합성과 이벤트 신뢰성을 기준으로 처리 경계를 나눴습니다.',
-      content: [
-        {
-          type: 'tabs',
-          tabs: [
-            {
-              id: 'lock-strategy',
-              label: 'Redis 분산락 + DB 비관락',
-              title: '분산 환경 직렬화와 트랜잭션 내부 검증을 함께 사용했습니다.',
-              text: 'Redis 분산락은 여러 인스턴스로 들어오는 동일 사용자 요청을 먼저 직렬화합니다.\nDB 비관락은 실제 포인트 변경 트랜잭션 안에서 잔액과 거래 이력을 다시 검증하는 기준으로 사용했습니다.',
-              cards: {
-                columns: 3,
-                items: [
-                  { label: 'Redis 분산락', text: '사용자 단위 요청을 먼저 묶어 같은 사용자의 주문이 동시에 통과하지 않도록 했습니다.' },
-                  { label: 'DB 비관락', text: '잔액 차감, 충전, 취소처럼 같은 포인트 row를 변경하는 흐름에서 최종 정합성을 확인했습니다.' },
-                  { label: '적용 기준', text: '주문 생성은 분산락과 DB 비관락을 함께 사용하고, 충전과 취소는 DB 비관락 중심으로 처리했습니다.' },
-                ],
-              },
-              callout: '분산락은 진입 순서를 제어하고, DB 락은 트랜잭션 내부의 포인트 정합성을 확인하는 역할로 나눴습니다.',
-              calloutTone: 'soft',
-            },
-            {
-              id: 'facade-service',
-              label: 'Facade / Service 책임 분리',
-              title: '락 책임과 주문 트랜잭션 책임을 분리했습니다.',
-              text: 'Facade는 Redis 분산락의 획득과 해제를 담당하고, Service는 주문 생성과 포인트 변경 트랜잭션을 담당했습니다.',
-              cards: {
-                columns: 3,
-                items: [
-                  { label: 'Facade', text: '분산락 키 생성, 락 획득, Service 호출, 락 해제 경계를 담당했습니다.' },
-                  { label: 'Service', text: '포인트 잔액 검증, 차감, 거래 이력 저장, 주문 저장을 하나의 DB 처리 흐름으로 관리했습니다.' },
-                  { label: '경계', text: 'DB 커밋 이전에 락이 풀리지 않도록 트랜잭션과 락 해제 시점을 분리해 관리했습니다.' },
-                ],
-              },
-              callout: '락과 트랜잭션을 같은 메서드에 섞지 않고, 실패 위치를 추적하기 쉬운 책임 구조로 나눴습니다.',
-              calloutTone: 'soft',
-            },
-            {
-              id: 'after-commit',
-              label: 'AFTER_COMMIT 이벤트 발행',
-              title: 'DB 커밋 이후에만 Kafka 이벤트가 발행되도록 분리했습니다.',
-              text: 'OrderService는 내부 이벤트만 발행하고, Kafka Producer 호출은 AFTER_COMMIT 리스너에서 수행하도록 분리했습니다.',
-              cards: {
-                columns: 3,
-                items: [
-                  { label: '커밋 이전', text: '주문 저장과 포인트 차감이 DB 트랜잭션 안에서 처리됩니다.' },
-                  { label: '커밋 이후', text: '커밋이 완료된 주문만 Kafka 이벤트 발행 대상으로 넘어갑니다.' },
-                  { label: '롤백 주문 차단', text: 'DB에서 롤백된 주문은 인기 메뉴 집계나 주문 후속 처리로 전달되지 않게 했습니다.' },
-                ],
-              },
-              callout: 'Kafka와 DB를 하나의 트랜잭션으로 묶지 않고, DB 커밋 이후 후속 이벤트가 실행되도록 경계를 분리했습니다.',
-              calloutTone: 'soft',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      number: '05',
-      id: 'implementation',
-      title: 'Implementation',
-      navTitle: '구현 포인트',
-      navSubtitle: '주문과 이벤트 처리',
-      lead: '주문 처리, 포인트 변경, Kafka 후속 처리를 각각의 책임으로 구현했습니다.',
-      content: [
-        {
-          type: 'tabs',
-          tabs: [
-            {
-              id: 'order-concurrency',
-              label: '주문 동시성 처리',
-              title: '동일 사용자 주문 요청을 사용자 단위로 직렬화했습니다.',
-              text: '주문 요청은 Facade에서 사용자 기준 Redis 분산락을 먼저 획득한 뒤 Service 트랜잭션으로 진입하도록 구성했습니다.',
-              flow: ['주문 요청', 'lock:order:{userId}', 'Redis 분산락 획득', 'OrderService 호출', 'DB 비관락 조회', '잔액 검증', '주문 저장', '락 해제'],
-              cards: {
-                columns: 3,
-                items: [
-                  { label: '락 키', text: '동일 사용자의 주문 요청이 같은 락 키를 바라보도록 사용자 단위 키를 사용했습니다.' },
-                  { label: '트랜잭션 진입', text: '락 획득 이후에 주문 Service를 호출해 포인트 변경 흐름이 순차적으로 실행되게 했습니다.' },
-                  { label: '실패 처리', text: '잔액 부족 주문은 저장되지 않고 거절되며, 포인트 잔액은 음수로 내려가지 않도록 검증했습니다.' },
-                ],
-              },
-            },
-            {
-              id: 'point-flow',
-              label: '포인트 변경 흐름',
-              title: '주문, 충전, 취소가 같은 잔액 기준을 사용하도록 처리했습니다.',
-              text: '포인트 잔액을 변경하는 기능은 거래 이력과 잔액이 함께 맞는지 확인하는 흐름으로 구성했습니다.',
-              cards: {
-                columns: 3,
-                items: [
-                  { label: '주문', text: '잔액 확인, 포인트 차감, 거래 이력 저장, 주문 저장을 같은 처리 흐름에서 관리했습니다.' },
-                  { label: '충전', text: '동일 계정 충전 요청이 동시에 들어와도 기준 잔액에 요청 수만큼 누락 없이 반영되도록 검증했습니다.' },
-                  { label: '취소', text: '주문 취소 시 포인트 복구와 거래 이력이 함께 맞도록 DB 비관락 기준으로 처리했습니다.' },
-                ],
-              },
-              callout: '포인트는 단순 숫자 변경이 아니라 잔액, 거래 이력, 주문 상태가 함께 맞아야 하는 도메인으로 다뤘습니다.',
-              calloutTone: 'soft',
-            },
-            {
-              id: 'kafka-processing',
-              label: 'Kafka 후속 처리',
-              title: '커밋된 주문만 Kafka 후속 처리로 이어지도록 구성했습니다.',
-              text: 'Kafka Consumer는 커밋 이후 발행된 주문 이벤트만 받아 주문 후속 처리와 Redis 인기 메뉴 카운트를 갱신합니다.',
-              cards: {
-                columns: 3,
-                items: [
-                  { label: 'Producer 경계', text: 'OrderService 내부에서 Kafka를 직접 호출하지 않고 AFTER_COMMIT 리스너에서 발행했습니다.' },
-                  { label: 'Consumer 처리', text: '커밋된 주문 이벤트를 기준으로 주문 후속 처리와 Redis 인기 메뉴 카운트를 갱신했습니다.' },
-                  { label: '재시도 / DLT', text: '반복 실패 메시지는 재시도 이후 DLT로 이동하도록 구성해 실패 메시지를 추적할 수 있게 했습니다.' },
-                ],
-              },
-            },
-          ],
-        },
-      ],
-    },
-    {
-      number: '06',
-      id: 'result',
-      title: 'Verification Result',
-      navTitle: '검증 결과',
-      navSubtitle: '동시 요청과 이벤트 검증',
-      lead: '동일 조건의 동시 요청과 이벤트 처리 결과로 설계가 동작하는지 확인했습니다.',
-      content: [
-        {
-          type: 'metrics',
-          label: '100 CONCURRENT ORDERS',
-          items: [
-            { label: '초기 잔액', value: '9,000P', tone: 'dark' },
-            { label: '주문 금액', value: '3,000P' },
-            { label: '동시 요청', value: '100건' },
-            { label: '성공', value: '3건', tone: 'primary' },
-            { label: '거절', value: '97건' },
-            { label: '최종 잔액', value: '0P', tone: 'primary' },
-          ],
-        },
-        {
-          type: 'metrics',
-          label: '50 CONCURRENT CHARGES',
-          items: [
-            { label: '충전 금액', value: '1,000P' },
-            { label: '동시 요청', value: '50건' },
-            { label: '반영 금액', value: '+50,000P', tone: 'primary' },
-          ],
-        },
-        {
-          type: 'metrics',
-          label: 'KAFKA EVENT FLOW',
-          items: [
-            { label: '주문 실행', value: '60건', tone: 'dark' },
-            { label: 'Redis 카운트', value: '+60', tone: 'primary' },
-            { label: '롤백 주문', value: '후속 처리 차단' },
-          ],
-        },
-      ],
-    },
-  ],
-};
-
-caseStudies['k-server'] = {
-  projectLabel: 'K-server',
-  description:
-    'Redis와 Kafka를 커피 주문 시스템의 주문, 포인트, 인기메뉴 흐름에 적용해 락, 트랜잭션, 이벤트 발행 경계를 검증한 개인 백엔드 Case Study입니다.',
-  sections: [
-    {
-      number: '01',
-      id: 'overview',
-      title: 'Overview',
-      navTitle: '개요',
-      navSubtitle: '학습과 검증 흐름',
-      lead: 'Redis와 Kafka를 주문·포인트 흐름에 적용해\n정합성과 이벤트 경계를 검증했습니다.',
+      title: 'Problem Context',
+      navTitle: '문제 배경',
+      navSubtitle: '다중 인스턴스와 포인트 경합',
+      lead: '다중 인스턴스 상황을 가정하면\n단순 주문 API만으로는 정합성을 설명하기 어려웠습니다.',
       content: [
         {
           type: 'prose',
           paragraphs: [
-            'Redis와 Kafka를 단순 예제로만 학습하지 않고, 커피 주문 시스템의 주문, 포인트, 인기메뉴 흐름에 직접 적용했습니다.',
-            '동일 사용자의 동시 주문은 Redis 분산락으로 직렬화하고, 주문·충전·취소처럼 포인트 잔액을 바꾸는 흐름은 DB 비관락으로 검증했습니다.',
-            'DB 커밋 이후에만 Kafka 이벤트가 발행되도록 분리하고, k6 시나리오로 동시 요청과 이벤트 처리 결과가 의도대로 이어지는지 확인했습니다.',
-          ],
-        },
-        {
-          type: 'facts',
-          items: [
-            { label: '역할', value: 'Solo Backend' },
-            { label: '프로젝트 유형', value: 'Personal Project' },
-            { label: '기간', value: '2026.04 - 2026.05' },
-            { label: '서비스', value: '다중 인스턴스 환경을 가정한 커피숍 주문 시스템' },
-          ],
-        },
-        {
-          type: 'cards',
-          label: '구현 범위',
-          columns: 3,
-          items: [
-            {
-              label: 'Redis 분산락',
-              text: '동일 사용자의 주문 요청을 userId 기반 락 키로 직렬화해,\n동시에 주문 트랜잭션에 진입하는 상황을 줄였습니다.',
-            },
-            {
-              label: 'DB 비관락',
-              text: '주문·충전·취소처럼 같은 포인트 잔액을 변경하는 흐름에서\n트랜잭션 내부의 최종 정합성을 확인했습니다.',
-            },
-            {
-              label: 'Kafka 이벤트 경계',
-              text: 'DB 커밋 이후에만 Kafka 이벤트가 발행되도록 분리해,\n롤백된 주문이 후속 처리로 넘어가지 않도록 했습니다.',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      number: '02',
-      id: 'problem',
-      title: 'Problem',
-      navTitle: '동시성 문제',
-      navSubtitle: '포인트 경합과 이벤트',
-      lead: '동시 주문과 후속 이벤트가 포인트 정합성을 깨뜨릴 수 있었습니다.',
-      content: [
-        {
-          type: 'prose',
-          paragraphs: [
-            '단순한 주문 API에서는 문제가 없어 보이지만, 같은 사용자의 주문·충전·취소가 동시에 들어오면 포인트 잔액과 거래 이력이 어긋날 수 있습니다.',
-            '또한 DB에서 롤백된 주문이 Kafka 후속 처리로 넘어가면, 인기 메뉴 집계가 실제 주문 상태와 달라질 수 있습니다.',
-            '이 프로젝트에서는 Redis와 Kafka를 주문 도메인에 적용하면서, 이런 경계가 실제 서비스 흐름에서 어떻게 깨질 수 있는지를 검증 대상으로 삼았습니다.',
+            '커피 주문 시스템은 단순 CRUD처럼 보이지만,\n실제로는 동일 사용자의 포인트 잔액을 주문·충전·취소가 함께 변경합니다.',
+            '단일 서버에서는 애플리케이션 메모리 기준으로 요청 순서를 제어할 수 있지만,\n다중 인스턴스 상황에서는 같은 사용자의 요청이 서로 다른 인스턴스로 분산될 수 있습니다.',
+            '이 경우 애플리케이션 내부 동기화만으로는 주문 진입 순서를 보장하기 어렵고,\n최종 잔액과 거래 이력은 DB 트랜잭션 안에서 다시 검증되어야 합니다.',
+            '또한 주문 저장이 롤백되었는데 Kafka 이벤트가 먼저 발행되면,\n실제로 존재하지 않는 주문이 인기 메뉴 집계나 후속 처리 대상으로 넘어갈 수 있습니다.',
           ],
         },
         {
@@ -1673,111 +1430,163 @@ caseStudies['k-server'] = {
           items: [
             {
               label: '동일 사용자 주문 경합',
-              text: '같은 사용자의 주문이 동시에 들어오면 잔액 차감이 중복되거나 갱신이 누락될 수 있었습니다.',
+              text: '같은 사용자의 주문 요청이 동시에 들어오면,\n동일 잔액을 기준으로 여러 주문이 성공할 수 있었습니다.\n\n검증 기준\n잔액을 초과한 주문은 실패하고,\n최종 잔액은 0P 아래로 내려가지 않아야 했습니다.',
             },
             {
-              label: '공통 잔액 변경',
-              text: '주문, 충전, 취소가 모두 같은 포인트 잔액을 변경하므로 처리 기준이 일관되어야 했습니다.',
+              label: '공통 포인트 잔액 변경',
+              text: '주문·충전·취소는 모두 같은 User point row와\nPointHistory를 기준으로 잔액과 거래 이력을 변경합니다.\n\n검증 기준\n요청이 동시에 들어와도 기대 잔액과 실제 잔액이 일치하고,\n거래 이력이 누락되지 않아야 했습니다.',
             },
             {
-              label: '롤백 주문 이벤트',
-              text: 'DB에서 롤백된 주문이 Kafka 후속 처리로 넘어가면 인기 메뉴 집계가 실제 주문과 달라질 수 있었습니다.',
+              label: '트랜잭션과 이벤트 시점',
+              text: 'DB 커밋 전에 Kafka 이벤트가 발행되면,\n롤백된 주문이 후속 처리 대상으로 넘어갈 수 있었습니다.\n\n검증 기준\n커밋된 주문만 Kafka 후속 처리로 이어지고,\n롤백된 주문은 인기 메뉴 집계나 Consumer 처리 대상으로 넘어가지 않아야 했습니다.',
             },
           ],
         },
         {
           type: 'callout',
-          text: '핵심은 기술을 하나 더 쓰는 것이 아니라, 사용자 단위 요청 직렬화, 트랜잭션 내부 정합성, 이벤트 발행 시점을 분리하는 것이었습니다.',
+          text: '핵심은 Redis와 Kafka 사용 자체가 아니라, 요청 진입 순서 · 포인트 변경 정합성 · 이벤트 발행 시점을 각각 다른 기준으로 분리해 검증하는 것이었습니다.',
         },
       ],
     },
     {
       number: '03',
-      id: 'approach',
-      title: 'Approach',
-      navTitle: '접근 방식',
-      navSubtitle: '락과 트랜잭션 분리',
-      lead: '락, 트랜잭션, 이벤트 발행 시점을 역할별로 분리했습니다.',
+      id: 'boundary',
+      title: 'Flow Split Design',
+      navTitle: '흐름 분리 설계',
+      navSubtitle: '락 · 트랜잭션 · 이벤트 시점',
+      lead: '요청 진입, 포인트 변경, 이벤트 발행 시점을\n서로 다른 경계로 분리했습니다.',
       content: [
         {
-          type: 'approach',
-          steps: ['요청 진입', 'Redis 분산락', 'Service 트랜잭션', 'DB 비관락', 'DB Commit', 'AFTER_COMMIT', 'Kafka 처리'],
+          type: 'prose',
+          paragraphs: [
+            '동일 사용자의 주문 요청이 동시에 들어와도 OrderService의 주문 처리 트랜잭션에 동시에 진입하지 않도록 Redis 분산락으로 먼저 제어했습니다.',
+            '실제 포인트 잔액 변경은 DB 트랜잭션 안에서 다시 검증하고, Kafka 이벤트는 DB 커밋 이후에만 발행되도록 분리했습니다.',
+          ],
+        },
+        {
+          type: 'flowGroups',
+          groups: [
+            {
+              label: '요청 진입 경계',
+              title: 'Redis 분산락',
+              items: ['주문 요청', 'lock:order:{userId}', 'OrderService 진입'],
+            },
+            {
+              label: 'DB 정합성 경계',
+              title: 'DB 비관락',
+              items: ['User row 잠금', '잔액 검증', '주문/포인트/이력 저장', 'Commit'],
+            },
+            {
+              label: '이벤트 발행 경계',
+              title: 'AFTER_COMMIT + Kafka',
+              items: ['Commit 완료', 'Kafka 이벤트 발행', 'Consumer 후속 처리'],
+            },
+          ],
+        },
+        {
+          type: 'cards',
+          columns: 3,
           items: [
             {
               label: 'Redis 분산락',
-              text: '다중 인스턴스 환경에서 같은 사용자의 주문 요청이 동시에 처리되지 않도록 userId 기반 락 키로 먼저 직렬화했습니다.',
+              text: '같은 사용자의 주문 요청이 여러 인스턴스로 동시에 들어와도\n주문 트랜잭션에 함께 진입하지 않도록 앞단에서 순서를 제어했습니다.',
             },
             {
               label: 'DB 비관락',
-              text: '주문·충전·취소 트랜잭션 내부에서는 User 행을 다시 확인해 포인트 잔액과 거래 이력이 함께 맞도록 처리했습니다.',
+              text: 'Redis 락 이후에도 실제 잔액 변경은 DB에서 일어나기 때문에\nUser 포인트 row를 비관락으로 잠그고 최종 잔액을 다시 검증했습니다.',
               tone: 'primary',
             },
             {
               label: 'AFTER_COMMIT 이벤트',
-              text: '주문 트랜잭션이 커밋된 이후에만 Kafka 이벤트가 발행되도록 분리해 롤백 주문의 후속 처리를 차단했습니다.',
+              text: '주문 저장이 롤백된 경우 Kafka 후속 처리로 넘어가지 않도록\nDB 커밋이 끝난 주문만 이벤트 발행 대상으로 분리했습니다.',
             },
           ],
+        },
+        {
+          type: 'callout',
+          text: 'Redis 분산락은 요청 진입을 제어하고, DB 비관락은 실제 잔액 변경의 최종 정합성을 검증합니다.',
         },
       ],
     },
     {
       number: '04',
-      id: 'decision',
-      title: 'Decision',
-      navTitle: '핵심 의사결정',
-      navSubtitle: '기술 선택과 책임 분리',
-      lead: '포인트 정합성과 이벤트 신뢰성을 기준으로 처리 경계를 나눴습니다.',
+      id: 'consistency',
+      title: 'Order And Point Consistency',
+      navTitle: '주문/포인트 정합성',
+      navSubtitle: '분산락과 DB 비관락',
+      lead: '포인트는 잔액, 거래 이력, 주문 상태가\n함께 일관되어야 하는 도메인으로 다뤘습니다.',
       content: [
+        {
+          type: 'prose',
+          paragraphs: [
+            '주문, 충전, 취소는 모두 같은 사용자 포인트 잔액을 변경합니다.',
+            '따라서 단순히 숫자만 바꾸지 않고, 최종 잔액과 PointHistory, 주문 상태가 하나의 DB 처리 흐름 안에서 맞도록 구성했습니다.',
+          ],
+        },
         {
           type: 'tabs',
           tabs: [
             {
-              id: 'lock-strategy',
-              label: 'Redis 분산락 + DB 비관락',
-              title: '분산 환경 직렬화와 트랜잭션 내부 검증을 함께 사용했습니다.',
-              text: 'Redis 분산락은 여러 인스턴스로 들어오는 동일 사용자 주문 요청을 먼저 직렬화합니다.\nDB 비관락은 실제 포인트 변경 트랜잭션 안에서 잔액과 거래 이력을 다시 검증하는 기준으로 사용했습니다.',
+              id: 'order-deduction',
+              label: '주문 차감 기준',
+              title: '주문 생성과 포인트 차감은 같은 DB 트랜잭션에서 처리했습니다.',
+              text: '주문 요청이 트랜잭션에 들어오면 잔액 확인, 포인트 차감, 거래 이력 저장, 주문 저장을 같은 처리 흐름에서 관리했습니다.\n\n잔액이 부족한 주문은 저장하지 않고, 포인트 잔액이 변경되지 않도록 처리했습니다.',
               cards: {
                 columns: 3,
                 items: [
-                  { label: 'Redis 분산락', text: '사용자 단위 요청을 먼저 묶어 같은 사용자의 주문이 동시에 통과하지 않도록 했습니다.' },
-                  { label: 'DB 비관락', text: '잔액 차감, 충전, 취소처럼 같은 포인트 row를 변경하는 흐름에서 최종 정합성을 확인했습니다.' },
-                  { label: '적용 기준', text: '주문 생성은 분산락과 DB 비관락을 함께 사용하고,\n충전과 취소는 DB 비관락 중심으로 처리했습니다.' },
+                  { label: '잔액 확인', text: '주문 금액을 기준으로\n현재 포인트 잔액이 충분한지 먼저 확인했습니다.' },
+                  { label: '차감과 저장', text: '포인트 차감, 거래 이력 저장, 주문 저장을\n하나의 트랜잭션에서 처리했습니다.', tone: 'primary' },
+                  { label: '잔액 부족 처리', text: '잔액이 부족한 주문은 저장하지 않고,\n포인트 잔액이 변경되지 않도록 처리했습니다.' },
                 ],
               },
-              callout: '분산락은 진입 순서를 제어하고, DB 락은 트랜잭션 내부의 포인트 정합성을 확인하는 역할로 나눴습니다.',
-              calloutTone: 'soft',
             },
             {
-              id: 'facade-service',
-              label: 'Facade / Service 책임 분리',
-              title: '락 책임과 주문 트랜잭션 책임을 분리했습니다.',
-              text: 'Facade는 Redis 분산락의 획득과 해제를 담당하고,\nService는 주문 생성과 포인트 변경 트랜잭션을 담당하도록 나눴습니다.',
+              id: 'charge-cancel',
+              label: '충전 / 취소 기준',
+              title: '충전과 취소도 같은 포인트 row와 이력 기준으로 처리했습니다.',
+              text: '충전은 동일 계정의 포인트 row를 기준으로 충전 금액과 최종 잔액이 일치하는지 확인했습니다.\n\n취소는 주문 상태 변경과 포인트 복구, 거래 이력이 함께 남도록 처리해 포인트만 복구되고 이력이 누락되는 상태를 막았습니다.',
               cards: {
                 columns: 3,
                 items: [
-                  { label: 'Facade', text: '분산락 키 생성, 락 획득, Service 호출, 락 해제 경계를 담당했습니다.' },
-                  { label: 'Service', text: '포인트 잔액 검증, 차감, 거래 이력 저장, 주문 저장을 하나의 DB 처리 흐름으로 관리했습니다.' },
-                  { label: '경계', text: 'DB 커밋 이전에 락이 풀리지 않도록 락과 트랜잭션의 책임을 분리해 관리했습니다.' },
+                  { label: '충전 반영', text: '동일 계정의 포인트 row 기준으로 충전 금액을 반영했습니다.' },
+                  { label: '동시 충전 검증', text: '동시 충전 요청에서도 기대 최종 잔액과 실제 최종 잔액이 일치하는지 확인했습니다.', tone: 'primary' },
+                  { label: '취소 복구', text: '주문 취소 시 포인트 복구와 거래 이력이 함께 저장되도록 처리했습니다.' },
                 ],
               },
-              callout: '락과 트랜잭션을 같은 메서드에 섞지 않고, 실패 위치를 추적하기 쉬운 책임 구조로 나눴습니다.',
-              calloutTone: 'soft',
             },
             {
-              id: 'after-commit',
-              label: 'AFTER_COMMIT 이벤트 발행',
-              title: 'DB 커밋 이후에만 Kafka 이벤트가 발행되도록 분리했습니다.',
-              text: 'OrderService에서는 Kafka를 직접 호출하지 않고 내부 이벤트만 발행했습니다.\nKafka Producer 호출은 AFTER_COMMIT 리스너에서 수행되도록 분리했습니다.',
+              id: 'history-consistency',
+              label: '거래 이력 정합성',
+              title: '잔액 변경은 PointHistory로 추적 가능하게 남겼습니다.',
+              text: '포인트는 잔액 숫자만 맞으면 끝나는 값이 아니라, 어떤 요청 때문에 변경됐는지 거래 이력으로 추적되어야 합니다.\n\n주문 차감, 충전, 취소는 모두 PointHistory 기준으로 남겨 최종 잔액과 변경 이력이 함께 맞도록 처리했습니다.',
               cards: {
                 columns: 3,
                 items: [
-                  { label: '커밋 이전', text: '주문 저장과 포인트 차감은 DB 트랜잭션 안에서 처리했습니다.' },
-                  { label: '커밋 이후', text: '커밋이 완료된 주문만 Kafka 이벤트 발행 대상으로 넘겼습니다.' },
-                  { label: '롤백 주문 차단', text: 'DB에서 롤백된 주문은 인기 메뉴 집계나 후속 처리로 전달되지 않도록 했습니다.' },
+                  { label: '주문 차감 이력', text: '주문 성공 시 포인트 차감과 주문 저장이 같은 흐름에서 기록됩니다.' },
+                  { label: '충전 이력', text: '충전 요청은 잔액 증가와 함께 거래 이력으로 남겨 추적 가능하게 했습니다.' },
+                  { label: '취소 이력', text: '주문 취소 시 포인트 복구와 취소 이력이 함께 남도록 처리했습니다.', tone: 'primary' },
                 ],
               },
-              callout: 'Kafka와 DB를 하나의 트랜잭션으로 묶지 않고, DB 커밋 이후 후속 이벤트가 실행되도록 경계를 분리했습니다.',
-              calloutTone: 'soft',
+            },
+          ],
+        },
+        {
+          type: 'cards',
+          label: '정합성 기준 요약',
+          columns: 3,
+          items: [
+            {
+              label: '잔액 음수 방지',
+              text: '잔액이 부족한 주문은 저장하지 않고,\n포인트 잔액이 변경되지 않도록 처리했습니다.',
+            },
+            {
+              label: '거래 이력 누락 방지',
+              text: '포인트 변경은 PointHistory와 함께 기록했습니다.',
+              tone: 'primary',
+            },
+            {
+              label: '주문 상태 일치',
+              text: '주문 저장, 포인트 차감, 거래 이력이\n같은 처리 흐름 안에서 맞도록 구성했습니다.',
             },
           ],
         },
@@ -1785,59 +1594,85 @@ caseStudies['k-server'] = {
     },
     {
       number: '05',
-      id: 'implementation',
-      title: 'Implementation',
-      navTitle: '구현 포인트',
-      navSubtitle: '주문과 이벤트 처리',
-      lead: '주문 처리, 포인트 변경, Kafka 후속 처리를 각각의 책임으로 구현했습니다.',
+      id: 'kafka',
+      title: 'Kafka Event Processing',
+      navTitle: 'Kafka 이벤트 처리',
+      navSubtitle: '커밋 이후 후속 처리',
+      lead: '커밋된 주문만 Kafka 후속 처리로 이어지도록\n이벤트 발행 시점을 분리했습니다.',
       content: [
+        {
+          type: 'prose',
+          paragraphs: [
+            '주문 저장과 포인트 차감은 DB 트랜잭션 안에서 먼저 확정하고, Kafka 이벤트는 커밋 이후 AFTER_COMMIT 리스너에서 발행하도록 분리했습니다.',
+            '이를 통해 롤백된 주문이 Consumer 후속 처리로 넘어가는 상황을 막고, 커밋된 주문만 이벤트 처리 대상이 되도록 구성했습니다.',
+          ],
+        },
         {
           type: 'tabs',
           tabs: [
             {
-              id: 'order-concurrency',
-              label: '주문 동시성 처리',
-              title: '동일 사용자 주문 요청을 사용자 단위로 직렬화했습니다.',
-              text: '주문 요청은 Facade에서 사용자 기준 Redis 분산락을 먼저 획득한 뒤\nService 트랜잭션으로 진입하도록 구성했습니다.',
-              flow: ['주문 요청', 'lock:order:{userId}', 'Redis 분산락 획득', 'OrderService 호출', 'DB 비관락 조회', '잔액 검증', '주문 저장', '락 해제'],
+              id: 'publish-boundary',
+              label: '발행 시점',
+              title: 'DB 커밋 이후에만 Kafka 이벤트가 발행되도록 분리했습니다.',
+              text: 'OrderService 트랜잭션 안에서 Kafka를 직접 호출하면, DB 롤백 시 실제 주문은 없는데 Kafka 이벤트만 남을 수 있습니다.\n\n이를 막기 위해 OrderService에서는 내부 이벤트만 발행하고, Kafka Producer 호출은 AFTER_COMMIT 리스너에서 수행되도록 분리했습니다.',
               cards: {
                 columns: 3,
                 items: [
-                  { label: '락 키', text: '동일 사용자의 주문 요청이 같은 락 키를 바라보도록 userId 기반 키를 사용했습니다.' },
-                  { label: '트랜잭션 진입', text: '락 획득 이후에만 주문 Service를 호출해 포인트 변경 흐름이 순차적으로 실행되게 했습니다.' },
-                  { label: '실패 처리', text: '잔액 부족 주문은 저장되지 않고 거절되며, 포인트 잔액이 음수로 내려가지 않도록 검증했습니다.' },
+                  { label: '커밋 이전 문제', text: '트랜잭션 안에서 Kafka를 직접 호출하면 롤백 주문도 이벤트로 남을 수 있습니다.' },
+                  { label: 'AFTER_COMMIT 분리', text: 'DB 커밋이 끝난 주문만 Kafka Producer 호출 대상으로 분리했습니다.' },
+                  { label: '롤백 주문 차단', text: 'DB에 저장되지 않은 주문은 Kafka 후속 처리로 넘어가지 않도록 분리했습니다.' },
                 ],
               },
             },
             {
-              id: 'point-flow',
-              label: '포인트 변경 흐름',
-              title: '주문, 충전, 취소가 같은 잔액 기준을 사용하도록 처리했습니다.',
-              text: '포인트 잔액을 변경하는 기능은 거래 이력과 잔액이 함께 맞는지 확인하는 흐름으로 구성했습니다.',
+              id: 'consumer-processing',
+              label: 'Consumer 처리',
+              title: 'Consumer는 커밋된 주문 이벤트를 기준으로 후속 처리를 수행했습니다.',
+              text: 'Consumer는 Kafka로 전달된 주문 이벤트를 받아 주문 상태 변경과 Redis 인기 메뉴 카운트 갱신을 처리했습니다.\n\n포인트 차감과 거래 이력 저장은 이미 OrderService 트랜잭션에서 끝난 상태이므로, Consumer는 주문 완료 후 필요한 부가 처리에 집중하도록 역할을 분리했습니다.',
               cards: {
                 columns: 3,
                 items: [
-                  { label: '주문', text: '잔액 확인, 포인트 차감, 거래 이력 저장, 주문 저장을 같은 처리 흐름에서 관리했습니다.' },
-                  { label: '충전', text: '동일 계정 충전 요청이 동시에 들어와도 기준 잔액에 요청 수만큼 누락 없이 반영되도록 검증했습니다.' },
-                  { label: '취소', text: '주문 취소 시 포인트 복구와 거래 이력이 함께 맞도록 DB 비관락 기준으로 처리했습니다.' },
+                  { label: '주문 상태 변경', text: '커밋된 주문 이벤트를 기준으로 주문 후속 처리를 수행하도록 Consumer 책임을 분리했습니다.' },
+                  { label: '인기 메뉴 카운트', text: '주문 이벤트의 menuId를 기준으로 Redis Sorted Set에 인기 메뉴 카운트를 누적했습니다.' },
+                  { label: '트랜잭션 영향 분리', text: 'Consumer 처리 실패가 주문 저장과 포인트 차감 트랜잭션에 직접 영향을 주지 않도록 분리했습니다.' },
                 ],
               },
-              callout: '포인트는 단순 숫자 변경이 아니라 잔액, 거래 이력, 주문 상태가 함께 맞아야 하는 도메인으로 다뤘습니다.',
-              calloutTone: 'soft',
+              supportCards: [
+                {
+                  title: 'Kafka UI 화면',
+                  text: 'order-group Consumer가 order 토픽 메시지를 처리한 화면입니다.',
+                  image: { src: '/k-server-images/kafka-order-consumer.png', alt: 'Kafka order-group Consumer 상태 원본 캡처' },
+                  items: [
+                    { label: 'Consumer group', value: 'order-group' },
+                    { label: 'Consumer Lag', value: '0' },
+                  ],
+                },
+              ],
             },
             {
-              id: 'kafka-processing',
-              label: 'Kafka 후속 처리',
-              title: '커밋된 주문만 Kafka 후속 처리로 이어지도록 구성했습니다.',
-              text: 'Kafka Consumer는 커밋 이후 발행된 주문 이벤트를 받아\n주문 후속 처리와 Redis 인기 메뉴 카운트를 갱신합니다.',
+              id: 'retry-dlt',
+              label: '실패 범위와 보완',
+              title: 'Consumer 실패는 DLT로 격리하고, 발행 신뢰성은 Outbox 개선 방향으로 정리했습니다.',
+              text: '현재 구현에서는 Consumer 처리 실패에 FixedBackOff 재시도와 DLT를 적용했습니다.\n\n반복 실패한 메시지는 정상 처리처럼 넘기지 않고 order-dlt 토픽으로 분리해, 나중에 실패 원인을 추적할 수 있도록 했습니다.\n\n다만 DB 커밋 이후 Kafka Producer 발행 자체가 실패하는 상황까지 현재 구조가 강하게 보장하는 것은 아닙니다. 운영 수준의 발행 신뢰성이 필요하다면 Outbox Pattern으로 주문 이벤트를 DB에 먼저 저장하고, 별도 Publisher가 Kafka 발행을 재시도하는 구조로 확장할 수 있습니다.',
               cards: {
                 columns: 3,
                 items: [
-                  { label: 'Producer 경계', text: 'OrderService 내부에서 Kafka를 직접 호출하지 않고 AFTER_COMMIT 리스너에서 발행했습니다.' },
-                  { label: 'Consumer 처리', text: '커밋된 주문 이벤트를 기준으로 주문 후속 처리와 Redis 인기 메뉴 카운트를 갱신했습니다.' },
-                  { label: '재시도 / DLT', text: '반복 실패 메시지는 재시도 이후 DLT로 이동하도록 구성해 실패 메시지를 추적할 수 있게 했습니다.' },
+                  { label: 'Consumer Retry / DLT', text: 'Consumer 처리 중 일시적 오류가 발생하면 재시도하고, 반복 실패한 메시지는 DLT로 분리했습니다.' },
+                  { label: '현재 구조의 한계', text: 'AFTER_COMMIT은 롤백 주문 발행은 막지만, DB 커밋 이후 발행 신뢰성까지 강하게 보장하지는 않습니다.' },
+                  { label: '개선 방향', text: '발행 신뢰성이 더 필요하다면 Outbox Pattern으로 이벤트 저장과 Kafka 발행을 분리할 수 있습니다.' },
                 ],
               },
+              supportCards: [
+                {
+                  title: 'Kafka UI 화면',
+                  text: 'Consumer 처리 실패 메시지가 order-dlt 토픽으로 분리된 화면입니다.',
+                  image: { src: '/k-server-images/kafka-order-dlt.png', alt: 'Kafka order-dlt 실패 메시지 원본 캡처' },
+                  items: [
+                    { label: 'Topic', value: 'order-dlt' },
+                    { label: '범위', value: 'Consumer 실패 격리' },
+                  ],
+                },
+              ],
             },
           ],
         },
@@ -1845,65 +1680,92 @@ caseStudies['k-server'] = {
     },
     {
       number: '06',
-      id: 'result',
-      title: 'Verification Result',
-      navTitle: '검증 결과',
-      navSubtitle: '동시 요청과 이벤트 검증',
-      lead: '동일 조건의 동시 요청과 이벤트 처리 결과로 설계가 동작하는지 확인했습니다.',
+      id: 'verification',
+      title: 'Verification Scenario',
+      navTitle: '검증 시나리오',
+      navSubtitle: 'k6 조건과 실행 결과',
+      lead: '동일 조건의 k6 시나리오로\n동시 요청과 이벤트 처리 결과를 확인했습니다.',
       content: [
         {
           type: 'prose',
           paragraphs: [
-            '포화 지점을 찾는 테스트가 아니라, 분산락, 비관락, Kafka 이벤트 발행 경계가 필요한 순간에 실제로 동작하는지를 확인했습니다.',
-            '로컬 Docker 환경에서 Redis, Kafka, MySQL을 실행하고, k6 시나리오로 동시 요청과 후속 처리 결과를 검증했습니다.',
+            '검증의 목적은 최대 처리량 측정이 아니라, 분산락, 비관락, Kafka 이벤트 발행 경계가 필요한 순간에 실제로 동작하는지 확인하는 것이었습니다.',
+            '로컬 Docker 환경에서 Redis, Kafka, MySQL을 실행하고, k6 시나리오로 동시 요청과 후속 처리 결과가 의도대로 이어지는지 확인했습니다.',
           ],
         },
         {
-          type: 'metrics',
-          label: '100 CONCURRENT ORDERS',
-          items: [
-            { label: '초기 잔액', value: '9,000P', tone: 'dark' },
-            { label: '주문 금액', value: '3,000P' },
-            { label: '동시 요청', value: '100건' },
-            { label: '성공', value: '3건', tone: 'primary' },
-            { label: '거절', value: '97건' },
-            { label: '최종 잔액', value: '0P', tone: 'primary' },
-          ],
-        },
-        {
-          type: 'metrics',
-          label: '50 CONCURRENT CHARGES',
-          items: [
-            { label: '충전 금액', value: '1,000P' },
-            { label: '동시 요청', value: '50건' },
-            { label: '반영 금액', value: '+50,000P', tone: 'primary' },
-          ],
-        },
-        {
-          type: 'metrics',
-          label: 'KAFKA EVENT FLOW',
-          items: [
-            { label: '주문 실행', value: '60건', tone: 'dark' },
-            { label: 'Redis 카운트', value: '+60', tone: 'primary' },
-            { label: '롤백 주문', value: '후속 처리 차단' },
-          ],
-        },
-        {
-          type: 'cards',
-          label: '검증 결과 해석',
-          columns: 3,
-          items: [
+          type: 'tabs',
+          tabs: [
             {
-              label: '분산락 검증',
-              text: '9,000P 잔액에서 3,000P 주문 100건을 동시에 요청했을 때\n정확히 3건만 성공하고 최종 잔액이 0P로 유지되는지 확인했습니다.',
+              id: 'order-verification',
+              label: '동시 주문 검증',
+              title: '동일 사용자 주문 100건에서 3건만 성공하는지 확인했습니다.',
+              text: 'Redis 분산락과 DB 잔액 검증이 함께 적용되어, 잔액을 초과한 주문이 성공하지 않는 것을 확인했습니다.',
+              supportCards: [
+                {
+                  title: 'k6 실행 결과 화면',
+                  text: '동일 사용자 주문 100건 요청 결과를 보여주는 화면입니다.',
+                  image: { src: '/k-server-images/distributed-lock-order-result.png', alt: 'k6 분산락 주문 동시성 검증 결과' },
+                  items: [
+                    { label: '요청', value: '100건' },
+                    { label: '성공', value: '3건' },
+                    { label: '잔액 부족', value: '97건' },
+                    { label: '최종 잔액', value: '0P' },
+                    { label: '핵심 판단', value: '초기 잔액 9,000P에서 3건만 성공하고 97건은 잔액 부족으로 차단되어 최종 잔액이 0P로 유지되었습니다.' },
+                  ],
+                },
+              ],
             },
             {
-              label: '비관락 검증',
-              text: '동일 계정에 1,000P 충전 요청 50건을 동시에 실행해\n기준 잔액에 50,000P가 누락 없이 반영되는지 확인했습니다.',
+              id: 'charge-verification',
+              label: '포인트 충전 검증',
+              title: '동일 계정 충전 요청 50건이 누락 없이 반영되는지 확인했습니다.',
+              text: '동일 계정에 충전 요청 50건이 동시에 들어와도, User point row 기준으로 누락 없이 반영되는지 확인했습니다.',
+              supportCards: [
+                {
+                  title: 'k6 실행 결과 화면',
+                  text: '동일 계정 충전 요청 50건 처리 결과를 보여주는 화면입니다.',
+                  image: { src: '/k-server-images/pessimistic-lock-charge-result.png', alt: 'k6 비관락 포인트 충전 검증 결과' },
+                  items: [
+                    { label: '요청', value: '50건' },
+                    { label: '반영 금액', value: '+50,000P' },
+                    { label: '최종 잔액', value: '1,679,000P' },
+                    { label: 'deadlock', value: '0건' },
+                    { label: '핵심 판단', value: '요청한 +50,000P가 최종 잔액에 그대로 반영되었고, 충전 실패와 deadlock 없이 처리되었습니다.' },
+                  ],
+                },
+              ],
             },
             {
-              label: 'Kafka 경계 검증',
-              text: '커밋된 주문 이벤트만 후속 처리로 이어지고,\nRedis 인기 메뉴 카운트가 주문 수와 맞게 증가하는지 확인했습니다.',
+              id: 'kafka-verification',
+              label: 'Kafka 이벤트 검증',
+              title: '주문 이벤트 60건이 Kafka 후속 처리와 Redis 카운트로 이어지는지 확인했습니다.',
+              text: '커밋된 주문 이벤트만 Kafka 후속 처리로 전달되고, Redis 인기 메뉴 카운트가 기대값과 동일하게 누적되는 것을 확인했습니다.',
+              supportCards: [
+                {
+                  title: 'k6 실행 결과 화면',
+                  text: '커밋된 주문 이벤트 처리 결과를 보여주는 화면입니다.',
+                  image: { src: '/k-server-images/kafka-integrity-result.png', alt: 'k6 Kafka 이벤트 정합성 검증 결과' },
+                  items: [
+                    { label: '주문 이벤트', value: '60건' },
+                    { label: 'Redis 카운트', value: '+60' },
+                    { label: '메시지 유실', value: '0건' },
+                    { label: 'Kafka order failed', value: '0건' },
+                    { label: '핵심 판단', value: '커밋된 주문 이벤트 60건이 Kafka 후속 처리로 전달되고, Redis 인기 메뉴 카운트도 +60으로 반영되어 메시지 유실 없이 처리되었습니다.' },
+                  ],
+                },
+                {
+                  title: 'Redis UI 화면',
+                  text: 'Kafka Consumer 처리 결과가 Redis Sorted Set score로 누적된 화면입니다.',
+                  image: { src: '/k-server-images/redisinsight-menu-result.png', alt: 'Redis popular menus result Sorted Set 캡처' },
+                  items: [
+                    { label: 'Key', value: 'popular:menus:result' },
+                    { label: 'Type', value: 'Sorted Set' },
+                    { label: '대상', value: '인기 메뉴 카운트' },
+                    { label: '반영', value: 'score 누적 확인' },
+                  ],
+                },
+              ],
             },
           ],
         },
