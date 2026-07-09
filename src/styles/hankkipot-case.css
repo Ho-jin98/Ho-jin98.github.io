@@ -330,37 +330,6 @@ body.case-study-page--readys7 {
   overflow: visible;
 }
 
-.case-study--readys7 .case-study__toc {
-  position: sticky;
-  top: 0;
-  height: calc(100svh - 4.4rem);
-}
-
-.case-study--readys7 .case-study__toc .case-study__back {
-  margin-bottom: 1rem;
-}
-
-.case-study--readys7 .case-study__project {
-  padding-bottom: 1.25rem;
-}
-
-.case-study--readys7 .case-study__toc a:not(.case-study__back):not(.case-study__github) {
-  min-height: 3.46rem;
-  padding-block: 0.58rem;
-}
-
-.case-study--readys7 .case-study__toc-label {
-  gap: 0.2rem;
-}
-
-.case-study--readys7 .case-study__toc-label strong {
-  font-size: 0.9rem;
-}
-
-.case-study--readys7 .case-study__toc-label small {
-  font-size: 0.7rem;
-}
-
 .case-study.case-study--k-server .case-section,
 .case-study.case-study--readys7 .case-section {
   display: block;
@@ -5669,20 +5638,23 @@ body.case-study-page--hankkipot {
   }
 }
 
-/* K-server final overrides: keep Ready's7 untouched while matching Hankkipot's system. */
-.case-study--k-server .case-study__body {
+/* K-server sidebar system, shared by Ready's7. */
+.case-study--k-server .case-study__body,
+.case-study--readys7 .case-study__body {
   height: calc(100svh - var(--header-height));
   min-height: 0;
   align-items: stretch;
 }
 
-.case-study--k-server .case-study__content {
+.case-study--k-server .case-study__content,
+.case-study--readys7 .case-study__content {
   height: calc(100svh - var(--header-height));
   min-height: 0;
   overflow: hidden;
 }
 
-.case-study--k-server .case-study__toc {
+.case-study--k-server .case-study__toc,
+.case-study--readys7 .case-study__toc {
   display: flex;
   height: 100%;
   margin-top: 0;
@@ -5695,7 +5667,8 @@ body.case-study-page--hankkipot {
   scrollbar-width: none;
 }
 
-.case-study.case-study--k-server .case-section {
+.case-study.case-study--k-server .case-section,
+.case-study.case-study--readys7 .case-section {
   display: none;
   height: 100%;
   min-height: 100%;
@@ -5708,22 +5681,26 @@ body.case-study-page--hankkipot {
   scrollbar-color: rgba(79, 109, 255, 0.28) transparent;
 }
 
-.case-study.case-study--k-server .case-section.is-active {
+.case-study.case-study--k-server .case-section.is-active,
+.case-study.case-study--readys7 .case-section.is-active {
   display: block;
   animation: case-chapter-in 200ms ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .case-study.case-study--k-server .case-section.is-active {
+  .case-study.case-study--k-server .case-section.is-active,
+  .case-study.case-study--readys7 .case-section.is-active {
     animation: none;
   }
 }
 
-.case-study--k-server .case-study__toc::-webkit-scrollbar {
+.case-study--k-server .case-study__toc::-webkit-scrollbar,
+.case-study--readys7 .case-study__toc::-webkit-scrollbar {
   display: none;
 }
 
-.case-study--k-server .case-study__toc .case-study__back {
+.case-study--k-server .case-study__toc .case-study__back,
+.case-study--readys7 .case-study__toc .case-study__back {
   display: inline-flex;
   width: fit-content;
   min-height: 2.65rem;
@@ -5747,20 +5724,23 @@ body.case-study-page--hankkipot {
     background 180ms ease;
 }
 
-.case-study--k-server .case-study__toc .case-study__back:hover {
+.case-study--k-server .case-study__toc .case-study__back:hover,
+.case-study--readys7 .case-study__toc .case-study__back:hover {
   color: #fff;
   background: linear-gradient(110deg, #4e75e3 0%, #277dc5 100%);
   box-shadow: 0 0.65rem 1.3rem rgba(47, 125, 211, 0.26);
 }
 
-.case-study--k-server .case-study__project {
+.case-study--k-server .case-study__project,
+.case-study--readys7 .case-study__project {
   grid-template-columns: 3.9rem minmax(0, 1fr);
   gap: 1.12rem;
   padding: 0 0 2.25rem;
   align-items: center;
 }
 
-.case-study--k-server .case-study__toc > p {
+.case-study--k-server .case-study__toc > p,
+.case-study--readys7 .case-study__toc > p {
   margin: 0 0 0.75rem;
   padding: 0;
   color: #646d81;
@@ -5771,7 +5751,8 @@ body.case-study-page--hankkipot {
   letter-spacing: -0.01em;
 }
 
-.case-study--k-server .case-study__project-copy > strong {
+.case-study--k-server .case-study__project-copy > strong,
+.case-study--readys7 .case-study__project-copy > strong {
   color: var(--hankki-ink);
   font-family: var(--sans);
   font-size: 1.14rem;
@@ -5780,7 +5761,8 @@ body.case-study-page--hankkipot {
   letter-spacing: -0.04em;
 }
 
-.case-study--k-server .case-study__project-copy > p {
+.case-study--k-server .case-study__project-copy > p,
+.case-study--readys7 .case-study__project-copy > p {
   width: min(100%, 11.5rem);
   margin: 0.42rem 0 0;
   color: #71798b;
@@ -5796,7 +5778,8 @@ body.case-study-page--hankkipot {
   line-height: 1;
 }
 
-.case-study--k-server .case-study__toc a.case-study__github {
+.case-study--k-server .case-study__toc a.case-study__github,
+.case-study--readys7 .case-study__toc a.case-study__github {
   position: relative;
   z-index: 2;
   left: auto !important;
@@ -5815,7 +5798,8 @@ body.case-study-page--hankkipot {
   transform: none;
 }
 
-.case-study--k-server .case-study__toc-steps {
+.case-study--k-server .case-study__toc-steps,
+.case-study--readys7 .case-study__toc-steps {
   position: relative;
   z-index: 1;
   display: grid;
@@ -5826,15 +5810,18 @@ body.case-study-page--hankkipot {
   padding-bottom: 0.9rem;
 }
 
-.case-study--k-server .case-study__toc-steps + .case-study__github {
+.case-study--k-server .case-study__toc-steps + .case-study__github,
+.case-study--readys7 .case-study__toc-steps + .case-study__github {
   margin-top: 1rem;
 }
 
-.case-study--k-server .case-study__toc a.case-study__github .case-study__github-text span {
+.case-study--k-server .case-study__toc a.case-study__github .case-study__github-text span,
+.case-study--readys7 .case-study__toc a.case-study__github .case-study__github-text span {
   white-space: nowrap;
 }
 
-.case-study--k-server .case-study__toc a:not(.case-study__back):not(.case-study__github) {
+.case-study--k-server .case-study__toc a:not(.case-study__back):not(.case-study__github),
+.case-study--readys7 .case-study__toc a:not(.case-study__back):not(.case-study__github) {
   position: relative;
   display: grid;
   grid-template-columns: 2rem minmax(0, 1fr);
@@ -5851,7 +5838,8 @@ body.case-study-page--hankkipot {
   text-decoration: none;
 }
 
-.case-study--k-server .case-study__toc a:not(.case-study__back):not(.case-study__github)::after {
+.case-study--k-server .case-study__toc a:not(.case-study__back):not(.case-study__github)::after,
+.case-study--readys7 .case-study__toc a:not(.case-study__back):not(.case-study__github)::after {
   position: absolute;
   z-index: -1;
   top: 2.12rem;
@@ -5862,23 +5850,28 @@ body.case-study-page--hankkipot {
   background: #e0e4ee;
 }
 
-.case-study--k-server .case-study__toc a[data-toc-link]:nth-last-of-type(2)::after {
+.case-study--k-server .case-study__toc a[data-toc-link]:nth-last-of-type(2)::after,
+.case-study--readys7 .case-study__toc a[data-toc-link]:nth-last-of-type(2)::after {
   display: block;
 }
 
-.case-study--k-server .case-study__toc a[data-toc-link]:nth-last-of-type(1)::after {
+.case-study--k-server .case-study__toc a[data-toc-link]:nth-last-of-type(1)::after,
+.case-study--readys7 .case-study__toc a[data-toc-link]:nth-last-of-type(1)::after {
   display: none;
 }
 
-.case-study--k-server .case-study__toc a[data-toc-link][href="#result"]::after {
+.case-study--k-server .case-study__toc a[data-toc-link][href="#result"]::after,
+.case-study--readys7 .case-study__toc a[data-toc-link][href="#result"]::after {
   display: none;
 }
 
-.case-study--k-server .case-study__toc a[data-toc-link][href="#verification"]::after {
+.case-study--k-server .case-study__toc a[data-toc-link][href="#verification"]::after,
+.case-study--readys7 .case-study__toc a[data-toc-link][href="#verification"]::after {
   display: none;
 }
 
-.case-study--k-server .case-study__toc a.is-active {
+.case-study--k-server .case-study__toc a.is-active,
+.case-study--readys7 .case-study__toc a.is-active {
   z-index: 1;
   color: #1f4775;
   border-color: #d8e6f5;
@@ -5888,20 +5881,25 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--k-server .case-study__toc a:focus,
-.case-study--k-server .case-study__toc a:active {
+.case-study--k-server .case-study__toc a:active,
+.case-study--readys7 .case-study__toc a:focus,
+.case-study--readys7 .case-study__toc a:active {
   outline: 0;
 }
 
-.case-study--k-server .case-study__toc a:focus-visible {
+.case-study--k-server .case-study__toc a:focus-visible,
+.case-study--readys7 .case-study__toc a:focus-visible {
   outline: 2px solid rgba(88, 127, 240, 0.38);
   outline-offset: 3px;
 }
 
-.case-study--k-server .case-study__toc a.is-active::before {
+.case-study--k-server .case-study__toc a.is-active::before,
+.case-study--readys7 .case-study__toc a.is-active::before {
   display: none;
 }
 
-.case-study--k-server .case-study__toc a:not(.case-study__github) > span:first-child {
+.case-study--k-server .case-study__toc a:not(.case-study__github) > span:first-child,
+.case-study--readys7 .case-study__toc a:not(.case-study__github) > span:first-child {
   position: relative;
   z-index: 2;
   display: grid;
@@ -5917,19 +5915,22 @@ body.case-study-page--hankkipot {
   line-height: 1;
 }
 
-.case-study--k-server .case-study__toc a.is-active:not(.case-study__github) > span:first-child {
+.case-study--k-server .case-study__toc a.is-active:not(.case-study__github) > span:first-child,
+.case-study--readys7 .case-study__toc a.is-active:not(.case-study__github) > span:first-child {
   color: #fff;
   background: linear-gradient(110deg, #587ff0 0%, #2f8bd5 100%);
   box-shadow: 0 0.3rem 0.7rem rgba(47, 125, 211, 0.22);
 }
 
-.case-study--k-server .case-study__toc-label {
+.case-study--k-server .case-study__toc-label,
+.case-study--readys7 .case-study__toc-label {
   display: grid;
   gap: 0.34rem;
   min-width: 0;
 }
 
-.case-study--k-server .case-study__toc-label strong {
+.case-study--k-server .case-study__toc-label strong,
+.case-study--readys7 .case-study__toc-label strong {
   color: inherit;
   font-family: var(--sans);
   font-size: 0.98rem;
@@ -5938,7 +5939,8 @@ body.case-study-page--hankkipot {
   letter-spacing: 0;
 }
 
-.case-study--k-server .case-study__toc-label small {
+.case-study--k-server .case-study__toc-label small,
+.case-study--readys7 .case-study__toc-label small {
   display: block;
   margin: 0;
   color: #70798e;
