@@ -270,6 +270,123 @@ const highlightTextParts = (text: string) =>
                             </div>
                           )}
 
+                          {block.type === 'overviewDashboard' && (
+                            <div class="case-overview-dashboard">
+                              <div class="case-overview-dashboard__cards">
+                                <article class="case-overview-card case-overview-card--performance">
+                                  <h3>{block.performance.title}</h3>
+                                  <div class="case-overview-card__compare" aria-label="캐시 적용 전후 비교">
+                                    <div>
+                                      <span>{block.performance.before.title}</span>
+                                      <strong>{block.performance.before.text}</strong>
+                                    </div>
+                                    <i aria-hidden="true">→</i>
+                                    <div>
+                                      <span>{block.performance.after.title}</span>
+                                      <strong>{block.performance.after.text}</strong>
+                                    </div>
+                                  </div>
+                                  <div class="case-overview-card__metrics" aria-label="성능 비교 결과">
+                                    <div class="case-overview-card__metrics-head" aria-hidden="true">
+                                      <span>항목</span>
+                                      <span>v1 캐시 미적용</span>
+                                      <span>v2 Redis Cache 적용</span>
+                                    </div>
+                                    <dl>
+                                      {block.performance.metrics.map((metric) => (
+                                        <div class:list={[metric.tone && `is-${metric.tone}`]}>
+                                          <dt>{metric.label}</dt>
+                                          <dd>{metric.before}</dd>
+                                          <dd>{metric.after}</dd>
+                                        </div>
+                                      ))}
+                                    </dl>
+                                  </div>
+                                </article>
+
+                                <article class="case-overview-card case-overview-card--freshness">
+                                  <h3>{block.freshness.title}</h3>
+                                  <div class="case-overview-card__before-after">
+                                    <div>
+                                      <span>Before</span>
+                                      <p>{block.freshness.before}</p>
+                                    </div>
+                                    <div>
+                                      <span>After</span>
+                                      <ul>
+                                        {block.freshness.after.map((step) => <li>{step}</li>)}
+                                      </ul>
+                                    </div>
+                                    <div class="is-result">
+                                      <span>Result</span>
+                                      <p>{block.freshness.result}</p>
+                                    </div>
+                                  </div>
+                                  <p class="case-overview-card__summary">
+                                    {block.freshness.items.map((item, itemIndex) => (
+                                      <>
+                                    {itemIndex > 0 && <span aria-hidden="true">·</span>}
+                                    <strong>{item.label}:</strong> {item.value}
+                                      </>
+                                    ))}
+                                  </p>
+                                </article>
+                              </div>
+
+                            </div>
+                          )}
+
+                          {block.type === 'cacheDesign' && (
+                            <div class="case-cache-design">
+                              <div class="case-cache-design__grid">
+                                <article class="case-cache-flow">
+                                  <h3>{block.flow.title}</h3>
+                                  <ol class="case-cache-flow__entry" aria-label="Cache-Aside 진입 흐름">
+                                    {block.flow.entry.map((step, stepIndex) => (
+                                      <li>
+                                        <span>{String(stepIndex + 1).padStart(2, '0')}</span>
+                                        <strong>{step}</strong>
+                                      </li>
+                                    ))}
+                                  </ol>
+                                  <div class="case-cache-flow__branches" aria-label="Cache Hit Miss 분기">
+                                    <div class="case-cache-flow__branch is-hit">
+                                      <span>Cache Hit</span>
+                                      <ol>
+                                        {block.flow.hit.map((step) => <li>{step}</li>)}
+                                      </ol>
+                                    </div>
+                                    <div class="case-cache-flow__branch is-miss">
+                                      <span>Cache Miss</span>
+                                      <ol>
+                                        {block.flow.miss.map((step) => <li>{step}</li>)}
+                                      </ol>
+                                    </div>
+                                  </div>
+                                </article>
+
+                                <article class="case-cache-why">
+                                  <h3>{block.why.title}</h3>
+                                  <ul>
+                                    {block.why.items.map((item) => <li>{item}</li>)}
+                                  </ul>
+                                </article>
+                              </div>
+
+                              <article class="case-cache-rules">
+                                <h3>{block.keyRules.title}</h3>
+                                <div>
+                                  {block.keyRules.items.map((item) => (
+                                    <section class:list={[item.tone && `is-${item.tone}`]}>
+                                      <h4>{item.label}</h4>
+                                      <p>{item.text}</p>
+                                    </section>
+                                  ))}
+                                </div>
+                              </article>
+                            </div>
+                          )}
+
                           {block.type === 'facts' && (
                             <dl class="case-facts">
                               {block.items.map((fact) => (
@@ -299,6 +416,29 @@ const highlightTextParts = (text: string) =>
                             </ol>
                           )}
 
+                          {block.type === 'stepFlow' && (
+                            <div class="case-step-flow">
+                              <h3>{block.label}</h3>
+                              <ol aria-label={block.label}>
+                                {block.steps.map((step, stepIndex) => (
+                                  <li>
+                                    <span>{String(stepIndex + 1).padStart(2, '0')}</span>
+                                    <strong>{step}</strong>
+                                  </li>
+                                ))}
+                              </ol>
+                            </div>
+                          )}
+
+                          {block.type === 'summaryBox' && (
+                            <aside class="case-summary-box">
+                              <h3>{block.label}</h3>
+                              <ul>
+                                {block.items.map((item) => <li>{item}</li>)}
+                              </ul>
+                            </aside>
+                          )}
+
                           {block.type === 'flowGroups' && (
                             <div class="case-flow-groups" aria-label={`${section.title} 처리 흐름`}>
                               {block.groups.map((group) => (
@@ -321,7 +461,15 @@ const highlightTextParts = (text: string) =>
                           {block.type === 'approach' && (
                             <div class="case-approach">
                               <div class="case-approach__timeline">
-                                <span>{project.slug === 'k-server' ? '처리 흐름' : '인증 흐름'}</span>
+                                <span>
+                                  {block.label ?? (project.slug === 'k-server'
+                                    ? '처리 흐름'
+                                    : project.slug === 'readys7'
+                                      ? section.id === 'problem'
+                                        ? '캐시 적용 전 검색 흐름'
+                                        : 'Cache-Aside 흐름'
+                                      : '인증 흐름')}
+                                </span>
                                 <ol>
                                   {block.steps.map((step, stepIndex) => (
                                     <li>
@@ -577,7 +725,6 @@ const highlightTextParts = (text: string) =>
                                 {block.tabs.map((tab, tabIndex) => (
                                   <button
                                     id={`${section.id}-${tab.id}-tab`}
-                                    class:list={[project.slug === 'readys7' && 'magnetic']}
                                     type="button"
                                     role="tab"
                                     aria-controls={`${section.id}-${tab.id}-panel`}
