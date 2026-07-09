@@ -1942,7 +1942,7 @@ caseStudies.readys7 = {
         {
           type: 'prose',
           paragraphs: [
-            '반복 검색 요청은 먼저 Redis Cache에서 확인했습니다.\n동일한 keyword 검색이라도 page와 size가 달라지면 응답 범위가 달라지기 때문에,\n캐시 키를 keyword / page / size 조합으로 분리했습니다.',
+            '반복 검색 요청은 먼저 Redis Cache에서 확인했습니다.\n동일한 keyword 검색이라도 page와 size가 달라지면 응답에 포함되는 결과 범위가 달라지므로,\n캐시 키를 keyword / page / size 조합으로 분리했습니다.',
           ],
         },
         {
@@ -1988,35 +1988,146 @@ caseStudies.readys7 = {
     },
     {
       number: '04',
+      id: 'cache-consistency',
+      title: 'Cache Consistency Design',
+      navTitle: '캐시 정합성 설계',
+      navSubtitle: '데이터 변경과 무효화 기준',
+      lead: '프로젝트 데이터가 변경되면 검색 캐시를 전체 무효화해,\n다음 검색부터 최신 결과를 다시 조회하도록 했습니다.',
+      content: [
+        {
+          type: 'prose',
+          paragraphs: [
+            '통합 검색 결과는 keyword / page / size 조합별로 Redis에 저장됩니다.\n하나의 프로젝트 변경이 여러 검색어와 페이지 조합에 영향을 줄 수 있어,\n변경된 데이터가 포함된 캐시 키만 정확히 찾아 제거하기는 어려웠습니다.',
+            '따라서 프로젝트 생성·수정·삭제 경로에서 globalSearch 캐시를 전체 무효화하고,\n다음 검색 요청에서 최신 데이터를 다시 조회해 Redis에 적재하도록 구성했습니다.',
+          ],
+        },
+        {
+          type: 'cards',
+          columns: 3,
+          items: [
+            {
+              label: '생성',
+              text: '새 프로젝트가 검색 조건에 포함되어야 하지만,\n기존 캐시가 남아 있으면 검색 결과에 바로 나타나지 않을 수 있습니다.',
+            },
+            {
+              label: '수정',
+              text: '제목·카테고리·스킬 등 검색 대상 정보가 변경되어도,\n기존 캐시에서는 변경 전 정보가 반환될 수 있습니다.',
+              tone: 'primary',
+            },
+            {
+              label: '삭제',
+              text: '삭제된 프로젝트가 기존 검색 캐시에 남아 있으면,\n이후 검색에서도 결과에 노출될 수 있습니다.',
+            },
+          ],
+        },
+        {
+          type: 'callout',
+          label: '정합성의 범위',
+          text: '이 페이지에서 다루는 정합성은 데이터 변경 이후 검색 캐시에 이전 결과가 남지 않도록 하는 검색 결과의 최신성입니다.',
+        },
+        {
+          type: 'tabs',
+          tabs: [
+            {
+              id: 'all-entries',
+              label: '무효화 결정',
+              title: '검색 결과에 영향을 주는 데이터 변경 경로에서는\n전체 무효화를 선택했습니다.',
+              text: '통합 검색 결과는 여러 keyword / page / size 조합으로 저장됩니다.\n변경된 프로젝트가 어떤 검색어와 페이지 조합에 포함되는지 모두 역추적하려면 별도의 키 매핑 구조가 필요했습니다.\n\n현재 구조에서는 선택 삭제의 복잡도를 늘리기보다,\n데이터 변경 시 검색 결과 캐시를 전체 제거해 오래된 결과가 남지 않도록 하는 것을 우선했습니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  {
+                    label: '선택 삭제의 한계',
+                    text: '변경된 프로젝트가 어떤 검색어·페이지 조합의 캐시에 포함되어 있는지\n캐시 키만으로는 확인하기 어려웠습니다.',
+                  },
+                  {
+                    label: '선택한 정책',
+                    text: '생성·수정·삭제 경로에\n@CacheEvict(value = "globalSearch", allEntries = true)\n를 적용해 검색 결과 캐시를 전체 제거했습니다.',
+                    tone: 'primary',
+                  },
+                  {
+                    label: '수용한 트레이드오프',
+                    text: '데이터 변경 직후 일부 검색 요청은 Cache Miss가 발생해 DB를 다시 조회하지만,\n오래된 검색 결과를 반환하지 않는 것을 우선했습니다.',
+                  },
+                ],
+              },
+            },
+            {
+              id: 'change-paths',
+              label: '무효화 흐름',
+              title: '데이터 변경 이후 첫 검색 요청에서\n최신 결과를 다시 적재합니다.',
+              text: '검색 캐시를 제거한 뒤에는 다음 검색 요청이 Cache Miss로 이어집니다.\n이 요청에서 최신 데이터를 다시 조회하고 Redis에 저장해,\n이후 동일 조건의 검색부터는 갱신된 캐시를 재사용합니다.',
+              cards: {
+                columns: 3,
+                items: [
+                  {
+                    label: '데이터 변경',
+                    text: '프로젝트 생성·수정·삭제로\n검색 결과에 영향을 주는 데이터가 변경됩니다.',
+                  },
+                  {
+                    label: '캐시 무효화',
+                    text: 'globalSearch에 저장된\n기존 검색 결과 캐시를 제거합니다.',
+                    tone: 'primary',
+                  },
+                  {
+                    label: 'Cache Miss',
+                    text: '다음 검색 요청에서는 기존 캐시가 없으므로\n실제 검색 흐름으로 이어집니다.',
+                  },
+                  {
+                    label: '최신 데이터 조회',
+                    text: 'DB에서 변경 내용이 반영된\n최신 검색 결과를 다시 조회합니다.',
+                  },
+                  {
+                    label: 'Redis 재적재',
+                    text: '조회한 최신 검색 결과를\n새로운 캐시로 저장합니다.',
+                    tone: 'primary',
+                  },
+                  {
+                    label: '이후 요청',
+                    text: '이후 동일 조건의 검색은\n새로 적재된 Redis Cache에서 응답합니다.',
+                  },
+                ],
+              },
+              callout: '결과\n데이터 변경 전 검색 결과가 계속 반환되는 문제를 방지하고,\n이후 요청부터 최신 검색 결과를 캐시로 재사용하도록 구성했습니다.',
+              calloutTone: 'soft',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      number: '05',
       id: 'result',
       title: 'k6 Performance Verification',
       navTitle: 'k6 성능 검증',
       navSubtitle: 'v1 · v2 결과 비교',
-      lead: '같은 최대 100 VU 조건에서\n테스트 당시 캐시 미적용 v1과 Redis Cache 적용 v2를 비교했습니다.',
+      lead: '최대 100 VU까지 증가시키는 동일한 k6 시나리오로\n캐시 미적용 v1과 Redis Cache 적용 v2를 비교했습니다.',
       content: [
         {
-          type: 'metrics',
-          label: 'TEST CONDITION',
-          items: [
-            { label: '환경', value: 'Local Docker' },
-            { label: '데이터', value: 'projects 50,009건' },
-            { label: '도구', value: 'k6 Ramp-up' },
-            { label: '조건', value: '최대 100 VU' },
+          type: 'prose',
+          paragraphs: [
+            '검증의 목적은 같은 조건에서 캐시 미적용 v1과 Redis Cache 적용 v2의 응답 시간과 처리량이 어떻게 달라졌는지 확인하는 것이었습니다.',
+            '비교는 Local Docker 환경에서 projects 50,009건 데이터를 기준으로 진행했고, k6 Ramp-up 시나리오에서 최대 100 VU까지 증가시키며 실행했습니다.\n요청 수는 고정값이 아니라, 동일한 실행 시간 동안 완료된 요청 건수입니다.',
           ],
         },
         {
           type: 'tabs',
           tabs: [
             {
-              id: 'k6-before-after',
-              label: 'v1 / v2 비교',
-              title: '응답 시간과 처리량을 같은 최대 100 VU 조건에서 비교했습니다.',
-              text: '포트폴리오에서는 백엔드 코드를 새로 수정했다는 의미가 아니라, 테스트 당시 캐시 미적용 v1과 Redis Cache 적용 v2를 분리해 비교한 결과로 정리했습니다.',
+              id: 'k6-v1',
+              label: 'v1 캐시 미적용',
+              title: 'v1은 반복 검색 요청이 매번 실제 검색 흐름으로 이어졌습니다.',
+              text: '캐시를 적용하지 않은 기준 결과입니다. 같은 검색 조건의 요청도 매번 실제 검색 흐름으로 이어졌고, 평균 응답 시간과 p95가 초 단위로 측정됐습니다.',
+              callout: 'v1 결과는 Redis Cache 적용 전 기준선입니다. 이후 v2와 비교하기 위해 동일한 최대 100 VU 조건으로 실행했습니다.',
+              calloutTone: 'soft',
               supportCards: [
                 {
-                  title: 'v1 캐시 미적용 k6 결과',
-                  text: '반복 검색 요청이 매번 DB 직접 조회 흐름으로 이어지던 기준 결과입니다.',
-                  image: { src: '/readys7-images/readys7-k6-v1-no-cache.png', alt: 'Ready’s7 v1 캐시 미적용 k6 테스트 결과' },
+                  title: 'v1 캐시 미적용 k6 실행 결과',
+                  text: 'TOTAL RESULTS와 HTTP 지표에서 평균 응답 시간, p95, 처리량, 실패율을 확인했습니다.',
+                  image: {
+                    src: '/readys7-images/readys7-k6-v1-no-cache.png',
+                    alt: 'Ready’s7 v1 캐시 미적용 k6 테스트 결과',
+                  },
                   items: [
                     { label: '평균 응답 시간', value: '1.94s' },
                     { label: 'p95', value: '3.56s' },
@@ -2026,10 +2137,23 @@ caseStudies.readys7 = {
                     { label: '최대 VU', value: '100' },
                   ],
                 },
+              ],
+            },
+            {
+              id: 'k6-v2',
+              label: 'v2 Redis Cache 적용',
+              title: 'v2는 반복 검색 요청을 Redis Cache에서 응답하도록 적용했습니다.',
+              text: 'Redis Cache 적용 후의 비교 결과입니다. Cache Hit 구간에서는 실제 검색 로직을 거치지 않고 캐시된 검색 결과를 반환하도록 구성했습니다.',
+              callout: '동일한 최대 100 VU 조건에서 실패율 0%를 유지했고, 평균 응답 시간과 p95는 ms 단위로 측정됐습니다.',
+              calloutTone: 'soft',
+              supportCards: [
                 {
-                  title: 'v2 Redis Cache 적용 k6 결과',
-                  text: '반복 검색 결과를 Redis Cache로 응답하도록 적용한 뒤의 비교 결과입니다.',
-                  image: { src: '/readys7-images/readys7-k6-v2-redis-cache.png', alt: 'Ready’s7 v2 Redis Cache 적용 k6 테스트 결과' },
+                  title: 'v2 Redis Cache 적용 k6 실행 결과',
+                  text: 'Redis Cache 적용 후 동일한 최대 100 VU 조건에서 측정한 결과입니다.',
+                  image: {
+                    src: '/readys7-images/readys7-k6-v2-redis-cache.png',
+                    alt: 'Ready’s7 v2 Redis Cache 적용 k6 테스트 결과',
+                  },
                   items: [
                     { label: '평균 응답 시간', value: '3.73ms' },
                     { label: 'p95', value: '6.39ms' },
@@ -2040,74 +2164,6 @@ caseStudies.readys7 = {
                   ],
                 },
               ],
-              callout: '최대 처리량을 과장하기보다, 동일한 최대 100 VU 조건에서 평균 응답 시간과 처리량이 어떻게 달라졌는지에 초점을 맞췄습니다.',
-              calloutTone: 'soft',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      number: '05',
-      id: 'cache-consistency',
-      title: 'Cache Consistency Design',
-      navTitle: '캐시 정합성 설계',
-      navSubtitle: '데이터 변경과 무효화 기준',
-      lead: '데이터 변경 후 오래된 검색 결과가 남지 않도록\n검색 캐시 무효화 기준을 함께 설계했습니다.',
-      content: [
-        {
-          type: 'prose',
-          paragraphs: [
-            '최초 검색 결과가 Redis에 저장되면 같은 keyword/page/size 요청은 DB를 다시 조회하지 않고 캐시 결과를 반환합니다.',
-            '이때 새 프로젝트가 생성되거나 기존 정보가 수정되어도 캐시가 남아 있으면, 사용자는 데이터 변경이 반영되지 않은 오래된 검색 결과를 볼 수 있습니다.',
-          ],
-        },
-        {
-          type: 'cards',
-          columns: 3,
-          items: [
-            { label: '생성', text: '새 프로젝트가 검색 대상에 포함되어야 하지만 기존 캐시가 먼저 반환될 수 있습니다.' },
-            { label: '수정', text: '제목, 카테고리, 스킬 같은 검색 대상 필드 변경이 검색 결과에 늦게 반영될 수 있습니다.', tone: 'primary' },
-            { label: '삭제', text: '삭제된 데이터가 기존 검색 캐시에 남아 사용자에게 노출될 수 있습니다.' },
-          ],
-        },
-        {
-          type: 'callout',
-          label: '정합성 기준',
-          text: '여기서의 정합성은 포인트나 트랜잭션 정합성이 아니라, 데이터 변경 후 오래된 검색 결과를 방지하는 캐시 무효화 기준입니다.',
-        },
-        {
-          type: 'tabs',
-          tabs: [
-            {
-              id: 'all-entries',
-              label: '결정',
-              title: '변경 경로에서는 검색 캐시 전체 제거를 선택했습니다.',
-              text: '검색 결과는 여러 keyword/page/size 조합으로 저장될 수 있어 특정 키만 역추적해 제거하기 어렵습니다. 그래서 검색 결과에 영향을 주는 생성, 수정, 삭제 경로에서는 @CacheEvict(value = "globalSearch", allEntries = true)를 적용했습니다.',
-              cards: {
-                columns: 3,
-                items: [
-                  { label: '키 역추적 제거', text: '변경된 데이터가 어떤 검색어와 페이지 조합에 포함되는지 따로 관리하지 않았습니다.' },
-                  { label: '전체 무효화', text: 'globalSearch 캐시를 전체 제거해 오래된 검색 결과가 남지 않게 했습니다.', tone: 'primary' },
-                  { label: '운영 기준', text: '일부 Cache Miss 증가를 감수하고 검색 결과 신뢰성을 우선했습니다.' },
-                ],
-              },
-              callout: '트레이드오프는 명확했습니다. 변경 직후 일부 요청은 다시 DB를 조회하지만, 사용자가 오래된 검색 결과를 보는 위험을 줄일 수 있었습니다.',
-              calloutTone: 'soft',
-            },
-            {
-              id: 'change-paths',
-              label: '적용 경로',
-              title: '검색 결과에 영향을 주는 데이터 변경 지점에 무효화를 연결했습니다.',
-              text: '프로젝트 생성, 수정, 삭제처럼 검색 결과를 바꿀 수 있는 경로에서는 캐시를 남겨두지 않는 것을 우선했습니다.',
-              cards: {
-                columns: 3,
-                items: [
-                  { label: '생성 이후', text: '새 데이터가 검색 결과에 나타나야 하므로 기존 globalSearch 캐시를 제거합니다.' },
-                  { label: '수정 이후', text: '검색 대상 필드 변경이 다음 검색 결과에 반영되도록 캐시를 제거합니다.', tone: 'primary' },
-                  { label: '삭제 이후', text: '삭제된 데이터가 캐시 결과로 노출되지 않도록 캐시를 제거합니다.' },
-                ],
-              },
             },
           ],
         },
