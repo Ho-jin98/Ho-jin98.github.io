@@ -5,103 +5,45 @@ import SiteHeader from '../components/SiteHeader.astro';
 
 <BaseLayout
   title="About - 정호진"
-  description="필요한 것을 배우고 프로젝트에 적용하며 경험을 넓혀가고 있는 백엔드 개발자 정호진을 소개합니다."
+  description="필요한 범위에서 직접 시도하고, 결과가 의도한 흐름으로 이어지는지 확인하며 경험을 쌓아가는 백엔드 개발자 정호진을 소개합니다."
   bodyClass="document-page"
 >
   <SiteHeader />
 
-  <main class="about-page">
-    <section class="about-hero" aria-labelledby="about-title">
-      <div class="about-hero__copy">
-        <p class="about-hero__label"><span aria-hidden="true"></span>ABOUT</p>
-        <h1 id="about-title">
-          <span><em>배우고</em>,</span>
-          <span>시도하며,</span>
-          <span><strong>경험</strong>을 쌓아갑니다.</span>
-        </h1>
-        <p class="about-hero__description">
-          필요한 범위에서 직접 시도하고,<br />
-          결과가 의도한 흐름으로 이어지는지 확인해왔습니다.
-        </p>
-      </div>
+  <main class="about-page about-page--reference" aria-labelledby="about-title">
+    <img
+      class="about-reference"
+      src="/about-reference-content.png"
+      alt=""
+      aria-hidden="true"
+      decoding="async"
+    />
 
-      <div class="about-visual" aria-hidden="true">
-        <div class="about-visual__grid"></div>
-        <span class="about-visual__dot about-visual__dot--one"></span>
-        <span class="about-visual__dot about-visual__dot--two"></span>
-        <span class="about-visual__orb about-visual__orb--large"></span>
-        <span class="about-visual__orb about-visual__orb--small"></span>
-        <div class="about-visual__base">
-          <div class="about-visual__panel">
-            <span class="about-visual__check">✓</span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      </div>
+    <section class="sr-only">
+      <p>ABOUT</p>
+      <h1 id="about-title">배우고, 시도하며, 경험을 쌓아갑니다.</h1>
+      <p>
+        필요한 범위에서 직접 시도하고, 결과가 의도한 흐름으로 이어지는지 확인했습니다.
+      </p>
+      <h2>중요하게 생각하는 점</h2>
+      <p>
+        프로젝트를 진행하며 더 알아야 할 부분을 살피고, 필요한 내용을 배우며 경험을
+        보완해왔습니다.
+      </p>
+      <h2>경험을 넓힌 방식</h2>
+      <p>
+        익숙하지 않은 영역도 필요한 범위에서 시도해보았습니다. 구현 결과는 흐름에 맞는지
+        확인하며 다듬었습니다.
+      </p>
+      <h2>현재 방향</h2>
+      <p>
+        기능 구현 경험을 바탕으로, 성능과 데이터 정합성, 운영 환경도 더 깊게 학습하고
+        있습니다.
+      </p>
     </section>
 
-    <section class="about-summary" aria-label="About summary">
-      <div class="about-summary__grid">
-        <div class="about-summary__item">
-          <span class="about-summary__index">01</span>
-          <span class="about-summary__rule" aria-hidden="true"></span>
-          <span class="about-summary__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" role="img">
-              <circle cx="11" cy="11" r="7"></circle>
-              <path d="m16.5 16.5 4 4"></path>
-            </svg>
-          </span>
-          <div class="about-summary__copy">
-            <h2>중요하게 생각하는 점</h2>
-            <p>
-              프로젝트를 진행하며 더 알아야 할 부분을 살피고,
-              필요한 내용을 배우며 경험을 보완해왔습니다.
-            </p>
-          </div>
-        </div>
-        <div class="about-summary__item">
-          <span class="about-summary__index">02</span>
-          <span class="about-summary__rule" aria-hidden="true"></span>
-          <span class="about-summary__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" role="img">
-              <path d="M9 3h6v4h4v14H5V7h4V3Z"></path>
-              <path d="M9 12h6"></path>
-              <path d="M9 16h4"></path>
-            </svg>
-          </span>
-          <div class="about-summary__copy">
-            <h2>경험을 넓힌 방식</h2>
-            <p>
-              익숙하지 않은 영역도 필요한 범위에서 시도해보았습니다.
-              구현 결과는 흐름에 맞는지 확인하며 다듬었습니다.
-            </p>
-          </div>
-        </div>
-        <div class="about-summary__item">
-          <span class="about-summary__index">03</span>
-          <span class="about-summary__rule" aria-hidden="true"></span>
-          <span class="about-summary__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" role="img">
-              <path d="M3 17 9 11l4 4 8-8"></path>
-              <path d="M15 7h6v6"></path>
-            </svg>
-          </span>
-          <div class="about-summary__copy">
-            <h2>현재 방향</h2>
-            <p>
-              기능 구현 경험을 바탕으로,
-              성능과 데이터 정합성, 운영 환경도 더 깊게 학습하고 있습니다.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <a class="about-next" href="/capabilities" aria-label="Capabilities 페이지로 이동">
-        <span>CAPABILITIES 보러가기</span>
-        <i aria-hidden="true">↗</i>
-      </a>
-    </section>
+    <a class="about-reference__link" href="/capabilities" aria-label="Capabilities 페이지로 이동">
+      <span class="sr-only">CAPABILITIES 보러가기</span>
+    </a>
   </main>
 </BaseLayout>
