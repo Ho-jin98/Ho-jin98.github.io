@@ -1,6 +1,8 @@
 ---
 const isProjectPage = Astro.url.pathname.startsWith('/work/');
 const isWorkPage = Astro.url.pathname === '/' || isProjectPage;
+const isAboutPage = Astro.url.pathname === '/about';
+const isCapabilitiesPage = Astro.url.pathname === '/capabilities';
 ---
 
 <header class="site-header">
@@ -10,8 +12,8 @@ const isWorkPage = Astro.url.pathname === '/' || isProjectPage;
 
   <nav class="desktop-nav" aria-label="주요 메뉴">
     <a class:list={['magnetic', isWorkPage && 'is-active']} href="/#hankkipot">WORK</a>
-    <a class="magnetic" href="/about">ABOUT</a>
-    <a class="magnetic" href="/capabilities">CAPABILITIES</a>
+    <a class:list={['magnetic', isAboutPage && 'is-active']} href="/about">ABOUT</a>
+    <a class:list={['magnetic', isCapabilitiesPage && 'is-active']} href="/capabilities">CAPABILITIES</a>
     <a class="magnetic" href="/#contact">CONTACT</a>
   </nav>
 
