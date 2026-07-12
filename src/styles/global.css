@@ -2040,7 +2040,7 @@ footer {
   width: min(100%, 42rem);
   height: auto;
   object-fit: contain;
-  filter: saturate(1.04) contrast(1.03);
+  filter: saturate(1.05) contrast(1.03);
   transform: translateX(clamp(-0.8rem, -1vw, -0.25rem));
   user-select: none;
 }
@@ -2058,7 +2058,7 @@ footer {
   position: relative;
   min-width: 0;
   min-height: clamp(7.65rem, 8.45vw, 8.85rem);
-  padding: clamp(0.88rem, 1.02vw, 1.05rem);
+  padding: clamp(0.95rem, 1.08vw, 1.12rem);
   overflow: hidden;
   border: 1px solid rgba(111, 127, 221, 0.16);
   border-radius: 1rem;
@@ -2105,6 +2105,8 @@ footer {
 }
 
 .capability-page-list h2 {
+  display: flex;
+  align-items: center;
   min-height: clamp(1.85rem, 2.2vw, 2.05rem);
   margin: 0 0 0 3rem;
   color: #101626;
@@ -2120,8 +2122,11 @@ footer {
   display: flex;
   flex-wrap: wrap;
   gap: 0.34rem;
+  min-height: clamp(1.35rem, 1.55vw, 1.5rem);
   padding: 0;
-  margin: clamp(0.45rem, 0.62vw, 0.58rem) 0 0;
+  margin: clamp(0.58rem, 0.78vw, 0.78rem) 0 0;
+  align-content: flex-start;
+  align-items: flex-start;
   list-style: none;
 }
 
@@ -2138,11 +2143,11 @@ footer {
 }
 
 .capability-page-list__content > p {
-  margin: clamp(0.5rem, 0.68vw, 0.68rem) 0 0;
+  margin: clamp(0.72rem, 0.92vw, 0.9rem) 0 0;
   color: #263044;
   font-size: clamp(0.78rem, 0.82vw, 0.86rem);
   font-weight: 540;
-  line-height: 1.7;
+  line-height: 1.6;
   word-break: keep-all;
 }
 
@@ -3454,7 +3459,7 @@ footer {
 
   .capability-page-list article {
     min-height: 6.95rem;
-    padding: 0.72rem;
+    padding: 0.78rem;
     border-radius: 0.8rem;
   }
 
@@ -3466,6 +3471,8 @@ footer {
   }
 
   .capability-page-list h2 {
+    display: flex;
+    align-items: center;
     min-height: 1.55rem;
     margin-left: 2.55rem;
     font-size: 0.86rem;
@@ -3474,7 +3481,10 @@ footer {
 
   .capability-page-list ul {
     gap: 0.28rem;
-    margin-top: 0.38rem;
+    min-height: 1.08rem;
+    margin-top: 0.46rem;
+    align-content: flex-start;
+    align-items: flex-start;
   }
 
   .capability-page-list li {
@@ -3483,9 +3493,9 @@ footer {
   }
 
   .capability-page-list__content > p {
-    margin-top: 0.42rem;
+    margin-top: 0.52rem;
     font-size: 0.7rem;
-    line-height: 1.5;
+    line-height: 1.55;
   }
 
   .capabilities-contact {
