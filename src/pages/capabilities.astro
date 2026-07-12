@@ -1,44 +1,121 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
-import { capabilities } from '../data/portfolio';
+
+const capabilityGroups = [
+  {
+    number: '01',
+    title: '서버 애플리케이션',
+    tags: ['Java 17', 'Spring Boot', 'Spring Security', 'JWT'],
+    description: 'REST API, 인증 · 인가, 요청 검증과 예외 처리에 사용해봤습니다.',
+  },
+  {
+    number: '02',
+    title: '데이터 처리',
+    tags: ['Spring Data JPA', 'QueryDSL', 'MySQL', 'H2'],
+    description: '데이터 저장과 조회, 조건 검색, 페이지네이션에 사용해봤습니다.',
+  },
+  {
+    number: '03',
+    title: '캐시와 동시성',
+    tags: ['Redis', 'Spring Cache', 'Redisson'],
+    description: '캐시 적용과 동시 요청 처리 과정에서 사용해봤습니다.',
+  },
+  {
+    number: '04',
+    title: '이벤트와 메시징',
+    tags: ['Spring Event', 'Kafka', 'Embedded Kafka'],
+    description: '이벤트 기반 처리와 메시지 흐름에 사용해봤습니다.',
+  },
+  {
+    number: '05',
+    title: '테스트와 확인',
+    tags: ['JUnit 5', 'MockMvc', 'k6'],
+    description: '기본적인 테스트 코드 작성과 부하 테스트를 경험해봤습니다.',
+  },
+  {
+    number: '06',
+    title: '개발과 실행 환경',
+    tags: ['Git', 'GitHub', 'Docker', 'Docker Compose'],
+    description: '버전 관리와 로컬 실행 환경 구성에 사용해봤습니다.',
+  },
+  {
+    number: '07',
+    title: '프로젝트 활용 환경',
+    tags: ['AWS EC2', 'RDS', 'ALB', 'GitHub Actions'],
+    description: '프로젝트 배포와 실행 환경에서 접하거나 사용해봤습니다.',
+  },
+  {
+    number: '08',
+    title: '확장 경험',
+    tags: ['React', 'TypeScript', 'Kakao Maps SDK', 'Geolocation API'],
+    description: '프로젝트에서 필요한 범위의 프론트엔드와 위치 기반 기능을 경험해봤습니다.',
+  },
+];
 ---
 
 <BaseLayout
   title="Capabilities — 정호진"
   description="직접 구현하고 테스트한 범위를 중심으로 정리한 백엔드 개발 역량입니다."
-  bodyClass="document-page"
+  bodyClass="document-page capabilities-page-body"
 >
   <SiteHeader />
 
-  <main class="capabilities-page">
-    <header class="capabilities-page__intro">
-      <div class="section-index mono-label">
-        <span>CAPABILITIES</span>
-        <span>IMPLEMENTED & TESTED</span>
+  <main class="capabilities-page" aria-labelledby="capabilities-title">
+    <section class="capabilities-hero">
+      <div class="capabilities-hero__copy">
+        <p class="capabilities-hero__label"><span aria-hidden="true"></span>CAPABILITIES</p>
+        <h1 id="capabilities-title">
+          <span>사용해본 <strong>기술</strong>과</span>
+          <span>경험을 정리했습니다.</span>
+        </h1>
+        <p class="capabilities-hero__description">
+          프로젝트에서 사용해본 기술을 중심으로,<br />
+          경험한 영역과 활용 범위를 정리했습니다.
+        </p>
       </div>
-      <div>
-        <h1>기술보다 먼저,<br /><span>선택의 이유</span>를 봅니다.</h1>
-        <p>팀 전체 기술이 아닌, 직접 구현하고 테스트한 범위를 기준으로 정리했습니다.</p>
+
+      <div class="capabilities-visual" aria-hidden="true">
+        <img src="/capabilities-hero-visual.png" alt="" decoding="async" />
       </div>
-    </header>
+    </section>
 
     <section class="capability-page-list">
-      {capabilities.map((capability) => (
+      {capabilityGroups.map((capability) => (
         <article>
           <span class="capability-page-list__number">{capability.number}</span>
           <div class="capability-page-list__content">
             <h2>{capability.title}</h2>
+            <ul aria-label={`${capability.title} 기술`}>
+              {capability.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
             <p>{capability.description}</p>
-            <p class="capability-page-list__tech">{capability.items}</p>
           </div>
         </article>
       ))}
     </section>
 
-    <a class="page-next-link" href="/#contact">
-      <span>NEXT</span>
-      CONTACT →
+    <a class="capabilities-contact magnetic" href="/#contact" aria-label="Contact 영역으로 이동">
+      <span>CONTACT</span>
+      <i aria-hidden="true">↗</i>
     </a>
   </main>
+
+  <script>
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    document.querySelectorAll<HTMLElement>('.magnetic').forEach((element) => {
+      element.addEventListener('pointermove', (event) => {
+        if (reducedMotion.matches) return;
+        const rect = element.getBoundingClientRect();
+        const strength = Number(element.dataset.magneticStrength ?? 0.12);
+        const x = (event.clientX - rect.left - rect.width / 2) * strength;
+        const y = (event.clientY - rect.top - rect.height / 2) * strength;
+        element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      });
+      element.addEventListener('pointerleave', () => {
+        element.style.transform = '';
+      });
+    });
+  </script>
 </BaseLayout>
