@@ -2766,6 +2766,10 @@ footer {
     letter-spacing: -0.06em;
   }
 
+  .mobile-menu a.is-active {
+    color: var(--accent-dark);
+  }
+
   .scroll-deck {
     scroll-snap-type: y proximity;
   }

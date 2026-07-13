@@ -65,14 +65,6 @@ import { profile, projects } from '../data/portfolio';
             <a class="contact-quick-action contact-quick-action--primary magnetic" href={`mailto:${profile.email}`}>
               SEND EMAIL <i>→</i>
             </a>
-            <a
-              class="contact-quick-action contact-quick-action--secondary magnetic"
-              href={profile.github}
-              target="_blank"
-              rel="noreferrer"
-            >
-              VIEW GITHUB <i>↗</i>
-            </a>
           </div>
         </div>
         <h2 id="contact-title">READY TO <span>GROW.</span></h2>
@@ -86,7 +78,7 @@ import { profile, projects } from '../data/portfolio';
         </a>
         <a class="contact-link magnetic" href={profile.github} target="_blank" rel="noreferrer">
           <span>GITHUB</span>
-          <strong>github.com/Ho-jin98</strong>
+          <strong>github.com</strong>
           <i>↗</i>
         </a>
         {
@@ -127,6 +119,7 @@ import { profile, projects } from '../data/portfolio';
     const deck = document.querySelector<HTMLElement>('[data-scroll-deck]');
     const panels = [...document.querySelectorAll<HTMLElement>('[data-panel]')];
     const progressLinks = [...document.querySelectorAll<HTMLAnchorElement>('.panel-progress a')];
+    const mainNavLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-main-nav]')];
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const finePointer = window.matchMedia('(pointer: fine)');
 
@@ -139,6 +132,10 @@ import { profile, projects } from '../data/portfolio';
             panels.forEach((panel) => panel.classList.toggle('is-active', panel === entry.target));
             progressLinks.forEach((link) => {
               link.classList.toggle('is-current', link.hash === `#${entry.target.id}`);
+            });
+            const activeNav = entry.target.id === 'contact' ? 'contact' : 'work';
+            mainNavLinks.forEach((link) => {
+              link.classList.toggle('is-active', link.dataset.mainNav === activeNav);
             });
           });
         },

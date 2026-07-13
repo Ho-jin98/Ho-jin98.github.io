@@ -11,10 +11,10 @@ const isCapabilitiesPage = Astro.url.pathname === '/capabilities';
   </a>
 
   <nav class="desktop-nav" aria-label="주요 메뉴">
-    <a class:list={['magnetic', isWorkPage && 'is-active']} href="/#hankkipot">WORK</a>
+    <a class:list={['magnetic', isWorkPage && 'is-active']} href="/#hankkipot" data-main-nav="work">WORK</a>
     <a class:list={['magnetic', isAboutPage && 'is-active']} href="/about">ABOUT</a>
     <a class:list={['magnetic', isCapabilitiesPage && 'is-active']} href="/capabilities">CAPABILITIES</a>
-    <a class="magnetic" href="/#contact">CONTACT</a>
+    <a class="magnetic" href="/#contact" data-main-nav="contact">CONTACT</a>
   </nav>
 
   <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">
@@ -24,10 +24,10 @@ const isCapabilitiesPage = Astro.url.pathname === '/capabilities';
   </button>
 
   <nav id="mobile-menu" class="mobile-menu" aria-label="모바일 메뉴" hidden>
-    <a href="/#hankkipot">WORK</a>
+    <a class:list={[isWorkPage && 'is-active']} href="/#hankkipot" data-main-nav="work">WORK</a>
     <a href="/about">ABOUT</a>
     <a href="/capabilities">CAPABILITIES</a>
-    <a href="/#contact">CONTACT</a>
+    <a href="/#contact" data-main-nav="contact">CONTACT</a>
   </nav>
 </header>
 
