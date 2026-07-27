@@ -118,4 +118,25 @@ const capabilityGroups = [
       });
     });
   </script>
+
+  <style is:global>
+    @keyframes capabilities-fade-in {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    body.capabilities-page-body .capabilities-hero__label,
+    body.capabilities-page-body .capabilities-hero h1,
+    body.capabilities-page-body .capabilities-hero__description,
+    body.capabilities-page-body .capabilities-visual,
+    body.capabilities-page-body .capability-page-list,
+    body.capabilities-page-body .capabilities-contact {
+      animation-name: capabilities-fade-in;
+    }
+  </style>
 </BaseLayout>
