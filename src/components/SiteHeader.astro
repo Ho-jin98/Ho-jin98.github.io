@@ -1,8 +1,9 @@
 ---
-const isProjectPage = Astro.url.pathname.startsWith('/work/');
-const isWorkPage = Astro.url.pathname === '/' || isProjectPage;
-const isAboutPage = Astro.url.pathname === '/about';
-const isCapabilitiesPage = Astro.url.pathname === '/capabilities';
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isProjectPage = pathname.startsWith('/work/');
+const isWorkPage = pathname === '/' || isProjectPage;
+const isAboutPage = pathname === '/about';
+const isCapabilitiesPage = pathname === '/capabilities';
 ---
 
 <header class="site-header">
@@ -25,8 +26,8 @@ const isCapabilitiesPage = Astro.url.pathname === '/capabilities';
 
   <nav id="mobile-menu" class="mobile-menu" aria-label="모바일 메뉴" hidden>
     <a class:list={[isWorkPage && 'is-active']} href="/#hankkipot" data-main-nav="work">WORK</a>
-    <a href="/about">ABOUT</a>
-    <a href="/capabilities">CAPABILITIES</a>
+    <a class:list={[isAboutPage && 'is-active']} href="/about">ABOUT</a>
+    <a class:list={[isCapabilitiesPage && 'is-active']} href="/capabilities">CAPABILITIES</a>
     <a href="/#contact" data-main-nav="contact">CONTACT</a>
   </nav>
 </header>

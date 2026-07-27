@@ -224,10 +224,11 @@ button {
 
 .wordmark {
   display: inline-block;
-  font-family: var(--display);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   font-size: clamp(1.3rem, 1.25vw, 1.55rem);
-  font-weight: 900;
-  letter-spacing: -0.025em;
+  font-stretch: normal;
+  font-weight: 780;
+  letter-spacing: 0.075em;
   transition: transform 300ms var(--ease-out);
   animation: intro-from-left 560ms 680ms var(--ease-out) backwards;
 }
@@ -382,6 +383,7 @@ button {
   width: min(76rem, 86vw);
   margin-top: auto;
   margin-bottom: auto;
+  transform: translateY(clamp(-2.25rem, -4vh, -1.25rem));
 }
 
 .eyebrow {
@@ -419,6 +421,16 @@ button {
 .hero-copy h1 em {
   color: var(--case-blue);
   font-style: normal;
+}
+
+#hero-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: clamp(3.1rem, 5.1vw, 5.85rem);
+  font-stretch: normal;
+  font-weight: 800;
+  letter-spacing: 0.015em;
+  line-height: 1.08;
+  white-space: nowrap;
 }
 
 .hero-description {
@@ -995,6 +1007,15 @@ button {
   color: var(--case-blue);
 }
 
+#contact-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-stretch: normal;
+  font-weight: 800;
+  letter-spacing: 0.035em;
+  line-height: 1.08;
+  word-spacing: 0.08em;
+}
+
 .contact-quick-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1344,6 +1365,17 @@ footer {
   letter-spacing: -0.06em;
   line-height: 0.92;
   word-break: keep-all;
+}
+
+#k-server .project-showcase h2,
+#readys7 .project-showcase h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: clamp(3.9rem, 6.15vw, 6.65rem);
+  font-stretch: normal;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.08;
+  word-spacing: 0.06em;
 }
 
 .project-showcase__tagline {
