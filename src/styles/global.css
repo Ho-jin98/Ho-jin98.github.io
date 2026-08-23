@@ -39,13 +39,14 @@
   --type-body: clamp(0.96rem, 1vw, 1.08rem);
   --type-body-sm: clamp(0.84rem, 0.88vw, 0.92rem);
   --type-meta: clamp(0.76rem, 0.82vw, 0.9rem);
-  --type-case-section: clamp(2rem, 2.55vw, 3rem);
+  --type-case-section: clamp(1.9rem, 2.3vw, 2.65rem);
   --type-project-overview-title: var(--type-case-section);
   --type-case-chapter-title: clamp(1.6rem, 1.95vw, 1.9rem);
   --type-case-feature: clamp(1.16rem, 1.48vw, 1.42rem);
   --type-case-detail: clamp(0.98rem, 1.05vw, 1.14rem);
-  --type-case-copy: clamp(0.92rem, 1vw, 1.05rem);
-  --type-case-meta: 0.72rem;
+  --type-case-copy: clamp(0.96rem, 1vw, 1.05rem);
+  --type-case-card-copy: clamp(0.88rem, 0.95vw, 0.98rem);
+  --type-case-meta: 0.76rem;
   --tracking-title: -0.025em;
   --tracking-tight: -0.015em;
   --tracking-label: 0.08em;

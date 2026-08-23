@@ -2158,13 +2158,7 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #service-flow .case-story-cards article {
   min-height: 6rem;
-  padding: 0.95rem 1.05rem;
   border-bottom: 3px solid #e8eaff;
-}
-
-.case-study--hankkipot #service-flow .case-story-cards article p {
-  font-size: 0.84rem;
-  line-height: 1.52;
 }
 
 .case-study--hankkipot #service-flow .case-story-cards article > span {
@@ -2188,7 +2182,6 @@ body.case-study-page--hankkipot {
 
 /* GPS decision: reasoning, transition, policy, lifecycle. */
 .case-study.case-study--hankkipot #gps-verification {
-  padding-top: 1.15rem;
   padding-bottom: 1.25rem;
 }
 
@@ -2271,13 +2264,7 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #gps-verification [data-block-label="GPS 인증 정책"] article {
   min-height: 5.8rem;
-  padding: 1rem;
   border-top: 3px solid #6870f2;
-}
-
-.case-study--hankkipot #gps-verification [data-block-label="GPS 인증 정책"] article p {
-  font-size: 0.84rem;
-  line-height: 1.55;
 }
 
 .case-study--hankkipot #gps-verification [data-block-label="위치 데이터 생명주기"] {
@@ -2289,14 +2276,8 @@ body.case-study-page--hankkipot {
   background: #f4f5ff;
 }
 
-.case-study--hankkipot #gps-verification [data-block-label="위치 데이터 생명주기"] p {
-  font-size: 0.86rem;
-  line-height: 1.55;
-}
-
 /* QR: summary remains visible while detail is split into three focused tabs. */
 .case-study.case-study--hankkipot #qr-completion {
-  padding-top: 1.15rem;
   padding-bottom: 1.35rem;
 }
 
@@ -2316,11 +2297,6 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #qr-completion [data-block-label="핵심 구조"] > span {
   position: static;
-}
-
-.case-study--hankkipot #qr-completion [data-block-label="핵심 구조"] p {
-  font-size: 0.9rem;
-  line-height: 1.5;
 }
 
 .case-study--hankkipot #qr-completion .case-tabs {
@@ -2360,9 +2336,7 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #qr-completion .case-tabs__intro {
-  max-width: 59rem;
-  font-size: 0.84rem;
-  line-height: 1.55;
+  max-width: 68rem;
 }
 
 .case-study--hankkipot #qr-completion .case-content-group--deck {
@@ -2370,17 +2344,11 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards {
-  gap: 0.65rem;
+  gap: clamp(0.78rem, 1vw, 1rem);
 }
 
 .case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article {
   min-height: 5.7rem;
-  padding: 0.85rem 0.95rem;
-}
-
-.case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article p {
-  font-size: 0.8rem;
-  line-height: 1.5;
 }
 
 .case-study--hankkipot #qr-completion .case-hierarchy--deck {
@@ -2741,13 +2709,7 @@ body.case-study-page--hankkipot {
 }
 
 .case-study.case-study--hankkipot #gps-verification {
-  padding-top: 1.6rem;
   padding-bottom: 1.75rem;
-}
-
-.case-study--hankkipot #gps-verification .case-section__heading {
-  margin-bottom: 1rem;
-  padding-bottom: 0.85rem;
 }
 
 .case-study--hankkipot #gps-verification .case-content-stack {
@@ -2756,7 +2718,6 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #gps-verification .case-story-cards--2 article {
   min-height: 8rem;
-  padding: 1.35rem 1.45rem;
 }
 
 .case-study--hankkipot #gps-verification .case-story-cards--4 {
@@ -2765,12 +2726,6 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #gps-verification .case-story-cards article {
   min-height: 7.4rem;
-  padding: 1.25rem 1.35rem;
-}
-
-.case-study--hankkipot #gps-verification .case-story-cards article p {
-  font-size: 0.9rem;
-  line-height: 1.65;
 }
 
 .case-study--hankkipot #gps-verification .case-callout {
@@ -2786,8 +2741,8 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #gps-verification .case-callout p {
-  font-size: 0.98rem;
-  line-height: 1.68;
+  font-size: var(--type-case-copy);
+  line-height: 1.74;
 }
 
 .case-study--hankkipot #qr-completion .case-story-cards--4 {
@@ -2796,7 +2751,6 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #qr-completion .case-story-cards article {
   min-height: 6.8rem;
-  padding: 1.1rem 1.2rem;
 }
 
 .case-study--hankkipot #qr-completion .case-hierarchy {
@@ -3310,8 +3264,8 @@ body.case-study-page--hankkipot {
 .case-study--hankkipot #gps-verification .case-subsection p {
   max-width: 69rem;
   color: #525c70;
-  font-size: 0.88rem;
-  line-height: 1.62;
+  font-size: var(--type-case-copy);
+  line-height: 1.74;
 }
 
 .case-study--hankkipot #gps-verification .case-story-cards--3 {
@@ -3320,9 +3274,7 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #gps-verification .case-story-cards article {
   min-height: 6.3rem;
-  padding: 1rem 1.1rem;
   border-top: 3px solid #747bed;
-  border-radius: 0.9rem;
 }
 
 .case-comparison {
@@ -3394,8 +3346,8 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #gps-verification .case-callout p {
-  font-size: 0.88rem;
-  line-height: 1.58;
+  font-size: var(--type-case-copy);
+  line-height: 1.74;
 }
 
 .case-accordions {
@@ -3581,8 +3533,8 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #overview .hankki-overview__hero {
-  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
-  gap: clamp(2.4rem, 3.8vw, 4rem);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(2rem, 3vw, 3.2rem);
 }
 
 .case-study--hankkipot #overview .hankki-overview__copy h3 em,
@@ -3618,14 +3570,16 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #overview .hankki-overview__chips li {
-  padding: 0.54rem 0.9rem;
+  min-height: 2.15rem;
+  padding: 0.5rem 0.86rem;
   color: #29469d;
   border-color: rgba(79, 109, 255, 0.24);
   background: rgba(79, 109, 255, 0.065);
   box-shadow: none;
   font-family: var(--sans);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 720;
+  line-height: 1.2;
 }
 
 .case-study--hankkipot #overview .hankki-overview__visual {
@@ -3929,10 +3883,10 @@ body.case-study-page--hankkipot {
   max-width: 68rem;
   color: #3d4a60;
   font-family: var(--sans);
-  font-size: 0.9rem;
+  font-size: var(--type-case-copy);
   font-weight: 500;
   letter-spacing: -0.012em;
-  line-height: 1.68;
+  line-height: 1.74;
   white-space: pre-line;
 }
 
@@ -3944,13 +3898,7 @@ body.case-study-page--hankkipot {
 /* Keep the approach chapter inside one desktop viewport without changing its structure. */
 @media (min-width: 721px) {
   .case-study.case-study--hankkipot #service-flow {
-    padding-top: clamp(1.2rem, 2.2vh, 1.75rem);
     padding-bottom: clamp(1.15rem, 2vh, 1.6rem);
-  }
-
-  .case-study--hankkipot #service-flow .case-section__heading {
-    margin-bottom: clamp(0.8rem, 1.25vh, 1rem);
-    padding-bottom: clamp(0.65rem, 1.1vh, 0.9rem);
   }
 
   .case-study--hankkipot #service-flow .case-content-stack {
@@ -3997,7 +3945,6 @@ body.case-study-page--hankkipot {
   .case-study--hankkipot #service-flow .case-approach__cards article,
   .case-study--hankkipot #service-flow .case-approach__cards article:nth-child(2) {
     min-height: 0;
-    padding: clamp(0.88rem, 1.28vh, 1.02rem) 1.15rem;
   }
 
   .case-study--hankkipot #service-flow .case-approach__cards span {
@@ -4010,8 +3957,6 @@ body.case-study-page--hankkipot {
 
   .case-study--hankkipot #service-flow .case-approach__cards p {
     margin-top: 0.46rem;
-    font-size: 0.86rem;
-    line-height: 1.66;
   }
 
   .case-study--hankkipot #service-flow .case-callout {
@@ -4026,20 +3971,12 @@ body.case-study-page--hankkipot {
 
   .case-study--hankkipot #service-flow .case-callout p {
     margin: 0;
-    font-size: 0.88rem;
-    line-height: 1.62;
   }
 }
 
 @media (min-width: 721px) and (min-height: 800px) {
   .case-study.case-study--hankkipot #service-flow {
-    padding-top: clamp(1.65rem, 2.8vh, 2.2rem);
     padding-bottom: clamp(1.6rem, 2.6vh, 2.1rem);
-  }
-
-  .case-study--hankkipot #service-flow .case-section__heading {
-    margin-bottom: clamp(0.95rem, 1.6vh, 1.25rem);
-    padding-bottom: clamp(0.8rem, 1.35vh, 1.05rem);
   }
 
   .case-study--hankkipot #service-flow .case-content-stack {
@@ -4410,14 +4347,12 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #gps-verification .case-tabs__intro {
-  width: min(100%, 58rem);
+  width: min(100%, 68rem);
   margin: 0 0 0.85rem;
   color: #4d5a70;
   font-family: var(--sans);
-  font-size: 0.87rem;
   font-weight: 470;
   letter-spacing: -0.012em;
-  line-height: 1.65;
   white-space: pre-line;
   word-break: keep-all;
 }
@@ -4433,28 +4368,20 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #gps-verification .case-tabs__panel .case-story-cards article {
   min-height: 8.2rem;
-  padding: 1rem 1.05rem;
   border: 1px solid #dfe7f2;
   border-top: 3px solid #78a1e8;
-  border-radius: 0.9rem;
   background: #fff;
-  box-shadow: 0 0.55rem 1.4rem rgba(41, 65, 112, 0.04);
 }
 
 .case-study--hankkipot #gps-verification .case-tabs__panel .case-story-cards article > span {
   color: #1d2b43;
   font-family: var(--sans);
-  font-size: 0.9rem;
   font-weight: 820;
-  line-height: 1.4;
 }
 
 .case-study--hankkipot #gps-verification .case-tabs__panel .case-story-cards article > p {
-  margin-top: 0.48rem;
   color: #526078;
   font-family: var(--sans);
-  font-size: 0.79rem;
-  line-height: 1.58;
 }
 
 .case-study--hankkipot #gps-verification .case-tab-callout.is-soft {
@@ -4593,8 +4520,6 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #gps-verification .case-tabs__intro {
   margin-bottom: 0.68rem;
-  font-size: 0.84rem;
-  line-height: 1.56;
 }
 
 .case-study--hankkipot #gps-verification .case-tabs__panel .case-content-group--deck {
@@ -4615,7 +4540,6 @@ body.case-study-page--hankkipot {
   .case-story-cards
   article {
   min-height: 6.65rem;
-  padding: 0.82rem 0.9rem;
 }
 
 .case-study--hankkipot
@@ -4624,7 +4548,7 @@ body.case-study-page--hankkipot {
   .case-story-cards
   article
   > span {
-  font-size: 0.86rem;
+  font-size: var(--type-case-detail);
 }
 
 .case-study--hankkipot
@@ -4633,9 +4557,9 @@ body.case-study-page--hankkipot {
   .case-story-cards
   article
   > p {
-  margin-top: 0.38rem;
-  font-size: 0.76rem;
-  line-height: 1.48;
+  margin-top: 0.5rem;
+  font-size: var(--type-case-card-copy);
+  line-height: 1.68;
 }
 
 .case-study--hankkipot #gps-verification .case-tab-callout.is-soft {
@@ -4749,13 +4673,7 @@ body.case-study-page--hankkipot {
 }
 
 .case-study.case-study--hankkipot #gps-verification {
-  padding-top: clamp(0.85rem, 1.8vh, 1.45rem);
   padding-bottom: 0;
-}
-
-.case-study--hankkipot #gps-verification .case-section__heading {
-  margin-bottom: clamp(1.6rem, 3.2vh, 2.45rem);
-  padding-bottom: clamp(0.95rem, 1.8vh, 1.3rem);
 }
 
 .case-study--hankkipot #gps-verification .case-tabs {
@@ -4808,16 +4726,13 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #gps-verification .case-tabs__intro {
-  width: min(100%, 64rem);
+  width: min(100%, 68rem);
   margin-bottom: 0.94rem;
   color: #536078;
-  font-size: 0.84rem;
-  line-height: 1.56;
 }
 
 .case-study--hankkipot #gps-verification #gps-verification-sdk-transition-panel .case-tabs__intro {
-  font-size: 0.88rem;
-  line-height: 1.62;
+  line-height: 1.74;
 }
 
 .case-study--hankkipot #gps-verification .case-text-highlight {
@@ -4838,7 +4753,6 @@ body.case-study-page--hankkipot {
   .case-story-cards
   article {
   min-height: 9.42rem;
-  padding: 1.18rem 1.22rem;
   border-color: #dfe7f2;
   border-top: 0;
   background: linear-gradient(145deg, #fff, #f9fbfe);
@@ -4861,7 +4775,7 @@ body.case-study-page--hankkipot {
   article
   > span {
   color: #1d2b43;
-  font-size: 0.9rem;
+  font-size: var(--type-case-detail);
 }
 
 .case-study--hankkipot
@@ -4870,10 +4784,10 @@ body.case-study-page--hankkipot {
   .case-story-cards
   article
   > p {
-  margin-top: 0.88rem;
+  margin-top: 0.5rem;
   color: #46546d;
-  font-size: 0.84rem;
-  line-height: 1.78;
+  font-size: var(--type-case-card-copy);
+  line-height: 1.68;
   white-space: pre-line;
 }
 
@@ -5207,7 +5121,7 @@ body.case-study-page--hankkipot {
 
 /* QR completion implementation tabs: match the decision page folder style. */
 .case-study.case-study--hankkipot #qr-completion {
-  padding-top: clamp(0.35rem, 1vh, 0.8rem);
+  padding-bottom: 1.35rem;
 }
 
 .case-study--hankkipot #qr-completion .case-section__heading h2 em {
@@ -5228,9 +5142,7 @@ body.case-study-page--hankkipot {
 .case-study--hankkipot #qr-completion .case-prose p {
   max-width: 62rem;
   color: #4b5870;
-  font-size: 0.96rem;
   font-weight: 520;
-  line-height: 1.82;
   white-space: pre-line;
 }
 
@@ -5315,12 +5227,10 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #qr-completion .case-tabs__intro {
-  width: min(100%, 66rem);
+  width: min(100%, 68rem);
   margin-bottom: 1.14rem;
   color: #4b5870;
-  font-size: 0.86rem;
   font-weight: 520;
-  line-height: 1.68;
   white-space: pre-line;
 }
 
@@ -5338,11 +5248,8 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article {
   min-height: 9.15rem;
-  padding: 1.26rem 1.3rem;
   border-color: #dfe7f2;
   border-top: 0;
-  background: linear-gradient(145deg, #fff, #f9fbfe);
-  box-shadow: 0 0.45rem 1.15rem rgba(41, 65, 112, 0.035);
 }
 
 .case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article::before {
@@ -5353,18 +5260,13 @@ body.case-study-page--hankkipot {
 .case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article > span {
   color: #1d2b43;
   font-family: inherit;
-  font-size: 0.9rem;
   font-weight: 780;
-  line-height: 1.35;
 }
 
 .case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article p {
-  margin-top: 0.92rem;
   color: #43516a;
   font-family: inherit;
-  font-size: 0.81rem;
   font-weight: 500;
-  line-height: 1.82;
   white-space: pre-line;
 }
 
@@ -5389,16 +5291,16 @@ body.case-study-page--hankkipot {
 .case-study--hankkipot #qr-completion .case-flow--deck li span {
   color: #4c80bb;
   font-family: inherit;
-  font-size: 0.7rem;
+  font-size: var(--type-case-meta);
   font-weight: 820;
 }
 
 .case-study--hankkipot #qr-completion .case-flow--deck li strong {
   color: #20314b;
   font-family: inherit;
-  font-size: 0.8rem;
+  font-size: var(--type-case-card-copy);
   font-weight: 760;
-  line-height: 1.38;
+  line-height: 1.5;
 }
 
 .case-study--hankkipot #qr-completion .case-tab-callout.is-soft {
@@ -5410,9 +5312,9 @@ body.case-study-page--hankkipot {
   background: linear-gradient(90deg, #f3f8fe, rgba(255, 255, 255, 0.92));
   color: #243f63;
   font-family: inherit;
-  font-size: 0.9rem;
+  font-size: var(--type-case-copy);
   font-weight: 700;
-  line-height: 1.7;
+  line-height: 1.74;
   white-space: pre-line;
   box-shadow: inset 0.08rem 0 0 rgba(57, 122, 198, 0.12);
 }
@@ -5454,17 +5356,12 @@ body.case-study-page--hankkipot {
 }
 
 @media (max-height: 760px) and (min-width: 881px) {
-  .case-study.case-study--hankkipot #qr-completion {
-    padding-top: 0.22rem;
-  }
-
   .case-study--hankkipot #qr-completion .case-content-stack {
     gap: 0.82rem;
   }
 
   .case-study--hankkipot #qr-completion .case-prose p {
-    font-size: 0.89rem;
-    line-height: 1.58;
+    line-height: 1.7;
   }
 
   .case-study--hankkipot #qr-completion .case-prose p + p {
@@ -5483,8 +5380,6 @@ body.case-study-page--hankkipot {
 
   .case-study--hankkipot #qr-completion .case-tabs__intro {
     margin-bottom: 0.52rem;
-    font-size: 0.81rem;
-    line-height: 1.46;
   }
 
   .case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article {
@@ -5493,8 +5388,7 @@ body.case-study-page--hankkipot {
   }
 
   .case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article p {
-    font-size: 0.76rem;
-    line-height: 1.6;
+    line-height: 1.68;
   }
 
   .case-study--hankkipot #qr-completion .case-flow--deck li {
@@ -5532,8 +5426,8 @@ body.case-study-page--hankkipot {
   }
 
   .case-study--hankkipot #qr-completion #qr-completion-completion-flow-panel .case-flow--deck li strong {
-    font-size: 0.72rem;
-    line-height: 1.22;
+    font-size: var(--type-case-card-copy);
+    line-height: 1.5;
   }
 
   .case-study--hankkipot #qr-completion #qr-completion-completion-flow-panel .case-content-group--deck {
@@ -6002,18 +5896,14 @@ body.case-study-page--hankkipot {
 
 .case-study--k-server #overview .case-story-cards article {
   min-height: 13.4rem;
-  padding: 1.18rem 1.24rem;
 }
 
 .case-study--k-server #overview .case-story-cards article > span {
-  font-size: 0.96rem;
   color: #234f86;
 }
 
 .case-study--k-server #overview .case-story-cards article p {
   white-space: pre-line;
-  font-size: 0.8rem;
-  line-height: 1.56;
 }
 
 .case-study--k-server #overview .case-content-group[data-block-label="핵심 구현 결과"] .case-story-cards {
@@ -6036,7 +5926,6 @@ body.case-study-page--hankkipot {
 .case-study--k-server #overview .case-content-group[data-block-label="최종 처리 구조"] article {
   position: relative;
   min-height: 8.1rem;
-  padding: 1.04rem 1.08rem;
 }
 
 .case-study--k-server #overview .case-content-group[data-block-label="최종 처리 구조"] article:not(:last-child)::after {
@@ -6059,16 +5948,14 @@ body.case-study-page--hankkipot {
 
 .case-study--k-server #overview .case-content-group[data-block-label="최종 처리 구조"] article > span {
   color: #234f86;
-  font-size: 0.9rem;
 }
 
 .case-study--k-server #overview .case-content-group[data-block-label="최종 처리 구조"] article p {
-  font-size: 0.78rem;
-  line-height: 1.5;
+  line-height: 1.68;
 }
 
 .case-study--k-server #problem .case-prose {
-  max-width: 62rem;
+  max-width: 68rem;
 }
 
 .case-study--k-server #problem .case-prose p {
@@ -6082,7 +5969,7 @@ body.case-study-page--hankkipot {
 
 .case-study--k-server #problem .case-story-cards article p {
   white-space: pre-line;
-  line-height: 1.58;
+  line-height: 1.68;
 }
 
 .case-study--k-server #problem .case-callout {
@@ -6261,8 +6148,8 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--k-server #boundary .case-flow--deck strong {
-  font-size: 0.72rem;
-  line-height: 1.34;
+  font-size: var(--type-case-card-copy);
+  line-height: 1.5;
 }
 
 .case-study--k-server #boundary .case-tabs__panel {
@@ -6285,7 +6172,7 @@ body.case-study-page--hankkipot {
   min-height: 11.4rem;
   padding: 1.08rem;
   border: 1px solid #dfe7f2;
-  border-radius: 0.9rem;
+  border-radius: 0.86rem;
   color: #1d2b43;
   background: linear-gradient(145deg, #fff, #f9fbfe);
   box-shadow: 0 0.45rem 1.15rem rgba(41, 65, 112, 0.035);
@@ -6324,7 +6211,7 @@ body.case-study-page--hankkipot {
 .case-study--k-server #boundary .case-flow-groups > article:nth-child(3) > span {
   color: #4f79d6;
   font-family: var(--sans);
-  font-size: 0.66rem;
+  font-size: var(--type-case-meta);
   font-weight: 790;
   letter-spacing: 0;
 }
@@ -6365,15 +6252,15 @@ body.case-study-page--hankkipot {
 .case-study--k-server #boundary .case-flow-groups > article:nth-child(3) li i {
   color: #4f79d6;
   font-family: var(--sans);
-  font-size: 0.62rem;
+  font-size: var(--type-case-meta);
   font-weight: 820;
 }
 
 .case-study--k-server #boundary .case-flow-groups li strong {
   font-family: var(--sans);
-  font-size: 0.78rem;
+  font-size: var(--type-case-card-copy);
   font-weight: 690;
-  line-height: 1.34;
+  line-height: 1.5;
   letter-spacing: 0;
 }
 
@@ -6382,25 +6269,22 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--k-server #boundary .case-content-group .case-story-cards {
-  gap: 0.82rem;
+  gap: clamp(0.78rem, 1vw, 1rem);
 }
 
 .case-study--k-server #boundary .case-story-cards article p {
   white-space: pre-line;
-  font-size: 0.78rem;
-  line-height: 1.46;
+  line-height: 1.68;
 }
 
 .case-study--k-server #boundary .case-story-cards article {
   min-height: 7.2rem;
-  padding: 0.95rem 1rem;
 }
 
 .case-study--k-server #boundary .case-callout {
   margin-top: 0.72rem;
   padding: 0.9rem 1rem;
   white-space: pre-line;
-  line-height: 1.48;
 }
 
 .case-study--k-server #consistency .case-prose {
@@ -7410,7 +7294,7 @@ body.case-study-page--hankkipot {
 .case-study--readys7 #problem .case-prose p {
   color: #4b5870;
   font-family: var(--sans);
-  font-size: clamp(0.94rem, 1vw, 1.04rem);
+  font-size: var(--type-case-copy);
   font-weight: 500;
   line-height: 1.74;
   white-space: pre-line;
@@ -7531,7 +7415,7 @@ body.case-study-page--hankkipot {
 .case-study--readys7 #search-cache .case-prose p {
   color: #4b5870;
   font-family: var(--sans);
-  font-size: clamp(0.94rem, 1vw, 1.04rem);
+  font-size: var(--type-case-copy);
   font-weight: 500;
   line-height: 1.74;
   white-space: pre-line;
@@ -7554,7 +7438,7 @@ body.case-study-page--hankkipot {
 .case-study--readys7 #search-cache .case-cache-rules {
   min-width: 0;
   border: 1px solid #dfe7f2;
-  border-radius: 1rem;
+  border-radius: 0.86rem;
   background: linear-gradient(145deg, #ffffff, #f8fbff);
   box-shadow: 0 0.55rem 1.35rem rgba(41, 65, 112, 0.04);
 }
@@ -7644,7 +7528,7 @@ body.case-study-page--hankkipot {
 .case-study--readys7 #search-cache .case-cache-flow__entry span {
   color: #5d83ee;
   font-family: var(--sans);
-  font-size: 0.68rem;
+  font-size: var(--type-case-meta);
   font-weight: 850;
   line-height: 1;
 }
@@ -7652,9 +7536,9 @@ body.case-study-page--hankkipot {
 .case-study--readys7 #search-cache .case-cache-flow__entry strong {
   color: #1d2b43;
   font-family: var(--sans);
-  font-size: 0.84rem;
+  font-size: var(--type-case-card-copy);
   font-weight: 780;
-  line-height: 1.38;
+  line-height: 1.5;
 }
 
 .case-study--readys7 #search-cache .case-cache-flow__branches {
@@ -7702,7 +7586,7 @@ body.case-study-page--hankkipot {
   display: inline-flex;
   color: #315d9b;
   font-family: var(--sans);
-  font-size: 0.74rem;
+  font-size: var(--type-case-meta);
   font-weight: 860;
   line-height: 1.2;
 }
@@ -7732,9 +7616,9 @@ body.case-study-page--hankkipot {
   position: relative;
   color: #1d2b43;
   font-family: var(--sans);
-  font-size: 0.79rem;
+  font-size: var(--type-case-card-copy);
   font-weight: 720;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .case-study--readys7 #search-cache .case-cache-flow__branch li::before {
@@ -7778,9 +7662,9 @@ body.case-study-page--hankkipot {
   color: #33445c;
   background: #f5f8fc;
   font-family: var(--sans);
-  font-size: 0.8rem;
+  font-size: var(--type-case-card-copy);
   font-weight: 650;
-  line-height: 1.58;
+  line-height: 1.62;
 }
 
 .case-study--readys7 #search-cache .case-cache-why li::before {
@@ -7819,7 +7703,7 @@ body.case-study-page--hankkipot {
   margin: 0;
   color: #1d2b43;
   font-family: var(--sans);
-  font-size: 0.84rem;
+  font-size: var(--type-case-detail);
   font-weight: 880;
   line-height: 1.32;
 }
@@ -7828,9 +7712,9 @@ body.case-study-page--hankkipot {
   margin: 0.34rem 0 0;
   color: #43516a;
   font-family: var(--sans);
-  font-size: 0.76rem;
+  font-size: var(--type-case-card-copy);
   font-weight: 540;
-  line-height: 1.55;
+  line-height: 1.62;
 }
 
 .case-study--readys7 #search-cache .case-tabs__panel {
@@ -7882,7 +7766,7 @@ body.case-study-page--hankkipot {
   margin: 0 0 0.72rem;
   color: #1d2b43;
   font-family: var(--sans);
-  font-size: 0.92rem;
+  font-size: var(--type-case-detail);
   font-weight: 820;
   line-height: 1.32;
 }
@@ -7890,25 +7774,16 @@ body.case-study-page--hankkipot {
 .case-study--readys7 #search-cache-search-result-cache-panel .case-story-cards {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.52rem;
+  gap: clamp(0.78rem, 1vw, 1rem);
 }
 
 .case-study--readys7 #search-cache-search-result-cache-panel .case-story-cards article {
   min-height: 0;
-  padding: 0.78rem 0.82rem;
-  border-radius: 0.66rem;
-  background: #f4f8fd;
-  box-shadow: none;
-}
-
-.case-study--readys7 #search-cache-search-result-cache-panel .case-story-cards article > span {
-  font-size: 0.8rem;
 }
 
 .case-study--readys7 #search-cache-search-result-cache-panel .case-story-cards article p {
-  margin-top: 0.34rem;
-  font-size: 0.76rem;
-  line-height: 1.5;
+  margin-top: 0.5rem;
+  line-height: 1.68;
 }
 
 .case-study--readys7 #search-cache-popular-keyword-zset-panel .case-tabs__intro {
@@ -7917,12 +7792,10 @@ body.case-study-page--hankkipot {
 
 .case-study--readys7 #search-cache-popular-keyword-zset-panel .case-story-cards article {
   min-height: 7rem;
-  padding: 1rem 1.05rem;
 }
 
 .case-study--readys7 #search-cache-popular-keyword-zset-panel .case-story-cards article p {
-  font-size: 0.8rem;
-  line-height: 1.58;
+  line-height: 1.68;
 }
 
 .case-study--readys7 #cache-consistency .case-section__heading {
@@ -8266,6 +8139,7 @@ body.case-study-page--hankkipot {
 .case-study--k-server #overview .case-section__heading h2,
 .case-study--readys7 #overview .case-section__heading h2 {
   font-size: var(--type-project-overview-title);
+  line-height: 1.16;
 }
 
 .case-study--k-server #overview .case-section__heading h2 {
@@ -8276,6 +8150,36 @@ body.case-study-page--hankkipot {
 .case-study--readys7 #overview .case-section__heading h2 {
   width: min(100%, 74rem);
   white-space: pre-line;
+}
+
+.case-study--hankkipot .hankki-overview__prose p,
+.case-study--k-server #overview .case-prose p,
+.case-study--readys7 #overview .case-prose p {
+  font-size: var(--type-case-copy);
+  line-height: 1.72;
+}
+
+.case-study--hankkipot .hankki-overview__chips li {
+  min-height: 2.15rem;
+  padding: 0.5rem 0.86rem;
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.case-study.case-study--hankkipot .case-section:not([id="overview"]) {
+  padding-top: clamp(1.35rem, 2.5vh, 1.65rem);
+}
+
+.case-study--hankkipot .case-section:not([id="overview"]) .case-section__heading {
+  margin-bottom: clamp(1rem, 1.9vh, 1.35rem);
+  padding-bottom: clamp(0.8rem, 1.45vh, 1.05rem);
+}
+
+.case-study--hankkipot .case-section:not([id="overview"]) .case-prose,
+.case-study--k-server .case-section:not([id="overview"]) .case-prose,
+.case-study--readys7 .case-section:not([id="overview"]) .case-prose {
+  width: min(100%, 68rem);
+  max-width: 68rem;
 }
 
 .case-study--hankkipot .case-content-group > h3,
@@ -8314,17 +8218,14 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot .case-prose p,
-.case-study--hankkipot .case-story-cards article p,
 .case-study--hankkipot .case-tabs__intro,
 .case-study--hankkipot .case-tab-callout,
 .case-study--hankkipot .case-callout p,
 .case-study--k-server .case-prose p,
-.case-study--k-server .case-story-cards article p,
 .case-study--k-server .case-tabs__intro,
 .case-study--k-server .case-tab-callout,
 .case-study--k-server .case-callout p,
 .case-study--readys7 .case-prose p,
-.case-study--readys7 .case-story-cards article p,
 .case-study--readys7 .case-tabs__intro,
 .case-study--readys7 .case-tab-callout,
 .case-study--readys7 .case-callout p {
@@ -8332,6 +8233,37 @@ body.case-study-page--hankkipot {
   font-size: var(--type-case-copy);
   letter-spacing: 0;
   line-height: 1.74;
+}
+
+.case-study--hankkipot .case-story-cards,
+.case-study--k-server .case-story-cards,
+.case-study--readys7 .case-story-cards {
+  gap: clamp(0.78rem, 1vw, 1rem);
+  border: 0;
+}
+
+.case-study--hankkipot .case-story-cards article,
+.case-study--k-server .case-story-cards article,
+.case-study--readys7 .case-story-cards article {
+  padding: clamp(1rem, 1.2vw, 1.25rem);
+  border: 1px solid #dfe7f2;
+  border-radius: 0.86rem;
+  background: linear-gradient(145deg, #fff, #f9fbfe);
+  box-shadow: 0 0.45rem 1.15rem rgba(41, 65, 112, 0.035);
+}
+
+.case-study--hankkipot .case-story-cards article + article {
+  border-left: 1px solid #dfe7f2;
+}
+
+.case-study--hankkipot .case-story-cards article p,
+.case-study--k-server .case-story-cards article p,
+.case-study--readys7 .case-story-cards article p {
+  margin-top: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-card-copy);
+  letter-spacing: 0;
+  line-height: 1.68;
 }
 
 .case-study--hankkipot .case-story-cards article > span,
@@ -8378,7 +8310,7 @@ body.case-study-page--hankkipot {
   .case-study--hankkipot .hankki-overview__copy h3,
   .case-study--k-server #overview .case-section__heading h2,
   .case-study--readys7 #overview .case-section__heading h2 {
-    font-size: clamp(1.72rem, 8vw, 2.25rem);
+    font-size: clamp(1.72rem, 7.4vw, 2.05rem);
     line-height: 1.18;
   }
 
