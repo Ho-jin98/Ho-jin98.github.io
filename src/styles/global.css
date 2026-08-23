@@ -26,9 +26,27 @@
   --case-blue-hover: #277dc5;
   --case-blue-light: #8bb9ec;
   --case-blue-shadow: rgba(47, 125, 211, 0.2);
-  --display: "Arial Narrow", "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
-  --sans: Inter, Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --font-display: var(--font-sans);
+  --sans: var(--font-sans);
+  --display: var(--font-display);
   --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  --type-display-hero: clamp(3.1rem, 5.1vw, 5.85rem);
+  --type-page-title: clamp(2.85rem, 3.45vw, 3.95rem);
+  --type-project-title: clamp(4.4rem, 7vw, 7.5rem);
+  --type-section-title: clamp(3.3rem, 7.8vw, 8.5rem);
+  --type-content-title: clamp(1rem, 1.12vw, 1.22rem);
+  --type-body: clamp(0.96rem, 1vw, 1.08rem);
+  --type-body-sm: clamp(0.84rem, 0.88vw, 0.92rem);
+  --type-meta: clamp(0.76rem, 0.82vw, 0.9rem);
+  --type-case-section: clamp(2rem, 2.55vw, 3rem);
+  --type-case-feature: clamp(1.16rem, 1.48vw, 1.42rem);
+  --type-case-detail: clamp(0.98rem, 1.05vw, 1.14rem);
+  --type-case-copy: clamp(0.92rem, 1vw, 1.05rem);
+  --type-case-meta: 0.72rem;
+  --tracking-title: -0.025em;
+  --tracking-tight: -0.015em;
+  --tracking-label: 0.08em;
   --gutter: clamp(1.25rem, 4vw, 4.5rem);
   --header-height: 4.75rem;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -224,9 +242,8 @@ button {
 
 .wordmark {
   display: inline-block;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: clamp(1.3rem, 1.25vw, 1.55rem);
-  font-stretch: normal;
   font-weight: 780;
   letter-spacing: 0.075em;
   transition: transform 300ms var(--ease-out);
@@ -403,7 +420,6 @@ button {
   margin: 0;
   font-family: var(--display);
   font-size: clamp(4.1rem, 8vw, 8.3rem);
-  font-stretch: condensed;
   font-weight: 900;
   letter-spacing: -0.025em;
   line-height: 1.05;
@@ -424,11 +440,10 @@ button {
 }
 
 #hero-title {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  font-size: clamp(3.1rem, 5.1vw, 5.85rem);
-  font-stretch: normal;
+  font-family: var(--font-display);
+  font-size: var(--type-display-hero);
   font-weight: 800;
-  letter-spacing: 0.015em;
+  letter-spacing: var(--tracking-tight);
   line-height: 1.08;
   white-space: nowrap;
 }
@@ -628,10 +643,10 @@ button {
 .capabilities-intro h2 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(3.3rem, 7.8vw, 8.5rem);
+  font-size: var(--type-section-title);
   font-weight: 900;
-  letter-spacing: -0.065em;
-  line-height: 0.9;
+  letter-spacing: var(--tracking-title);
+  line-height: 0.95;
   word-break: keep-all;
 }
 
@@ -692,10 +707,10 @@ button {
 .section-heading h2 {
   margin: auto 0 1.5rem;
   font-family: var(--display);
-  font-size: clamp(3rem, 5.3vw, 6rem);
+  font-size: var(--type-section-title);
   font-weight: 900;
-  letter-spacing: -0.06em;
-  line-height: 0.92;
+  letter-spacing: var(--tracking-title);
+  line-height: 0.95;
   word-break: keep-all;
 }
 
@@ -903,10 +918,6 @@ button {
   align-self: center;
 }
 
-.capabilities-intro h2 {
-  font-size: clamp(3.2rem, 6vw, 6.7rem);
-}
-
 .capabilities-intro p {
   max-width: 30rem;
   margin: 2rem 0 0;
@@ -1008,12 +1019,10 @@ button {
 }
 
 #contact-title {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  font-stretch: normal;
+  font-family: var(--font-display);
   font-weight: 800;
-  letter-spacing: 0.035em;
+  letter-spacing: var(--tracking-tight);
   line-height: 1.08;
-  word-spacing: 0.08em;
 }
 
 .contact-quick-actions {
@@ -1360,22 +1369,11 @@ footer {
 .project-showcase h2 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(4.4rem, 7vw, 7.5rem);
+  font-size: var(--type-project-title);
   font-weight: 900;
-  letter-spacing: -0.06em;
-  line-height: 0.92;
+  letter-spacing: var(--tracking-title);
+  line-height: 0.98;
   word-break: keep-all;
-}
-
-#k-server .project-showcase h2,
-#readys7 .project-showcase h2 {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  font-size: clamp(3.9rem, 6.15vw, 6.65rem);
-  font-stretch: normal;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  line-height: 1.08;
-  word-spacing: 0.06em;
 }
 
 .project-showcase__tagline {
@@ -2017,9 +2015,9 @@ footer {
   margin: 0;
   color: #101626;
   font-family: var(--display);
-  font-size: clamp(2.6rem, 3.25vw, 3.8rem);
+  font-size: var(--type-page-title);
   font-weight: 900;
-  letter-spacing: -0.04em;
+  letter-spacing: var(--tracking-title);
   line-height: 1.13;
   word-break: keep-all;
   animation: intro-rise 640ms 320ms var(--ease-out) backwards;
@@ -2339,9 +2337,9 @@ footer {
   margin: 0;
   color: #101626;
   font-family: var(--display);
-  font-size: clamp(2.85rem, 3.45vw, 3.95rem);
+  font-size: var(--type-page-title);
   font-weight: 900;
-  letter-spacing: -0.04em;
+  letter-spacing: var(--tracking-title);
   line-height: 1.13;
   word-break: keep-all;
   animation: intro-rise 640ms 320ms var(--ease-out) backwards;
