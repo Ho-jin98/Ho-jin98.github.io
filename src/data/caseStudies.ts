@@ -398,7 +398,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
         title: 'GPS Verification',
         navTitle: '핵심 의사결정',
         navSubtitle: '주요 결정과 근거',
-        lead: 'SVG 프로토타입을\nKakao Maps 기반 GPS 인증으로 전환했습니다.',
+        lead: 'SVG 프로토타입을 Kakao Maps 기반 GPS 인증으로 전환했습니다.',
         content: [
           {
             type: 'tabs',
@@ -457,7 +457,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
         title: 'QR Completion',
         navTitle: '구현 포인트',
         navSubtitle: '기능 설계와 구현',
-        lead: 'QR 토큰은 Post 단위로 공유하고,\n완료 상태는 Match 단위로 분리했습니다.',
+        lead: 'QR 토큰은 Post 단위로 공유하고, 완료 상태는 Match 단위로 분리했습니다.',
         accent: ['Post 단위', 'Match 단위'],
         content: [
           {
@@ -654,7 +654,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
       title: 'Problem Context',
       navTitle: '문제 배경',
       navSubtitle: '다중 인스턴스와 포인트 경합',
-      lead: '다중 인스턴스 상황을 가정하면\n단순 주문 API만으로는 정합성을 설명하기 어려웠습니다.',
+      lead: '다중 인스턴스 상황을 가정하면 단순 주문 API만으로는 정합성을 설명하기 어려웠습니다.',
       content: [
         {
           type: 'prose',
@@ -695,7 +695,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
       title: 'Flow Split Design',
       navTitle: '흐름 분리 설계',
       navSubtitle: '락, 트랜잭션, 이벤트 시점',
-      lead: '요청 진입, 포인트 변경, 이벤트 발행 시점을\n서로 다른 경계로 분리했습니다.',
+      lead: '요청 진입, 포인트 변경, 이벤트 발행 시점을 서로 다른 경계로 분리했습니다.',
       content: [
         {
           type: 'prose',
@@ -755,7 +755,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
       title: 'Order And Point Consistency',
       navTitle: '주문/포인트 정합성',
       navSubtitle: '분산락과 DB 비관락',
-      lead: '포인트는 잔액, 거래 이력, 주문 상태가\n함께 일관되어야 하는 도메인으로 다뤘습니다.',
+      lead: '포인트는 잔액, 거래 이력, 주문 상태가 함께 일관되어야 하는 도메인으로 다뤘습니다.',
       content: [
         {
           type: 'prose',
@@ -839,7 +839,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
       title: 'Kafka Event Processing',
       navTitle: 'Kafka 이벤트 처리',
       navSubtitle: '커밋 이후 후속 처리',
-      lead: '커밋된 주문만 Kafka 후속 처리로 이어지도록\n이벤트 발행 시점을 분리했습니다.',
+      lead: '커밋된 주문만 Kafka 후속 처리로 이어지도록 이벤트 발행 시점을 분리했습니다.',
       content: [
         {
           type: 'prose',
@@ -925,7 +925,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
       title: 'Verification Scenario',
       navTitle: '검증 시나리오',
       navSubtitle: 'k6 조건과 실행 결과',
-      lead: '동일 조건의 k6 시나리오로\n동시 요청과 이벤트 처리 결과를 확인했습니다.',
+      lead: '동일 조건의 k6 시나리오로 동시 요청과 이벤트 처리 결과를 확인했습니다.',
       content: [
         {
           type: 'prose',
@@ -1075,7 +1075,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
       title: 'Search Bottleneck',
       navTitle: '반복 검색 문제',
       navSubtitle: 'DB 직접 조회 반복',
-      lead: '통합 검색은 같은 검색 조건의 요청이 반복돼도\n매번 검색 로직과 DB 조회를 다시 수행했습니다.',
+      lead: '통합 검색은 같은 검색 조건의 요청이 반복돼도 매번 검색 로직과 DB 조회를 다시 수행했습니다.',
       content: [
         {
           type: 'prose',
@@ -1121,7 +1121,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
       title: 'Redis Cache Design',
       navTitle: '검색 결과 캐시 설계',
       navSubtitle: 'key, TTL, Cache-Aside',
-      lead: '검색 조건을 캐시 키로 분리하고,\nCache Miss일 때만 실제 검색 로직을 실행했습니다.',
+      lead: '검색 조건을 캐시 키로 분리하고, Cache Miss일 때만 실제 검색 로직을 실행했습니다.',
       content: [
         {
           type: 'prose',
@@ -1176,7 +1176,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
       title: 'Cache Consistency Design',
       navTitle: '캐시 정합성 설계',
       navSubtitle: '데이터 변경과 무효화 기준',
-      lead: '프로젝트 데이터가 변경되면 검색 캐시를 무효화하고,\n다음 검색부터 최신 결과를 조회하도록 했습니다.',
+      lead: '프로젝트 데이터가 변경되면 검색 캐시를 무효화하고, 다음 검색부터 최신 결과를 조회하도록 했습니다.',
       content: [
         {
           type: 'prose',
@@ -1291,7 +1291,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
       title: 'k6 Performance Verification',
       navTitle: 'k6 성능 검증',
       navSubtitle: 'v1 / v2 결과 비교',
-      lead: '최대 100 VU까지 증가시키는 동일한 k6 시나리오로\n캐시 미적용 v1과 Redis Cache 적용 v2를 비교했습니다.',
+      lead: '최대 100 VU까지 증가시키는 동일한 k6 시나리오로 캐시 미적용 v1과 Redis Cache 적용 v2를 비교했습니다.',
       content: [
         {
           type: 'prose',
