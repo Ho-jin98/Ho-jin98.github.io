@@ -29,7 +29,7 @@ export const projects = [
       '한끼팟은 같은 학교라는 공동체 안에서 식사 메이트를 찾을 수 있도록 기획한 대학생 대상 플랫폼입니다.',
       '완전히 낯선 사람과 만나는 부담을 줄이고,\n학교 이메일 인증 기반의 폐쇄형 구조로 더 자연스러운 만남을 만들고자 했습니다.',
     ],
-    role: '만남 인증 · 위치 · 관리자 · UI/UX',
+    role: '만남 인증, 위치, 관리자, UI/UX',
     stack: ['Spring Boot', 'JPA', 'Redis', 'React', 'TypeScript', 'Kakao Maps'],
     keywords: ['GPS 인증', 'QR 인증', '노쇼 판정', '관리자 처리', '포인트 정산'],
     metadata: [
@@ -87,7 +87,7 @@ export const projects = [
       'Ready’s7은 프로젝트를 의뢰하려는 클라이언트와 기술 역량을 가진 개발자를 연결하는 용역 매칭 플랫폼입니다.',
       '개발자는 제안서를 통해 프로젝트에 지원하고,\n클라이언트는 포트폴리오와 리뷰를 바탕으로 적합한 파트너를 찾을 수 있도록 기획했습니다.',
     ],
-    role: '인증/인가 · 클라이언트 · 관리자 · 통합 검색',
+    role: '인증/인가, 클라이언트, 관리자, 통합 검색',
     stack: ['Spring Security', 'JWT', 'QueryDSL', 'Redis', 'MySQL', 'k6'],
     keywords: ['Redis Cache', 'Search', 'K6 Test', 'Performance', 'Query Optimization'],
     metadata: [
@@ -107,25 +107,25 @@ export const capabilities = [
     number: '01',
     title: 'Backend',
     description: 'Spring Boot 기반으로 API, 인증, 상태 변경, 트랜잭션 흐름을 구현했습니다.',
-    items: 'Java 17 · Spring Boot · Spring Security · JPA · QueryDSL',
+    items: 'Java 17, Spring Boot, Spring Security, JPA, QueryDSL',
   },
   {
     number: '02',
     title: 'Data & Messaging',
     description: 'Redis와 Kafka를 활용해 캐시, 이벤트 처리, 재시도 흐름을 다뤘습니다.',
-    items: 'MySQL · Redis · Redisson · Kafka · Spring Cache',
+    items: 'MySQL, Redis, Redisson, Kafka, Spring Cache',
   },
   {
     number: '03',
     title: 'Quality',
     description: '테스트 코드와 부하 테스트를 통해 기능 동작과 개선 효과를 확인했습니다.',
-    items: 'JUnit 5 · Mockito · MockMvc · K6 · E2E Scenarios',
+    items: 'JUnit 5, Mockito, MockMvc, K6, E2E Scenarios',
   },
   {
     number: '04',
     title: 'Product Connection',
     description:
       '백엔드 흐름이 실제 화면과 연결되는지 확인하며 필요한 프론트 영역도 함께 다뤘습니다.',
-    items: 'React · TypeScript · Kakao Maps · Geolocation API · Figma',
+    items: 'React, TypeScript, Kakao Maps, Geolocation API, Figma',
   },
 ];

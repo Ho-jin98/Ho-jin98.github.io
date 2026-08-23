@@ -201,7 +201,7 @@ const highlightTextParts = (text: string) =>
                               <div class="hankki-overview">
                                 <div class="hankki-overview__hero">
                                   <div class="hankki-overview__copy">
-                                    <span class="hankki-overview__badge">한끼팟 · 만남 인증</span>
+                                    <span class="hankki-overview__badge">한끼팟 만남 인증</span>
                                     <h3>
                                       장소 인증과 QR 만남 인증을<br />
                                       서비스 완료 흐름으로 연결했습니다.
@@ -325,7 +325,7 @@ const highlightTextParts = (text: string) =>
                                   <p class="case-overview-card__summary">
                                     {block.freshness.items.map((item, itemIndex) => (
                                       <>
-                                    {itemIndex > 0 && <span aria-hidden="true">·</span>}
+                                    {itemIndex > 0 && <span aria-hidden="true">,</span>}
                                     <strong>{item.label}:</strong> {item.value}
                                       </>
                                     ))}

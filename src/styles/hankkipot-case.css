@@ -359,11 +359,6 @@ body.case-study-page--readys7 {
   width: min(100%, 74rem);
   margin: 0;
   color: var(--case-ink);
-  font-family: var(--display);
-  font-size: clamp(2rem, 2.55vw, 3rem);
-  font-weight: 850;
-  line-height: 1.16;
-  letter-spacing: -0.055em;
   word-break: keep-all;
   text-wrap: balance;
   white-space: pre-line;
@@ -1593,10 +1588,6 @@ body.case-study-page--hankkipot {
   width: min(100%, 58rem);
   margin: 0;
   color: var(--hankki-ink);
-  font-size: clamp(1.75rem, 2.35vw, 2.65rem);
-  font-weight: 850;
-  letter-spacing: -0.05em;
-  line-height: 1.28;
   text-wrap: balance;
 }
 
@@ -1974,8 +1965,6 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot .case-section__heading h2 {
   width: min(100%, 68rem);
-  font-size: clamp(2rem, 2.45vw, 2.85rem);
-  line-height: 1.18;
 }
 
 .case-study--hankkipot .case-section__heading h2 em {
@@ -2070,19 +2059,19 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #problem .case-story-cards article:nth-child(1)::before {
-  content: "01 · MAP CONTEXT";
+  content: "01 MAP CONTEXT";
 }
 
 .case-study--hankkipot #problem .case-story-cards article:nth-child(2)::before {
-  content: "02 · DISTANCE GAP";
+  content: "02 DISTANCE GAP";
 }
 
 .case-study--hankkipot #problem .case-story-cards article:nth-child(3)::before {
-  content: "03 · PLACE SEARCH";
+  content: "03 PLACE SEARCH";
 }
 
 .case-study--hankkipot #problem .case-story-cards article:nth-child(4)::before {
-  content: "04 · GROUP MATCHING";
+  content: "04 GROUP MATCHING";
 }
 
 /* Service flow: three grouped stages instead of a nine-cell table. */
@@ -2526,10 +2515,6 @@ body.case-study-page--hankkipot {
     min-height: 2.25rem;
   }
 
-  .case-study--hankkipot .case-section__heading h2 {
-    font-size: clamp(1.75rem, 6vw, 2.35rem);
-  }
-
   .case-flow-groups,
   .case-study--hankkipot #result [data-block-label="배운 점"] .case-story-cards {
     grid-template-columns: 1fr;
@@ -2620,9 +2605,6 @@ body.case-study-page--hankkipot {
   width: min(100%, 72rem);
   max-width: none;
   margin: 0;
-  font-size: clamp(2.1rem, 2.8vw, 3.2rem);
-  line-height: 1.16;
-  letter-spacing: -0.055em;
   word-break: keep-all;
   text-wrap: balance;
 }
@@ -2870,10 +2852,6 @@ body.case-study-page--hankkipot {
 @media (max-width: 880px) {
   .case-study.case-study--hankkipot .case-section {
     padding: 1.5rem var(--gutter) 4rem;
-  }
-
-  .case-study--hankkipot .case-section__heading h2 {
-    font-size: clamp(1.8rem, 6vw, 2.5rem);
   }
 
   .hankki-overview {
@@ -3128,8 +3106,6 @@ body.case-study-page--hankkipot {
 .case-study--hankkipot #gps-verification .case-section__heading h2,
 .case-study--hankkipot #demo .case-section__heading h2 {
   width: min(100%, 68rem);
-  font-size: clamp(1.8rem, 2.15vw, 2.5rem);
-  line-height: 1.2;
 }
 
 .case-study--hankkipot #problem .case-section__heading h2 em:nth-of-type(1) {
@@ -3596,13 +3572,6 @@ body.case-study-page--hankkipot {
 }
 
 @media (max-width: 720px) {
-  .case-study--hankkipot #problem .case-section__heading h2,
-  .case-study--hankkipot #service-flow .case-section__heading h2,
-  .case-study--hankkipot #gps-verification .case-section__heading h2,
-  .case-study--hankkipot #demo .case-section__heading h2 {
-    font-size: clamp(1.65rem, 7vw, 2.15rem);
-  }
-
   .case-study--hankkipot #gps-verification .case-story-cards--3,
   .case-study--hankkipot #demo .case-story-cards,
   .case-accordion__cards {
@@ -4806,11 +4775,6 @@ body.case-study-page--hankkipot {
   padding-bottom: clamp(0.95rem, 1.8vh, 1.3rem);
 }
 
-.case-study--hankkipot #gps-verification .case-section__heading h2 {
-  font-size: clamp(1.8rem, 2.15vw, 2.42rem);
-  line-height: 1.16;
-}
-
 .case-study--hankkipot #gps-verification .case-tabs {
   display: block;
 }
@@ -5264,8 +5228,6 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #qr-completion .case-section__heading h2 {
-  font-size: clamp(1.8rem, 2.15vw, 2.42rem);
-  line-height: 1.2;
   white-space: pre-line;
 }
 
@@ -5515,10 +5477,6 @@ body.case-study-page--hankkipot {
 @media (max-height: 760px) and (min-width: 881px) {
   .case-study.case-study--hankkipot #qr-completion {
     padding-top: 0.22rem;
-  }
-
-  .case-study--hankkipot #qr-completion .case-section__heading h2 {
-    font-size: clamp(1.8rem, 2.15vw, 2.42rem);
   }
 
   .case-study--hankkipot #qr-completion .case-content-stack {
@@ -5959,11 +5917,20 @@ body.case-study-page--hankkipot {
 
 .case-study--k-server .case-section__heading h2 {
   width: min(100%, 66rem);
-  font-family: var(--sans);
-  font-size: clamp(1.72rem, 2.1vw, 2.42rem);
-  font-weight: 850;
-  line-height: 1.15;
-  letter-spacing: 0;
+}
+
+.case-study.case-study--k-server #overview {
+  padding-top: clamp(0.85rem, 1.5vh, 1.25rem);
+  padding-bottom: clamp(0.4rem, 0.7vh, 0.75rem);
+}
+
+.case-study--k-server #overview .case-section__heading {
+  margin-bottom: clamp(0.8rem, 1.5vh, 1.1rem);
+  padding-bottom: clamp(0.7rem, 1.2vh, 0.9rem);
+}
+
+.case-study--k-server #overview .case-content-stack {
+  gap: clamp(0.85rem, 1.6vh, 1.25rem);
 }
 
 .case-study--k-server .case-prose p {
@@ -7043,11 +7010,6 @@ body.case-study-page--hankkipot {
 
 .case-study--readys7 #result .case-section__heading h2 {
   width: min(100%, 62rem);
-  font-family: var(--sans);
-  font-size: clamp(1.48rem, 1.75vw, 2.08rem);
-  font-weight: 850;
-  line-height: 1.18;
-  letter-spacing: -0.035em;
 }
 
 .case-study--readys7 #result .case-prose {
@@ -7472,11 +7434,6 @@ body.case-study-page--hankkipot {
 
 .case-study--readys7 #problem .case-section__heading h2 {
   width: min(100%, 66rem);
-  font-family: var(--sans);
-  font-size: clamp(1.72rem, 2.1vw, 2.42rem);
-  font-weight: 850;
-  line-height: 1.18;
-  letter-spacing: 0;
 }
 
 .case-study--readys7 #problem .case-prose {
@@ -7602,11 +7559,6 @@ body.case-study-page--hankkipot {
 
 .case-study--readys7 #search-cache .case-section__heading h2 {
   width: min(100%, 66rem);
-  font-family: var(--sans);
-  font-size: clamp(1.72rem, 2.1vw, 2.42rem);
-  font-weight: 850;
-  line-height: 1.18;
-  letter-spacing: 0;
 }
 
 .case-study--readys7 #search-cache .case-prose {
@@ -8017,11 +7969,6 @@ body.case-study-page--hankkipot {
 
 .case-study--readys7 #cache-consistency .case-section__heading h2 {
   width: min(100%, 62rem);
-  font-family: var(--sans);
-  font-size: clamp(1.48rem, 1.75vw, 2.08rem);
-  font-weight: 850;
-  line-height: 1.18;
-  letter-spacing: -0.035em;
 }
 
 .case-study--readys7 #cache-consistency .case-prose {
@@ -8330,11 +8277,12 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot .case-section__heading h2,
+.case-study--hankkipot .hankki-overview__copy h3,
 .case-study--k-server .case-section__heading h2,
 .case-study--readys7 .case-section__heading h2 {
   color: var(--case-ink, var(--ink));
   font-family: var(--font-display);
-  font-size: var(--type-case-section);
+  font-size: var(--type-project-overview-title);
   font-weight: 850;
   letter-spacing: var(--tracking-title);
   line-height: 1.16;
@@ -8432,6 +8380,7 @@ body.case-study-page--hankkipot {
 
 @media (max-width: 720px) {
   .case-study--hankkipot .case-section__heading h2,
+  .case-study--hankkipot .hankki-overview__copy h3,
   .case-study--k-server .case-section__heading h2,
   .case-study--readys7 .case-section__heading h2 {
     font-size: clamp(1.72rem, 8vw, 2.25rem);
