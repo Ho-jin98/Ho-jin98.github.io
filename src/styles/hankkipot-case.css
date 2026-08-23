@@ -8282,12 +8282,24 @@ body.case-study-page--hankkipot {
 .case-study--readys7 .case-section__heading h2 {
   color: var(--case-ink, var(--ink));
   font-family: var(--font-display);
-  font-size: var(--type-project-overview-title);
   font-weight: 850;
   letter-spacing: var(--tracking-title);
   line-height: 1.16;
   word-break: keep-all;
   text-wrap: balance;
+}
+
+.case-study--hankkipot .case-section__heading h2,
+.case-study--k-server .case-section__heading h2,
+.case-study--readys7 .case-section__heading h2 {
+  font-size: var(--type-case-chapter-title);
+}
+
+.case-study--hankkipot #overview .case-section__heading h2,
+.case-study--hankkipot .hankki-overview__copy h3,
+.case-study--k-server #overview .case-section__heading h2,
+.case-study--readys7 #overview .case-section__heading h2 {
+  font-size: var(--type-project-overview-title);
 }
 
 .case-study--hankkipot .case-content-group > h3,
@@ -8380,9 +8392,16 @@ body.case-study-page--hankkipot {
 
 @media (max-width: 720px) {
   .case-study--hankkipot .case-section__heading h2,
-  .case-study--hankkipot .hankki-overview__copy h3,
   .case-study--k-server .case-section__heading h2,
   .case-study--readys7 .case-section__heading h2 {
+    font-size: clamp(1.65rem, 6.8vw, 2rem);
+    line-height: 1.16;
+  }
+
+  .case-study--hankkipot #overview .case-section__heading h2,
+  .case-study--hankkipot .hankki-overview__copy h3,
+  .case-study--k-server #overview .case-section__heading h2,
+  .case-study--readys7 #overview .case-section__heading h2 {
     font-size: clamp(1.72rem, 8vw, 2.25rem);
     line-height: 1.18;
   }
