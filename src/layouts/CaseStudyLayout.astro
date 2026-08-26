@@ -203,8 +203,8 @@ const highlightTextParts = (text: string) =>
                                   <div class="hankki-overview__copy">
                                     <span class="hankki-overview__badge">한끼팟 만남 인증</span>
                                     <h3>
-                                      장소 인증과 QR 만남 인증을<br />
-                                      서비스 완료 흐름으로 연결했습니다.
+                                      GPS 장소 인증부터 QR 만남 인증,<br />
+                                      완료 처리까지 연결했습니다.
                                     </h3>
                                     <div class="hankki-overview__prose">
                                       {block.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
@@ -228,22 +228,22 @@ const highlightTextParts = (text: string) =>
                                   <article>
                                     <i aria-hidden="true">◎</i>
                                     <div>
-                                      <span>Kakao Maps GPS 인증</span>
-                                      <p>약속 장소와 현재 위치를 지도에 표시하고, 서버 거리 검증으로 장소 인증 여부를 판단하도록 연결했습니다.</p>
+                                      <span>서버 기준 GPS 인증</span>
+                                      <p>참여자 권한, 인증 가능 시간, 중복 인증, 현재 위치와 약속 장소의 거리를 서버에서 판단했습니다.</p>
                                     </div>
                                   </article>
                                   <article>
                                     <i aria-hidden="true">⌁</i>
                                     <div>
-                                      <span>QR 만남 인증</span>
-                                      <p>등록자는 QR을 표시하고 신청자는 스캔하는 구조로, GPS 이후 실제 대면 여부를 검증했습니다.</p>
+                                      <span>그룹 매칭 상태 일관성</span>
+                                      <p>등록자 GPS 인증은 동일 Post의 활성 Match 전체에 반영하고, 신청자는 자신의 Match에만 인증 결과를 기록했습니다.</p>
                                     </div>
                                   </article>
                                   <article>
                                     <i aria-hidden="true">♙</i>
                                     <div>
                                       <span>신청자별 완료 흐름</span>
-                                      <p>QR 인증 결과가 각 Match 완료, 위치 데이터 삭제, 책임비 반환과 후속 상태 처리로 이어지도록 구성했습니다.</p>
+                                      <p>QR 스캔 결과는 해당 신청자의 Match만 완료하고, 모든 완료 대상 Match가 종료된 경우에만 Post 전체 완료로 이어지도록 구성했습니다.</p>
                                     </div>
                                   </article>
                                 </div>
@@ -790,15 +790,235 @@ const highlightTextParts = (text: string) =>
                                   {tab.flow && (
                                     <ol class="case-flow case-flow--deck" aria-label={`${tab.title} 처리 흐름`}>
                                       {tab.flow.map((step, flowIndex) => (
-                                        <li>
+                                        <li class:list={[typeof step !== 'string' && step.tone && `is-${step.tone}`]}>
                                           <span>{String(flowIndex + 1).padStart(2, '0')}</span>
-                                          <strong>{step}</strong>
+                                          <strong>{typeof step === 'string' ? step : step.title}</strong>
+                                          {typeof step !== 'string' && step.text && <p>{step.text}</p>}
                                         </li>
                                       ))}
                                     </ol>
                                   )}
 
-                                  {tab.hierarchy && (
+                                  {tab.reliabilityRows && (
+                                    <div class="case-reliability-rows">
+                                      {tab.reliabilityRows.columns.map((column) => (
+                                        <article>
+                                          <h4>{column.title}</h4>
+                                          <ol>
+                                            {column.rows.map((row) => (
+                                              <li>
+                                                <strong>{row.label}</strong>
+                                                <span>{row.text}</span>
+                                                {row.note && <small>{row.note}</small>}
+                                              </li>
+                                            ))}
+                                          </ol>
+                                        </article>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  {tab.locationCleanup && (
+                                    <div class="case-location-cleanup">
+                                      <article class="case-location-cleanup__lifecycle">
+                                        <h4>{tab.locationCleanup.lifecycleTitle}</h4>
+                                        <ol>
+                                          {tab.locationCleanup.steps.map((step) => (
+                                            <li class:list={[step.tone && `is-${step.tone}`]}>
+                                              <span>{step.label}</span>
+                                              <div>
+                                                <strong>{step.title}</strong>
+                                                <p>{step.text}</p>
+                                              </div>
+                                            </li>
+                                          ))}
+                                        </ol>
+                                      </article>
+
+                                      <article class="case-location-cleanup__reason">
+                                        <h4>{tab.locationCleanup.reasonTitle}</h4>
+                                        <div>
+                                          {tab.locationCleanup.reasons.map((reason) => (
+                                            <section>
+                                              <strong>{reason.title}</strong>
+                                              <p>{reason.text}</p>
+                                            </section>
+                                          ))}
+                                        </div>
+                                      </article>
+
+                                      <aside class="case-tab-callout is-soft">
+                                        {highlightTextParts(tab.locationCleanup.callout).map((part) =>
+                                          part.highlight ? <strong class="case-text-highlight">{part.text}</strong> : part.text,
+                                        )}
+                                      </aside>
+                                    </div>
+                                  )}
+
+                                  {tab.noShowDecision && (
+                                    <div class:list={['case-noshow-decision', tab.noShowDecision.columns.length === 1 && 'is-single']}>
+                                      {tab.noShowDecision.columns.map((column) => (
+                                        <article>
+                                          <h4>{column.title}</h4>
+                                          {column.sections ? (
+                                            column.sections.map((section) => (
+                                              <section>
+                                                <span>{section.heading}</span>
+                                                {section.text && <p>{section.text}</p>}
+                                                {section.items && (
+                                                  <ul class="case-noshow-decision__facts">
+                                                    {section.items.map((item) => (
+                                                      <li>{item}</li>
+                                                    ))}
+                                                  </ul>
+                                                )}
+                                                {section.outcomes && (
+                                                  <ol>
+                                                    {section.outcomes.map((outcome) => (
+                                                      <li>
+                                                        <strong>{outcome.condition}</strong>
+                                                        <em aria-hidden="true">→</em>
+                                                        <p>{outcome.result}</p>
+                                                      </li>
+                                                    ))}
+                                                  </ol>
+                                                )}
+                                              </section>
+                                            ))
+                                          ) : (
+                                            <>
+                                              <section>
+                                                <span>정책</span>
+                                                <p>{column.policy}</p>
+                                              </section>
+                                              {column.precondition && (
+                                                <section>
+                                                  <span>판정 전제</span>
+                                                  <p>{column.precondition}</p>
+                                                </section>
+                                              )}
+                                              <section>
+                                                <span>판단 정보</span>
+                                                <ul class="case-noshow-decision__facts">
+                                                  {column.information.map((item) => (
+                                                    <li>{item}</li>
+                                                  ))}
+                                                </ul>
+                                              </section>
+                                              <section>
+                                                <span>상태 조합별 판정</span>
+                                                {column.outcomeNote && <p class="case-noshow-decision__note">{column.outcomeNote}</p>}
+                                                <ol>
+                                                  {column.outcomes.map((outcome) => (
+                                                    <li>
+                                                      <strong>{outcome.condition}</strong>
+                                                      <em aria-hidden="true">→</em>
+                                                      <p>{outcome.result}</p>
+                                                    </li>
+                                                  ))}
+                                                </ol>
+                                              </section>
+                                            </>
+                                          )}
+                                        </article>
+                                      ))}
+                                      {tab.noShowDecision.callout && <p class="case-tab-callout is-soft">{tab.noShowDecision.callout}</p>}
+                                    </div>
+                                  )}
+
+                                  {tab.limitation && (
+                                    <div class="case-limitation-panel">
+                                      <section>
+                                        <strong>현재 구조</strong>
+                                        {tab.limitation.current.map((paragraph) => (
+                                          <p>{paragraph}</p>
+                                        ))}
+                                        {tab.limitation.chips && (
+                                          <ul class="case-limitation-panel__chips">
+                                            {tab.limitation.chips.map((chip) => (
+                                              <li>{chip}</li>
+                                            ))}
+                                          </ul>
+                                        )}
+                                      </section>
+                                      <section>
+                                        <strong>개선 방향</strong>
+                                        {tab.limitation.improvement.map((paragraph) => (
+                                          <p>{paragraph}</p>
+                                        ))}
+                                        {tab.limitation.tests && (
+                                          <ul class="case-limitation-panel__tests">
+                                            {tab.limitation.tests.map((test) => (
+                                              <li>{test}</li>
+                                            ))}
+                                          </ul>
+                                        )}
+                                      </section>
+                                    </div>
+                                  )}
+
+                                  {section.id === 'problem' && tab.hierarchy && (
+                                    <>
+                                      <div class="case-problem-layout">
+                                        <div class="case-hierarchy case-hierarchy--deck">
+                                          <strong class="case-hierarchy__parent">{tab.hierarchy.parent}</strong>
+                                          <div class="case-hierarchy__children">
+                                            {tab.hierarchy.items.map((item) => (
+                                              <article class:list={[item.tone && `is-${item.tone}`]}>
+                                                <span>{item.label}</span>
+                                                <strong>{item.value}</strong>
+                                              </article>
+                                            ))}
+                                          </div>
+                                          <p>{tab.hierarchy.footer}</p>
+                                        </div>
+
+                                        <div class="case-problem-layout__context">
+                                          {tab.cards && (
+                                            <div class="case-content-group case-content-group--deck">
+                                              {tab.cards.label && <h4>{tab.cards.label}</h4>}
+                                              <div
+                                                class:list={[
+                                                  'case-blocks',
+                                                  'case-story-cards',
+                                                  `case-story-cards--${tab.cards.columns ?? 3}`,
+                                                ]}
+                                              >
+                                                {tab.cards.items.map((item) => (
+                                                  <article class:list={[item.tone && `case-story-card--${item.tone}`]}>
+                                                    <span>{item.label}</span>
+                                                    <p>
+                                                      {highlightTextParts(item.text).map((part) =>
+                                                        part.highlight ? (
+                                                          <strong class="case-text-highlight">{part.text}</strong>
+                                                        ) : (
+                                                          part.text
+                                                        ),
+                                                      )}
+                                                    </p>
+                                                  </article>
+                                                ))}
+                                              </div>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+
+                                      {tab.callout && (
+                                        <aside class:list={['case-tab-callout', `is-${tab.calloutTone ?? 'dark'}`]}>
+                                          {highlightTextParts(tab.callout).map((part) =>
+                                            part.highlight ? (
+                                              <strong class="case-text-highlight">{part.text}</strong>
+                                            ) : (
+                                              part.text
+                                            ),
+                                          )}
+                                        </aside>
+                                      )}
+                                    </>
+                                  )}
+
+                                  {section.id !== 'problem' && tab.hierarchy && (
                                     <div class="case-hierarchy case-hierarchy--deck">
                                       <strong class="case-hierarchy__parent">{tab.hierarchy.parent}</strong>
                                       <div class="case-hierarchy__children">
@@ -813,7 +1033,7 @@ const highlightTextParts = (text: string) =>
                                     </div>
                                   )}
 
-                                  {tab.cards && (
+                                  {section.id !== 'problem' && tab.cards && (
                                     <div class="case-content-group case-content-group--deck">
                                       {tab.cards.label && <h4>{tab.cards.label}</h4>}
                                       <div
@@ -871,7 +1091,7 @@ const highlightTextParts = (text: string) =>
                                     </div>
                                   )}
 
-                                  {tab.callout && (
+                                  {section.id !== 'problem' && tab.callout && (
                                     <aside class:list={['case-tab-callout', `is-${tab.calloutTone ?? 'dark'}`]}>
                                       {highlightTextParts(tab.callout).map((part) =>
                                         part.highlight ? <strong class="case-text-highlight">{part.text}</strong> : part.text,
@@ -894,6 +1114,9 @@ const highlightTextParts = (text: string) =>
                                             {support.items.map((item) => (
                                               <div>
                                                 <dt>{item.label}</dt>
+                                                {section.id === 'gps-verification' && tab.id === 'server-policy' && (
+                                                  <span class="case-support-arrow" aria-hidden="true">→</span>
+                                                )}
                                                 <dd>{item.value}</dd>
                                               </div>
                                             ))}
@@ -972,6 +1195,45 @@ const highlightTextParts = (text: string) =>
                               {block.label && <span>{block.label}</span>}
                               <p>{block.text}</p>
                             </aside>
+                          )}
+
+                          {block.type === 'reliabilityFlow' && (
+                            <div class="case-reliability-flow">
+                              <section class="case-reliability-main">
+                                <h3>{block.main.title}</h3>
+                                <div class="case-reliability-main__grid">
+                                  {block.main.columns.map((column) => (
+                                    <article>
+                                      <h4>{column.title}</h4>
+                                      <ol>
+                                        {column.checkpoints.map((checkpoint) => (
+                                          <li>
+                                            <strong>{checkpoint.label}</strong>
+                                            <span>{checkpoint.text}</span>
+                                          </li>
+                                        ))}
+                                      </ol>
+                                    </article>
+                                  ))}
+                                </div>
+                                <p>{block.main.conclusion}</p>
+                              </section>
+
+                              <div class="case-reliability-followups">
+                                {block.followups.map((followup) => (
+                                  <article>
+                                    <h3>{followup.title}</h3>
+                                    <p>{followup.text}</p>
+                                    <ol>
+                                      {followup.flow.map((step) => (
+                                        <li>{step}</li>
+                                      ))}
+                                    </ol>
+                                    {followup.note && <small>{followup.note}</small>}
+                                  </article>
+                                ))}
+                              </div>
+                            </div>
                           )}
                         </>
                       ))}

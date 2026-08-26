@@ -29,9 +29,9 @@ export const projects = [
       '한끼팟은 같은 학교라는 공동체 안에서 식사 메이트를 찾을 수 있도록 기획한 대학생 대상 플랫폼입니다.',
       '완전히 낯선 사람과 만나는 부담을 줄이고,\n학교 이메일 인증 기반의 폐쇄형 구조로 더 자연스러운 만남을 만들고자 했습니다.',
     ],
-    role: '만남 인증, 위치, 관리자, UI/UX',
+    role: 'GPS/QR 만남 인증, 위치 인증 상태 관리, 관리자 API',
     stack: ['Spring Boot', 'JPA', 'Redis', 'React', 'TypeScript', 'Kakao Maps'],
-    keywords: ['GPS 인증', 'QR 인증', '노쇼 판정', '관리자 처리', '포인트 정산'],
+    keywords: ['GPS 인증', 'QR 인증', '노쇼 판정', '관리자 처리', '위치 데이터'],
     metadata: [
       { label: 'ROLE', value: 'Backend' },
       { label: 'TYPE', value: 'Team Project' },
