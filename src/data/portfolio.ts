@@ -50,7 +50,7 @@ export const projects = [
     title: 'K-server',
     landingTitle: 'K-server',
     tagline: '커피 주문 시스템으로 풀어낸 백엔드 설계 프로젝트',
-    subtitle: '다중 인스턴스를 가정한 커피 주문 시스템',
+    subtitle: '동시 요청을 고려한 커피 주문 백엔드',
     period: '2026.04 — 2026.05',
     team: '1인 프로젝트',
     headline: ['동시 요청 상황에서', '정합성을 고민했습니다.'],
@@ -69,7 +69,7 @@ export const projects = [
     href: '/work/k-server',
     github: 'https://github.com/Ho-jin98/k-server-project',
     overview:
-      '다중 인스턴스와 동시 요청을 가정하고 주문, 포인트, 이벤트 처리 사이의 데이터 정합성을 학습하고 적용한 프로젝트입니다.',
+      '다수 서버 환경을 설계 가정으로 두고, 로컬 단일 인스턴스에서 주문, 포인트, 이벤트 처리 사이의 정합성 시나리오를 검증한 프로젝트입니다.',
   },
   {
     number: '04',

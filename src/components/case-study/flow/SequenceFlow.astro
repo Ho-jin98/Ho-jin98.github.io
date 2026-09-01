@@ -1,0 +1,310 @@
+---
+import FlowConnector from './FlowConnector.astro';
+import type { CaseDiagram } from '../../../data/caseStudies/types';
+
+interface Props {
+  diagram: Extract<CaseDiagram, { type: 'sequence' }>;
+  id: string;
+}
+
+const { diagram, id } = Astro.props;
+const isDeck = diagram.layout === 'deck';
+const isRoles = diagram.layout === 'roles';
+const isPhased = diagram.layout === 'phased';
+const phases = isPhased ? diagram.phases ?? [] : [];
+---
+
+<section class:list={['case-diagram', 'case-diagram--sequence', diagram.density && `case-diagram--${diagram.density}`, diagram.layout && `case-diagram--layout-${diagram.layout}`, diagram.spacingAfter && `case-diagram--spacing-after-${diagram.spacingAfter}`]} aria-label={diagram.label ?? '순차 흐름'}>
+  {diagram.label && <h4 class="case-diagram__heading">{diagram.label}</h4>}
+  {diagram.text && <p class="case-diagram__intro">{diagram.text}</p>}
+  {isRoles ? (
+    <div class="sequence-flow__roles-layout">
+      <div class="sequence-flow sequence-flow--roles">
+        {diagram.steps.map((step) => (
+          <article class:list={['case-flow-node', step.tone && `is-${step.tone}`]}>
+            <strong>{step.title}</strong>
+            {step.text && <p>{step.text}</p>}
+          </article>
+        ))}
+      </div>
+      {diagram.footer && <p class="case-diagram__footer">{diagram.footer}</p>}
+    </div>
+  ) : isPhased ? (
+    <div class="sequence-flow sequence-flow--phased">
+      {phases.map((phase, phaseIndex) => {
+        const previousStepCount = phases.slice(0, phaseIndex).reduce((total, item) => total + item.steps.length, 0);
+
+        return (
+          <section class="sequence-flow__phase">
+            <h5>{phase.title}</h5>
+            <div class="sequence-flow__phase-row">
+              {phase.steps.map((step, index) => (
+                <article class:list={['case-flow-node', step.tone && `is-${step.tone}`]}>
+                  <span>{String(previousStepCount + index + 1).padStart(2, '0')}</span>
+                  <strong>{step.title}</strong>
+                  {step.text && <p>{step.text}</p>}
+                </article>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+      {diagram.footer && <p class="case-diagram__footer">{diagram.footer}</p>}
+    </div>
+  ) : (
+    <div class="sequence-flow">
+      {diagram.steps.map((step, index) => (
+        <>
+          <article class:list={['case-flow-node', step.tone && `is-${step.tone}`]}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{step.title}</strong>
+            {step.text && <p>{step.text}</p>}
+          </article>
+          {!isDeck && index < diagram.steps.length - 1 && (
+            <FlowConnector variant="down" density={diagram.density} tone={diagram.connectorTone} />
+          )}
+        </>
+      ))}
+    </div>
+  )}
+  {!isRoles && !isPhased && diagram.footer && <p class="case-diagram__footer">{diagram.footer}</p>}
+</section>
+
+<style>
+  .sequence-flow {
+    display: grid;
+    width: min(100%, 36rem);
+    gap: 0.16rem;
+  }
+
+  .case-diagram--compact .sequence-flow {
+    gap: 0.14rem;
+  }
+
+  .case-diagram--layout-deck .sequence-flow {
+    width: 100%;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.62rem;
+  }
+
+  .case-diagram--layout-roles .sequence-flow--roles {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.3rem;
+    align-items: stretch;
+  }
+
+  .sequence-flow__roles-layout {
+    display: grid;
+    width: min(100%, 70rem);
+    grid-template-columns: minmax(0, 31rem) minmax(18rem, 1fr);
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .sequence-flow__roles-layout > .sequence-flow--roles {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .sequence-flow__roles-layout > .case-diagram__footer {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .case-diagram--layout-phased .sequence-flow--phased {
+    width: 100%;
+    gap: 1.48rem;
+  }
+
+  .sequence-flow__phase {
+    display: grid;
+    padding-left: 1.25rem;
+    gap: 0.74rem;
+  }
+
+  .sequence-flow__phase h5 {
+    margin: 0;
+    color: #1d2b43;
+    font-family: var(--font-display);
+    font-size: var(--type-case-card-copy);
+    font-weight: 820;
+    letter-spacing: 0;
+    line-height: 1.34;
+  }
+
+  .sequence-flow__phase-row {
+    display: grid;
+    width: min(100%, 58rem);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.46rem;
+    align-items: stretch;
+  }
+
+  .case-diagram__footer {
+    width: min(100%, 66rem);
+    margin: 0.86rem 0 0;
+    color: #43516a;
+    font-family: inherit;
+    font-size: var(--type-case-copy);
+    font-weight: 520;
+    line-height: 1.76;
+    word-break: keep-all;
+  }
+
+  .case-diagram--layout-roles .case-diagram__footer {
+    width: min(100%, 34rem);
+    margin: 0;
+    white-space: pre-line;
+  }
+
+  .case-flow-node {
+    display: grid;
+    grid-template-columns: 2.1rem minmax(0, 1fr);
+    padding: 0.44rem 0.68rem;
+    gap: 0.64rem;
+    align-items: center;
+    background: #fff;
+  }
+
+  .case-flow-node.is-primary {
+    background: #f3f8fe;
+  }
+
+  .case-diagram--layout-deck .case-flow-node {
+    min-height: 5.4rem;
+    padding: 0.74rem 0.72rem 0.78rem;
+    grid-template-columns: 1fr;
+    align-content: start;
+    align-items: start;
+    gap: 0.36rem;
+    box-shadow: 0 0.45rem 1rem rgba(41, 65, 112, 0.045);
+  }
+
+  .case-diagram--layout-roles .case-flow-node,
+  .case-diagram--layout-phased .case-flow-node {
+    min-height: 4.05rem;
+    padding: 0.68rem 0.78rem;
+    border-color: #d9e4f0;
+    background: linear-gradient(145deg, #fbfdff, #f4f8fc);
+  }
+
+  .case-diagram--layout-roles .case-flow-node {
+    min-height: 3.1rem;
+    padding: 0.52rem 0.64rem;
+    grid-template-columns: 1fr;
+    align-content: start;
+    align-items: start;
+    gap: 0.24rem;
+  }
+
+  .case-diagram--layout-phased .case-flow-node {
+    min-height: 5.4rem;
+    padding: 0.74rem 0.72rem 0.78rem;
+    grid-template-columns: 1fr;
+    align-content: start;
+    align-items: start;
+    gap: 0.36rem;
+    background: #fff;
+    box-shadow: 0 0.45rem 1rem rgba(41, 65, 112, 0.045);
+  }
+
+  .case-flow-node span {
+    color: #4c80bb;
+    font-family: inherit;
+    font-size: var(--type-case-meta);
+    font-weight: 820;
+    line-height: 1.3;
+  }
+
+  .case-diagram--layout-deck .case-flow-node span {
+    width: fit-content;
+    min-width: 1.58rem;
+    height: 1.38rem;
+    padding: 0 0.38rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: #edf5ff;
+    color: #315d9b;
+    font-size: 0.68rem;
+    line-height: 1;
+  }
+
+  .case-diagram--layout-phased .case-flow-node span {
+    width: fit-content;
+    min-width: 1.58rem;
+    height: 1.38rem;
+    padding: 0 0.38rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: #edf5ff;
+    color: #315d9b;
+    font-size: var(--type-case-meta);
+    line-height: 1;
+  }
+
+  .case-diagram--layout-deck .case-flow-node.is-primary span {
+    color: #fff;
+    background: #3977df;
+  }
+
+  .case-diagram--layout-deck .case-flow-node strong {
+    line-height: 1.32;
+  }
+
+  .case-diagram--layout-phased .case-flow-node strong {
+    line-height: 1.32;
+  }
+
+  .case-flow-node p {
+    grid-column: 2;
+  }
+
+  .case-diagram--layout-roles .case-flow-node p {
+    grid-column: auto;
+    margin-top: 0.04rem;
+    line-height: 1.68;
+    white-space: pre-line;
+  }
+
+  .case-diagram--layout-deck .case-flow-node p {
+    grid-column: auto;
+  }
+
+  @media (max-width: 1180px) {
+    .case-diagram--layout-deck .sequence-flow {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .case-diagram--layout-deck .sequence-flow {
+      grid-template-columns: 1fr;
+    }
+
+    .case-diagram--layout-roles .sequence-flow--roles,
+    .sequence-flow__phase-row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .sequence-flow__roles-layout {
+      grid-template-columns: 1fr;
+      gap: 0.86rem;
+    }
+
+    .sequence-flow__roles-layout > .sequence-flow--roles,
+    .sequence-flow__roles-layout > .case-diagram__footer {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .sequence-flow__phase {
+      padding-left: 0;
+    }
+  }
+</style>

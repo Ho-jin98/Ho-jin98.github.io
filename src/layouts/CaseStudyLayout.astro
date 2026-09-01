@@ -1,8 +1,11 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import HubFlow from '../components/case-study/flow/HubFlow.astro';
+import MergeFlow from '../components/case-study/flow/MergeFlow.astro';
+import SequenceFlow from '../components/case-study/flow/SequenceFlow.astro';
 import { projects } from '../data/portfolio';
-import { caseStudies } from '../data/caseStudies';
+import { caseStudies } from '../data/caseStudies/index';
 
 interface Props {
   project: (typeof projects)[number];
@@ -100,7 +103,7 @@ const highlightTextParts = (text: string) =>
             </div>
             <div class="case-study__project-copy">
               <strong>{sidebarProjectTitle}</strong>
-              <p>{project.slug === 'k-server' ? '다중 인스턴스 커피 주문 시스템' : project.subtitle}</p>
+              <p>{project.slug === 'k-server' ? '커피 주문 백엔드 프로젝트' : project.subtitle}</p>
             </div>
           </div>
         )}
@@ -186,16 +189,43 @@ const highlightTextParts = (text: string) =>
                 aria-labelledby={`${section.id}-title`}
               >
                 <div class="case-section__inner">
-                  <header class="case-section__heading">
-                    <h2 id={`${section.id}-title`}>
-                      {leadParts.map((part) => part.accent ? <em>{part.text}</em> : part.text)}
-                    </h2>
-                  </header>
+	                  {!(project.slug === 'k-server' && section.id === 'overview') && (
+	                    <header class="case-section__heading">
+	                      <h2 id={`${section.id}-title`}>
+	                        {leadParts.map((part) => part.accent ? <em>{part.text}</em> : part.text)}
+	                      </h2>
+	                    </header>
+	                  )}
 
                   {section.content && (
                     <div class="case-content-stack">
                       {section.content.map((block) => (
                         <>
+	                          {block.type === 'kServerOverview' && (
+	                            <div class="kserver-overview">
+	                              <div class="kserver-overview__hero">
+	                                <div class="kserver-overview__copy">
+	                                  <span class="kserver-overview__badge">포인트 기반 커피 주문</span>
+	                                  <h2 id={`${section.id}-title`}>
+	                                    {leadParts.map((part) => part.accent ? <em>{part.text}</em> : part.text)}
+	                                  </h2>
+
+	                                  <section class="kserver-overview__service">
+	                                    {block.intro.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+	                                  </section>
+
+	                                  <ul class="kserver-overview__highlights" aria-label="K-server 핵심 서비스 특징">
+	                                    {block.highlights.map((highlight) => <li>{highlight}</li>)}
+	                                  </ul>
+	                                </div>
+
+	                                <figure class="kserver-overview__visual">
+	                                  <img src={block.visualSrc} alt={block.visualAlt} loading="eager" decoding="async" />
+	                                </figure>
+	                              </div>
+	                            </div>
+	                          )}
+
                           {block.type === 'hero' && (
                             project.slug === 'hankkipot' ? (
                               <div class="hankki-overview">
@@ -441,19 +471,24 @@ const highlightTextParts = (text: string) =>
 
                           {block.type === 'flowGroups' && (
                             <div class="case-flow-groups" aria-label={`${section.title} 처리 흐름`}>
-                              {block.groups.map((group) => (
-                                <article>
-                                  <span>{group.label}</span>
-                                  <h3>{group.title}</h3>
-                                  <ol>
-                                    {group.items.map((step, groupIndex) => (
-                                      <li>
-                                        <i>{String(groupIndex + 1).padStart(2, '0')}</i>
-                                        <strong>{step}</strong>
-                                      </li>
-                                    ))}
-                                  </ol>
-                                </article>
+                              {block.groups.map((group, groupListIndex) => (
+                                <>
+                                  <article class:list={['case-flow-group', group.modifier && `case-flow-group--${group.modifier}`]}>
+                                    <span>{group.label}</span>
+                                    <h3>{group.title}</h3>
+                                    <ol>
+                                      {group.items.map((step, groupIndex) => (
+                                        <li class:list={[typeof step !== 'string' && step.modifier && `case-flow-step--${step.modifier}`]}>
+                                          <i>{String(groupIndex + 1).padStart(2, '0')}</i>
+                                          <strong>{typeof step === 'string' ? step : step.text}</strong>
+                                        </li>
+                                      ))}
+                                    </ol>
+                                  </article>
+                                  {block.showArrows && groupListIndex < block.groups.length - 1 && (
+                                    <span class="case-flow-groups__arrow" aria-hidden="true">→</span>
+                                  )}
+                                </>
                               ))}
                             </div>
                           )}
@@ -787,6 +822,22 @@ const highlightTextParts = (text: string) =>
                                     </div>
                                   )}
 
+                                  {tab.diagrams && (
+                                    <div class:list={['case-diagrams', tab.diagramsLayout && `case-diagrams--${tab.diagramsLayout}`]}>
+                                      {tab.diagrams.map((diagram, diagramIndex) => {
+                                        const diagramId = `${section.id}-${tab.id}-${diagram.type}-${diagramIndex}`;
+
+                                        return (
+                                          <>
+                                            {diagram.type === 'hub' && <HubFlow diagram={diagram} id={diagramId} />}
+                                            {diagram.type === 'merge' && <MergeFlow diagram={diagram} id={diagramId} />}
+                                            {diagram.type === 'sequence' && <SequenceFlow diagram={diagram} id={diagramId} />}
+                                          </>
+                                        );
+                                      })}
+                                    </div>
+                                  )}
+
                                   {tab.flow && (
                                     <ol class="case-flow case-flow--deck" aria-label={`${tab.title} 처리 흐름`}>
                                       {tab.flow.map((step, flowIndex) => (
@@ -797,6 +848,18 @@ const highlightTextParts = (text: string) =>
                                         </li>
                                       ))}
                                     </ol>
+                                  )}
+
+                                  {tab.metrics && (
+                                    <div class="case-metrics case-metrics--tab">
+                                      {tab.metrics.map((metric) => (
+                                        <article class:list={[metric.tone && `case-metric--${metric.tone}`]}>
+                                          <span>{metric.label}</span>
+                                          <strong>{metric.value}</strong>
+                                          {metric.note && <small>{metric.note}</small>}
+                                        </article>
+                                      ))}
+                                    </div>
                                   )}
 
                                   {tab.reliabilityRows && (
@@ -1041,9 +1104,34 @@ const highlightTextParts = (text: string) =>
                                           'case-blocks',
                                           'case-story-cards',
                                           `case-story-cards--${tab.cards.columns ?? 3}`,
+                                          tab.cards.layout && `case-story-cards--${tab.cards.layout}`,
                                         ]}
                                       >
                                         {tab.cards.items.map((item) => (
+                                          <article class:list={[item.tone && `case-story-card--${item.tone}`]}>
+                                            <span>{item.label}</span>
+                                            <p>
+                                              {highlightTextParts(item.text).map((part) =>
+                                                part.highlight ? <strong class="case-text-highlight">{part.text}</strong> : part.text,
+                                              )}
+                                            </p>
+                                          </article>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {section.id !== 'problem' && tab.supplementalCards && (
+                                    <div class="case-content-group case-content-group--deck case-content-group--supplemental">
+                                      {tab.supplementalCards.label && <h4>{tab.supplementalCards.label}</h4>}
+                                      <div
+                                        class:list={[
+                                          'case-blocks',
+                                          'case-story-cards',
+                                          `case-story-cards--${tab.supplementalCards.columns ?? 3}`,
+                                        ]}
+                                      >
+                                        {tab.supplementalCards.items.map((item) => (
                                           <article class:list={[item.tone && `case-story-card--${item.tone}`]}>
                                             <span>{item.label}</span>
                                             <p>
@@ -1091,6 +1179,22 @@ const highlightTextParts = (text: string) =>
                                     </div>
                                   )}
 
+                                  {tab.subsection && (
+                                    <section class="case-tab-subsection">
+                                      <h4>{tab.subsection.title}</h4>
+                                      {tab.subsection.paragraphs.map((paragraph) => (
+                                        <p>{paragraph}</p>
+                                      ))}
+                                      {tab.subsection.callout && (
+                                        <aside class="case-tab-callout is-soft">
+                                          {highlightTextParts(tab.subsection.callout).map((part) =>
+                                            part.highlight ? <strong class="case-text-highlight">{part.text}</strong> : part.text,
+                                          )}
+                                        </aside>
+                                      )}
+                                    </section>
+                                  )}
+
                                   {section.id !== 'problem' && tab.callout && (
                                     <aside class:list={['case-tab-callout', `is-${tab.calloutTone ?? 'dark'}`]}>
                                       {highlightTextParts(tab.callout).map((part) =>
@@ -1104,11 +1208,17 @@ const highlightTextParts = (text: string) =>
                                       {tab.supportCards.map((support) => (
                                         <article>
                                           {support.image && (
-                                            <figure class="case-tab-support__image">
+                                            <figure
+                                              class:list={[
+                                                'case-tab-support__image',
+                                                support.image.crop && `case-tab-support__image--${support.image.crop}`,
+                                              ]}
+                                            >
                                               <img src={support.image.src} alt={support.image.alt} loading="lazy" />
                                             </figure>
                                           )}
                                           <h4>{support.title}</h4>
+                                          {support.target && <span class="case-tab-support__target">{support.target}</span>}
                                           {support.text && <p>{support.text}</p>}
                                           <dl>
                                             {support.items.map((item) => (
@@ -1450,6 +1560,7 @@ const highlightTextParts = (text: string) =>
               : 0;
             const canScrollWithinSection =
               currentSection &&
+              !(deck.classList.contains('case-study--k-server') && currentSection.id === 'overview') &&
               (direction > 0
                 ? currentSection.scrollTop < maxSectionScroll - 2
                 : currentSection.scrollTop > 2);
@@ -1526,6 +1637,16 @@ const highlightTextParts = (text: string) =>
       });
 
       if (chapterDeck) {
+        const kServerOverview = deck.classList.contains('case-study--k-server')
+          ? sections.find((section) => section.id === 'overview')
+          : undefined;
+
+        kServerOverview?.addEventListener('scroll', () => {
+          if (!kServerOverview.classList.contains('is-active') || kServerOverview.scrollTop < 8) return;
+          kServerOverview.scrollTop = 0;
+          moveToSection(1);
+        });
+
         const initialIndex = sections.findIndex((section) => `#${section.id}` === window.location.hash);
         setActiveSection(initialIndex >= 0 ? initialIndex : 0);
         deck.scrollTo({ top: 0, behavior: 'auto' });

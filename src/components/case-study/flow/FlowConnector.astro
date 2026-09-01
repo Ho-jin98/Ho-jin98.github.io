@@ -1,0 +1,137 @@
+---
+interface Props {
+  variant: 'down' | 'right' | 'hub' | 'merge';
+  density?: 'compact';
+  tone?: 'subtle';
+  ariaLabel?: string;
+}
+
+const { variant, density, tone, ariaLabel } = Astro.props;
+const isCompact = density === 'compact';
+
+const viewBox = variant === 'down'
+  ? isCompact
+    ? '0 0 48 38'
+    : '0 0 48 64'
+  : variant === 'right'
+    ? '0 0 72 24'
+  : isCompact
+    ? '0 0 300 66'
+    : '0 0 300 96';
+
+const downLine = '';
+const downHead = isCompact ? 'M24 9 V29 M18.5 23.5 L24 29 L29.5 23.5' : 'M24 16 V42 M17.5 35.5 L24 42 L30.5 35.5';
+const rightHead = 'M10 12 H60 M53.5 5.5 L60 12 L53.5 18.5';
+
+const hubLine = isCompact
+  ? 'M50 5 V24 H150 M250 5 V24 H150 M150 5 V50'
+  : 'M54 4 V42 H150 M246 4 V42 H150 M150 4 V74';
+const hubHead = isCompact ? 'M148.75 45.2 L150 50 L151.25 45.2' : 'M147 67.5 L150 74 L153 67.5';
+
+const mergeLine = isCompact
+  ? 'M75 5 V24 H150 M225 5 V24 H150 M150 24 V50'
+  : 'M76 4 V42 H150 M224 4 V42 H150 M150 42 V74';
+const mergeHead = isCompact ? 'M148.45 45.2 L150 50 L151.55 45.2' : 'M147 67.5 L150 74 L153 67.5';
+---
+
+<svg
+  class:list={[
+    'case-flow-connector',
+    `case-flow-connector--${variant}`,
+    density && `case-flow-connector--${density}`,
+    tone && `is-${tone}`,
+  ]}
+  viewBox={viewBox}
+  preserveAspectRatio="none"
+  aria-hidden={ariaLabel ? undefined : 'true'}
+  role={ariaLabel ? 'img' : undefined}
+  aria-label={ariaLabel}
+>
+  {variant === 'down' && (
+    <path class="connector-arrowhead" d={downHead} />
+  )}
+
+  {variant === 'right' && (
+    <path class="connector-arrowhead" d={rightHead} />
+  )}
+
+  {variant === 'hub' && (
+    <>
+      <path class="connector-line" d={hubLine} />
+      <path class="connector-arrowhead" d={hubHead} />
+    </>
+  )}
+
+  {variant === 'merge' && (
+    <>
+      <path class="connector-line" d={mergeLine} />
+      <path class="connector-arrowhead" d={mergeHead} />
+    </>
+  )}
+</svg>
+
+<style>
+  .case-flow-connector {
+    display: block;
+    width: 100%;
+    color: #4f79d6;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .connector-line,
+  .connector-arrowhead {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .connector-line {
+    stroke-width: 2.8;
+  }
+
+  .connector-arrowhead {
+    stroke-width: 2.8;
+  }
+
+  .case-flow-connector--down {
+    width: 3rem;
+    height: 3rem;
+    margin-inline: auto;
+  }
+
+  .case-flow-connector--right {
+    width: 100%;
+    height: 1.5rem;
+    align-self: center;
+  }
+
+  .case-flow-connector--compact.case-flow-connector--down {
+    width: 1.65rem;
+    height: 1.5rem;
+  }
+
+  .case-flow-connector--hub,
+  .case-flow-connector--merge {
+    height: 4.4rem;
+  }
+
+  .case-flow-connector--compact.case-flow-connector--hub,
+  .case-flow-connector--compact.case-flow-connector--merge {
+    height: 3rem;
+  }
+
+  .case-flow-connector.is-subtle {
+    color: #4f79d6;
+  }
+
+  .case-flow-connector.is-subtle .connector-line {
+    stroke-width: 2.8;
+  }
+
+  .case-flow-connector.is-subtle .connector-arrowhead {
+    stroke-width: 2.8;
+  }
+</style>

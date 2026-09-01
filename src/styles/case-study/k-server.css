@@ -1,0 +1,1517 @@
+/* Moved from src/styles/hankkipot-case.css during case-study structure stabilization. */
+
+.case-study--k-server .case-tabs__panel {
+  min-height: clamp(19rem, 38vh, 25rem);
+}
+
+.case-study--k-server .case-tabs__panel > h3 {
+  max-width: 68rem;
+}
+
+.case-study--k-server #order-flow .case-content-stack {
+  gap: 1rem;
+}
+
+.case-study--k-server #order-flow .case-prose {
+  width: min(100%, 68rem);
+}
+
+.case-study--k-server #order-flow .case-prose p {
+  color: #4b5870;
+  font-family: var(--sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  line-height: 1.76;
+  white-space: pre-line;
+}
+
+.case-study--k-server #order-flow .case-tabs {
+  margin-top: 0.1rem;
+}
+
+.case-study--k-server #order-flow .case-tabs__list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-study--k-server #order-flow .case-tabs__panel {
+  min-height: 0;
+}
+
+.case-study--k-server #order-flow .case-tabs__panel:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.96rem;
+}
+
+.case-study--k-server #order-flow .case-tabs__panel > h3 {
+  width: min(100%, 68rem);
+  margin: 0;
+  color: #14223a;
+  font-family: var(--font-sans);
+  font-size: clamp(1.28rem, 1.55vw, 1.42rem);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+
+.case-study--k-server #order-flow .case-story-cards article p {
+  white-space: pre-line;
+}
+
+.case-study--k-server #order-flow .case-tabs__intro {
+  width: min(100%, 68rem);
+  margin: 0;
+  color: #4b5870;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  line-height: 1.76;
+  white-space: pre-line;
+}
+
+.case-study--k-server #order-flow .case-diagrams {
+  --case-flow-stack-gap: 1.32rem;
+  --case-flow-stack-offset: 1.14rem;
+  --case-flow-heading-gap: 1.14rem;
+}
+
+.case-study--k-server #order-flow .case-content-group--deck > h4 {
+  color: #315d9b;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.case-study--k-server #order-flow .case-content-group--deck {
+  margin-top: 1.2rem;
+  padding-top: 0;
+  gap: 1.08rem;
+}
+
+.case-study--k-server #order-flow .case-content-group .case-story-cards {
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-content: start;
+  gap: 0.82rem;
+}
+
+.case-study--k-server #order-flow #order-flow-kafka-timing-problem-panel .case-content-group .case-story-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-study--k-server #order-flow .case-content-group .case-story-cards article {
+  display: flex;
+  min-height: 0;
+  padding: 0.88rem 0.95rem;
+  align-items: flex-start;
+  flex-direction: column;
+  border-color: #dfe7f2;
+  border-top: 0;
+}
+
+.case-study--k-server #order-flow .case-content-group .case-story-cards article > span {
+  color: #1d2b43;
+  font-family: inherit;
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  line-height: 1.35;
+}
+
+.case-study--k-server #order-flow .case-content-group .case-story-cards article p {
+  margin-top: 0.42rem;
+  color: #43516a;
+  font-family: inherit;
+  font-size: var(--type-case-card-copy);
+  font-weight: 500;
+  line-height: 1.62;
+}
+
+@media (max-width: 920px) {
+  .case-study--k-server #order-flow .case-content-group .case-story-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .case-study--k-server #order-flow .case-diagrams {
+    gap: 0.72rem;
+  }
+}
+
+.case-study--k-server #limits .case-content-stack {
+  gap: 1rem;
+}
+
+.case-study--k-server #limits .case-tabs {
+  margin-top: 0;
+}
+
+.case-study--k-server #limits .case-tabs__list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-study--k-server #limits .case-tabs__list button {
+  padding-right: 0.76rem;
+  padding-left: 0.76rem;
+  white-space: nowrap;
+}
+
+.case-study--k-server #limits .case-tabs__panel {
+  min-height: 0;
+}
+
+.case-study--k-server #limits .case-tabs__panel > h3 {
+  width: min(100%, 68rem);
+  margin-bottom: 0.76rem;
+  color: #14223a;
+  font-family: var(--font-sans);
+  font-size: clamp(1.28rem, 1.55vw, 1.42rem);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+
+.case-study--k-server #limits .case-content-group--deck {
+  margin-top: 1.2rem;
+  padding-top: 0;
+  gap: 1.08rem;
+}
+
+.case-study--k-server #limits .case-content-group--supplemental {
+  margin-top: 1.08rem;
+}
+
+.case-study--k-server #limits .case-content-group--deck:first-of-type {
+  margin-top: 0;
+}
+
+.case-study--k-server #limits .case-content-group--deck > h4 {
+  color: #315d9b;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.34;
+}
+
+.case-study--k-server #limits .case-content-group--deck .case-story-cards {
+  width: 100%;
+}
+
+.case-study--k-server #limits .case-story-cards--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-study--k-server #limits .case-story-cards--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.case-study--k-server #limits .case-story-cards--4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-study--k-server #limits .case-story-cards--rows article {
+  display: grid;
+  grid-template-columns: minmax(8.6rem, 0.42fr) minmax(0, 1fr);
+  gap: 0;
+  align-items: start;
+  background: #fff;
+}
+
+.case-study--k-server #limits .case-story-cards--rows article > span {
+  padding-right: 0.74rem;
+}
+
+.case-study--k-server #limits .case-story-cards--rows article p {
+  margin-top: 0;
+  padding-left: 0.76rem;
+  border-left: 1px solid #dfe7f2;
+}
+
+.case-study--k-server #limits #limits-followup-improvements-panel .case-story-cards--rows {
+  grid-template-columns: 1fr;
+}
+
+.case-study--k-server #limits #limits-followup-improvements-panel .case-story-cards--rows article {
+  grid-template-columns: minmax(13rem, 0.32fr) minmax(0, 1fr);
+}
+
+.case-study--k-server #limits .case-story-cards article {
+  min-height: 0;
+}
+
+.case-study--k-server #limits .case-content-group .case-story-cards article > span {
+  color: #1d2b43;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  line-height: 1.35;
+}
+
+.case-study--k-server #limits .case-content-group .case-story-cards article p {
+  color: #43516a;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-card-copy);
+  font-weight: 500;
+  line-height: 1.62;
+}
+
+.case-study--k-server #limits .case-tab-callout.is-soft {
+  width: min(100%, 68rem);
+  margin-top: 1.08rem;
+  font-size: var(--type-case-copy);
+  line-height: 1.74;
+}
+
+@media (max-width: 920px) {
+  .case-study--k-server #limits .case-story-cards--3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .case-study--k-server #limits .case-tabs__list,
+  .case-study--k-server #limits .case-story-cards--2,
+  .case-study--k-server #limits .case-story-cards--3,
+  .case-study--k-server #limits .case-story-cards--4 {
+    grid-template-columns: 1fr;
+  }
+
+  .case-study--k-server #limits .case-story-cards--rows article,
+  .case-study--k-server #limits #limits-followup-improvements-panel .case-story-cards--rows article {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .case-study--k-server #limits .case-story-cards--rows article > span {
+    padding-right: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dfe7f2;
+  }
+
+  .case-study--k-server #limits .case-story-cards--rows article p {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+.case-study--k-server .case-metrics--tab {
+  margin-top: 0.9rem;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-metrics {
+  width: min(100%, 58rem);
+  grid-template-columns: 12rem 13.5rem 12rem;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-metrics article span {
+  font-size: 0.84rem;
+}
+
+.case-study--k-server .case-study__project-logo strong {
+  font-size: 1.26rem;
+  line-height: 1;
+}
+
+.case-study--k-server .case-section__heading {
+  margin-bottom: clamp(1rem, 1.9vh, 1.42rem);
+  padding-bottom: clamp(0.82rem, 1.45vh, 1.08rem);
+}
+
+.case-study--k-server #order-point-consistency .case-section__heading h2 {
+  white-space: pre-line;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel .case-comparison thead th:first-child,
+.case-study--k-server #order-point-consistency-lock-design-panel .case-comparison tbody th {
+  width: 24%;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel .case-comparison thead th:not(:first-child),
+.case-study--k-server #order-point-consistency-lock-design-panel .case-comparison td {
+  width: 38%;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel .case-comparison .is-highlighted {
+  color: #245f9f;
+  background: #edf5ff;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel > h3 {
+  margin-bottom: 0.76rem;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel .case-tabs__intro {
+  margin-bottom: 1.36rem;
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  line-height: 1.76;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel .case-comparison {
+  margin-bottom: 1.58rem;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel .case-comparison th,
+.case-study--k-server #order-point-consistency-lock-design-panel .case-comparison td {
+  font-size: var(--type-case-card-copy);
+  line-height: 1.48;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel .case-tab-callout {
+  margin-top: 0.26rem;
+  font-size: var(--type-case-copy);
+  line-height: 1.74;
+}
+
+.case-study--k-server #order-point-consistency-execution-flow-panel > h3 {
+  margin-bottom: 0.76rem;
+}
+
+.case-study--k-server #order-point-consistency-execution-flow-panel .case-tabs__intro {
+  margin-bottom: 1.42rem;
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  line-height: 1.76;
+}
+
+.case-study--k-server #order-point-consistency-execution-flow-panel .case-diagrams {
+  --case-flow-stack-gap: 1.58rem;
+  --case-flow-stack-offset: 0;
+  --case-flow-heading-gap: 0.76rem;
+}
+
+.case-study--k-server #order-point-consistency-execution-flow-panel .case-diagram + .case-diagram {
+  margin-top: 0.24rem;
+}
+
+.case-study--k-server #kafka-boundary .case-tabs__panel > h3 {
+  width: min(100%, 68rem);
+  margin-bottom: 0.76rem;
+  color: #14223a;
+  font-family: var(--font-sans);
+  font-size: clamp(1.28rem, 1.55vw, 1.42rem);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+
+.case-study--k-server #kafka-boundary .case-tabs__intro {
+  width: min(100%, 68rem);
+  margin-bottom: 1.42rem;
+  color: #4b5870;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  line-height: 1.76;
+  white-space: pre-line;
+}
+
+.case-study--k-server #kafka-boundary .case-diagrams {
+  --case-flow-stack-gap: 1.42rem;
+  --case-flow-stack-offset: 1.1rem;
+  --case-flow-heading-gap: 0.82rem;
+}
+
+.case-study--k-server #kafka-boundary .case-diagram--sequence:not(.case-diagram--layout-deck) .sequence-flow {
+  width: min(100%, 42rem);
+  margin-inline: auto;
+}
+
+.case-study--k-server #kafka-boundary .case-diagram--layout-deck .sequence-flow {
+  width: 100%;
+  margin-inline: 0;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-publish-after-commit-panel .case-diagram--layout-deck .sequence-flow {
+  grid-template-columns:
+    minmax(9.5rem, 0.9fr)
+    minmax(13.5rem, 1.12fr)
+    minmax(8.5rem, 0.82fr)
+    minmax(15rem, 1.22fr)
+    minmax(9.5rem, 0.9fr);
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-consumer-flow-panel .case-diagram--layout-deck .sequence-flow {
+  grid-template-columns:
+    minmax(11.5rem, 1fr)
+    minmax(7rem, 0.62fr)
+    minmax(14.5rem, 1.28fr)
+    minmax(7.5rem, 0.68fr)
+    minmax(12.5rem, 1.08fr);
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-diagram--layout-deck .sequence-flow {
+  width: fit-content;
+  grid-template-columns:
+    12rem
+    11.5rem
+    11.5rem
+    13rem;
+  max-width: 100%;
+  margin-inline: 0;
+}
+
+@media (max-width: 920px) {
+  .case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-metrics,
+  .case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-diagram--layout-deck .sequence-flow {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+}
+
+.case-study--k-server #kafka-boundary .case-content-group--deck {
+  margin-top: 1.2rem;
+  padding-top: 0;
+  gap: 1.08rem;
+}
+
+.case-study--k-server #kafka-boundary .case-content-group--deck > h4 {
+  color: #315d9b;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.case-study--k-server #kafka-boundary .case-content-group .case-story-cards article {
+  min-height: 0;
+}
+
+.case-study--k-server #kafka-boundary .case-content-group .case-story-cards article > span {
+  color: #1d2b43;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  line-height: 1.35;
+}
+
+.case-study--k-server #kafka-boundary .case-content-group .case-story-cards article p {
+  color: #43516a;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-card-copy);
+  font-weight: 500;
+  line-height: 1.62;
+}
+
+.case-study.case-study--k-server #overview {
+  min-height: auto;
+  padding-top: clamp(1.35rem, 2.5vh, 1.9rem);
+  padding-bottom: clamp(1.8rem, 3.4vh, 2.75rem);
+  align-items: center;
+  justify-content: center;
+}
+
+.case-study.case-study--k-server #overview.is-active {
+  display: flex;
+}
+
+.case-study.case-study--k-server #overview:focus {
+  outline: 0;
+}
+
+.case-study.case-study--k-server #overview > .case-section__inner {
+  width: 100%;
+  max-width: 86rem;
+}
+
+.kserver-overview__badge {
+  display: inline-flex;
+  margin-bottom: 0.95rem;
+  padding: 0.42rem 0.8rem;
+  border: 1px solid #c5def7;
+  border-radius: 999px;
+  color: #315d9b;
+  background: #f3f8fe;
+  font-family: var(--font-sans);
+  font-size: 0.67rem;
+  font-weight: 760;
+  line-height: 1.2;
+  translate: 0 -70px;
+}
+
+.kserver-overview__copy h2 {
+  width: min(100%, 38rem);
+  margin: 0;
+  color: var(--case-ink, var(--ink));
+  font-family: var(--font-display);
+  font-size: var(--type-project-overview-title);
+  font-weight: 850;
+  line-height: 1.16;
+  letter-spacing: var(--tracking-title);
+  word-break: keep-all;
+  text-wrap: balance;
+  translate: 0 calc(-0.9rem - 30px);
+}
+
+.case-study--k-server #overview .case-content-stack {
+  gap: 0;
+}
+
+.kserver-overview {
+  display: grid;
+  min-height: min(37.5rem, calc(100svh - var(--header-height) - 5.4rem));
+  align-content: center;
+  gap: clamp(1.2rem, 2.2vh, 1.8rem);
+}
+
+.kserver-overview__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
+  gap: clamp(1.35rem, 2.05vw, 2.15rem);
+  align-items: start;
+}
+
+.kserver-overview__copy,
+.kserver-overview__service {
+  min-width: 0;
+}
+
+.kserver-overview__copy {
+  translate: 0 0.45rem;
+}
+
+.kserver-overview__service p {
+  max-width: 39rem;
+  margin: 0;
+  color: #46536a;
+  font-family: var(--sans);
+  font-size: clamp(0.98rem, 1vw, 1.08rem);
+  font-weight: 480;
+  line-height: 1.76;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+.kserver-overview__service {
+  margin-top: clamp(1.85rem, 2.9vh, 2.15rem);
+  translate: 0 -42px;
+}
+
+.kserver-overview__service p + p {
+  margin-top: 1.02rem;
+}
+
+.kserver-overview__highlights {
+  display: flex;
+  gap: 0.74rem;
+  flex-wrap: wrap;
+  margin: 1.82rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kserver-overview__highlights li {
+  display: inline-flex;
+  min-height: 2.48rem;
+  align-items: center;
+  padding: 0.64rem 1.08rem;
+  border: 1px solid #d9e7f6;
+  border-radius: 999px;
+  color: #243f63;
+  background: #f5f9fe;
+  box-shadow: none;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 720;
+  line-height: 1.2;
+  word-break: keep-all;
+}
+
+.kserver-overview__visual {
+  position: relative;
+  width: min(126%, 46rem);
+  margin: 0;
+  justify-self: center;
+  filter: drop-shadow(0 1.25rem 1.9rem rgba(42, 93, 162, 0.1));
+  animation: kserverHeroIn 680ms ease-out both;
+  transition: transform 240ms ease, filter 240ms ease;
+  translate: -5.4rem 1.2rem;
+}
+
+.kserver-overview__visual::before {
+  position: absolute;
+  inset: 13% 6% 4% 4%;
+  z-index: -1;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(94, 150, 216, 0.18), rgba(94, 150, 216, 0) 68%);
+  content: "";
+}
+
+.kserver-overview__visual::after {
+  position: absolute;
+  top: 11%;
+  right: 4%;
+  width: 0.54rem;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: #5e96d8;
+  opacity: 0.42;
+  content: "";
+}
+
+.kserver-overview__visual:hover {
+  transform: translateY(-0.18rem);
+  filter: drop-shadow(0 1.42rem 2.05rem rgba(42, 93, 162, 0.12));
+}
+
+.kserver-overview__visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  animation: kserverHeroFloat 7s ease-in-out 900ms infinite;
+}
+
+@media (max-width: 900px) {
+  .kserver-overview {
+    min-height: 0;
+    align-content: start;
+  }
+
+  .kserver-overview__hero {
+    grid-template-columns: 1fr;
+    gap: clamp(1.1rem, 3vh, 1.65rem);
+  }
+
+  .kserver-overview__visual {
+    justify-self: start;
+    width: min(100%, 34rem);
+    translate: 0;
+  }
+
+  .kserver-overview__copy {
+    translate: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .kserver-overview__visual {
+    width: min(100%, 24rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kserver-overview__visual,
+  .kserver-overview__visual img {
+    animation: none;
+  }
+
+  .kserver-overview__visual {
+    transition: none;
+  }
+}
+
+.case-study--k-server .case-prose p {
+  color: #4b5870;
+  font-family: var(--sans);
+  font-size: clamp(0.94rem, 1vw, 1.04rem);
+  font-weight: 500;
+  line-height: 1.68;
+}
+
+.case-study--k-server .case-content-group--deck > h4,
+.case-study--k-server .case-tabs__list button,
+.case-study--k-server .case-tabs__panel > h3,
+.case-study--k-server .case-tabs__intro,
+.case-study--k-server .case-story-cards article > span,
+.case-study--k-server .case-story-cards article p,
+.case-study--k-server .case-tab-support {
+  font-family: var(--sans);
+  letter-spacing: 0;
+}
+
+.case-study--k-server .case-story-cards article {
+  min-height: 8.4rem;
+  padding: 1.12rem 1.18rem;
+  border-color: #dfe7f2;
+  background: linear-gradient(145deg, #fff, #f9fbfe);
+  box-shadow: 0 0.45rem 1.15rem rgba(41, 65, 112, 0.035);
+}
+
+.case-study--k-server .case-story-cards article > span {
+  color: #1d2b43;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 790;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.case-study--k-server .case-story-cards article p {
+  margin-top: 0.78rem;
+  color: #43516a;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.62;
+}
+
+.case-study--k-server .case-tabs__list button:focus,
+.case-study--k-server .case-tabs__list button:active {
+  outline: 0;
+}
+
+.case-study--k-server .case-tabs__list button:focus-visible {
+  outline: 2px solid rgba(88, 127, 240, 0.38);
+  outline-offset: 2px;
+}
+
+.case-study--k-server .case-tabs__panel {
+  min-height: clamp(19rem, 38vh, 25rem);
+}
+
+.case-study--k-server #additional-design .case-tabs,
+.case-study--k-server #additional-design .case-tabs__panel,
+.case-study--k-server #additional-design .case-content-group--deck,
+.case-study--k-server #additional-design .case-story-cards,
+.case-study--k-server #additional-design .case-tab-support,
+.case-study--k-server #additional-design .case-tab-support article {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.case-study--k-server #additional-design .case-tabs__list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-study--k-server #additional-design .case-tabs__panel > h3 {
+  width: min(100%, 68rem);
+  margin-bottom: 0.76rem;
+  color: #14223a;
+  font-family: var(--font-sans);
+  font-size: clamp(1.28rem, 1.55vw, 1.42rem);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+
+.case-study--k-server #additional-design .case-tabs__intro {
+  width: min(100%, 68rem);
+  margin-bottom: 1.42rem;
+  color: #4b5870;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  line-height: 1.76;
+  white-space: pre-line;
+}
+
+.case-study--k-server #additional-design .case-diagrams {
+  --case-flow-stack-gap: 1.42rem;
+  --case-flow-stack-offset: 0.2rem;
+  --case-flow-heading-gap: 0.82rem;
+  margin-bottom: 1.2rem;
+}
+
+.case-study--k-server #additional-design #additional-design-popular-menu-aggregation-panel .case-diagram--layout-deck .sequence-flow {
+  grid-template-columns:
+    minmax(10.2rem, 0.9fr)
+    minmax(13.4rem, 1.16fr)
+    minmax(12.6rem, 1.04fr)
+    minmax(11.5rem, 1fr);
+}
+
+.case-study--k-server #additional-design #additional-design-popular-menu-aggregation-panel .case-diagram--layout-deck .case-flow-node p {
+  white-space: pre-line;
+}
+
+.case-study--k-server #additional-design .case-content-group--deck {
+  margin-top: 1.2rem;
+  padding-top: 0;
+  gap: 1.08rem;
+}
+
+.case-study--k-server #additional-design .case-content-group--deck > h4,
+.case-study--k-server #additional-design .case-tab-subsection h4 {
+  color: #315d9b;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.34;
+}
+
+.case-study--k-server #additional-design .case-content-group .case-story-cards article {
+  min-height: 0;
+}
+
+.case-study--k-server #additional-design .case-content-group .case-story-cards article > span {
+  color: #1d2b43;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  line-height: 1.35;
+}
+
+.case-study--k-server #additional-design .case-content-group .case-story-cards article p {
+  color: #43516a;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-card-copy);
+  font-weight: 500;
+  line-height: 1.62;
+}
+
+.case-study--k-server #additional-design .case-tab-subsection {
+  display: grid;
+  width: min(100%, 68rem);
+  gap: 0.86rem;
+  margin-top: 1.24rem;
+}
+
+.case-study--k-server #additional-design .case-tab-subsection h4 {
+  margin: 0;
+}
+
+.case-study--k-server #additional-design .case-tab-subsection p {
+  margin: 0;
+  color: #43516a;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  line-height: 1.76;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+.case-study--k-server #additional-design .case-tab-callout {
+  margin-top: 1.08rem;
+  font-size: var(--type-case-copy);
+  line-height: 1.74;
+}
+
+.case-study--k-server #additional-design .case-tab-subsection .case-tab-callout {
+  margin-top: 0.16rem;
+}
+
+.case-study--k-server #additional-design #additional-design-menu-cache-panel > .case-tab-callout {
+  width: min(100%, 68rem);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #43516a;
+  font-weight: 520;
+}
+
+.case-study--k-server #additional-design #additional-design-menu-cache-panel > .case-tab-callout::first-line {
+  color: #315d9b;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 820;
+  line-height: 1.34;
+}
+
+.case-study--k-server #additional-design .case-metrics--tab {
+  width: min(100%, 58rem);
+  grid-template-columns: 12rem 13.5rem 12rem;
+  margin-top: 0.9rem;
+}
+
+.case-study--k-server #additional-design .case-metrics--tab article span {
+  font-size: 0.84rem;
+}
+
+.case-study--k-server #additional-design .case-tab-support {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.78rem;
+  margin-top: 1.12rem;
+}
+
+.case-study--k-server #additional-design .case-tab-support article {
+  display: flex;
+  padding: 0.82rem;
+  flex-direction: column;
+  border: 1px solid #dfe7f2;
+  border-radius: 0.78rem;
+  background: linear-gradient(145deg, #fff, #f9fbfe);
+  box-shadow: 0 0.45rem 1.15rem rgba(41, 65, 112, 0.035);
+}
+
+.case-study--k-server #additional-design .case-tab-support__image {
+  overflow: visible;
+  order: 4;
+  margin: 1rem 0 0;
+  max-height: none;
+  border: 1px solid #dfe7f2;
+  border-radius: 0.64rem;
+  background: #0b0d12;
+}
+
+.case-study--k-server #additional-design .case-tab-support__image img {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+}
+
+.case-study--k-server #additional-design .case-tab-support h4 {
+  order: 0;
+  margin: 0;
+  color: #172033;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.38;
+}
+
+.case-study--k-server #additional-design .case-tab-support p {
+  order: 1;
+  margin: 0.42rem 0 0;
+  color: #4b5870;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 1.76;
+}
+
+.case-study--k-server #additional-design .case-tab-support dl {
+  display: grid;
+  order: 2;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 0.54rem;
+  margin: 0.82rem 0 0;
+}
+
+.case-study--k-server #additional-design .case-tab-support div {
+  padding: 0.46rem 0.52rem;
+  border-radius: 0.52rem;
+  background: #f4f8fc;
+}
+
+.case-study--k-server #additional-design .case-tab-support dt,
+.case-study--k-server #additional-design .case-tab-support dd {
+  margin: 0;
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+
+.case-study--k-server #additional-design .case-tab-support dt {
+  color: #6680ad;
+  font-size: var(--type-case-meta);
+  font-weight: 780;
+  line-height: 1.38;
+}
+
+.case-study--k-server #additional-design .case-tab-support dd {
+  margin-top: 0.18rem;
+  color: #172033;
+  font-size: var(--type-case-card-copy);
+  font-weight: 850;
+  line-height: 1.28;
+}
+
+.case-study--k-server #additional-design #additional-design-menu-cache-panel .case-tab-support dl,
+.case-study--k-server #additional-design #additional-design-popular-menu-aggregation-panel .case-tab-support dl {
+  width: fit-content;
+  max-width: 100%;
+  grid-template-columns: repeat(2, max-content);
+  gap: 0.62rem;
+  margin-top: 1.05rem;
+}
+
+.case-study--k-server #additional-design #additional-design-popular-menu-aggregation-panel .case-tab-support dl {
+  grid-template-columns: repeat(3, max-content);
+}
+
+.case-study--k-server #additional-design #additional-design-menu-cache-panel .case-tab-support div,
+.case-study--k-server #additional-design #additional-design-popular-menu-aggregation-panel .case-tab-support div {
+  min-width: 11rem;
+  min-height: 4.4rem;
+  padding: 0.72rem 0.88rem;
+}
+
+.case-study--k-server #additional-design #additional-design-popular-menu-aggregation-panel .case-tab-support dl div:first-child {
+  min-width: 12.5rem;
+}
+
+.case-study--k-server #additional-design #additional-design-menu-cache-panel .case-tab-support dt,
+.case-study--k-server #additional-design #additional-design-popular-menu-aggregation-panel .case-tab-support dt {
+  font-size: 0.82rem;
+}
+
+.case-study--k-server #additional-design #additional-design-menu-cache-panel .case-tab-support dd,
+.case-study--k-server #additional-design #additional-design-popular-menu-aggregation-panel .case-tab-support dd {
+  margin-top: 0.26rem;
+  font-size: clamp(1rem, 1.1vw, 1.12rem);
+}
+
+@media (max-width: 920px) {
+  .case-study--k-server #additional-design #additional-design-popular-menu-aggregation-panel .case-diagram--layout-deck .sequence-flow,
+  .case-study--k-server #additional-design .case-metrics--tab {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .case-study--k-server #additional-design #additional-design-menu-cache-panel .case-tab-support dl,
+  .case-study--k-server #additional-design #additional-design-popular-menu-aggregation-panel .case-tab-support dl {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support,
+.case-study--k-server #kafka-boundary .case-tab-support {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.78rem;
+  margin-top: 0.86rem;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-support {
+  grid-template-columns: 1fr;
+  gap: 1.12rem;
+  margin-top: 1.12rem;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-callout {
+  margin-top: 1.08rem;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support article,
+.case-study--k-server #kafka-boundary .case-tab-support article {
+  display: flex;
+  min-width: 0;
+  padding: 0.82rem;
+  flex-direction: column;
+  border: 1px solid #dfe7f2;
+  border-radius: 0.78rem;
+  background: linear-gradient(145deg, #fff, #f9fbfe);
+  box-shadow: 0 0.45rem 1.15rem rgba(41, 65, 112, 0.035);
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support__image,
+.case-study--k-server #kafka-boundary .case-tab-support__image {
+  overflow: auto;
+  order: 2;
+  margin: 0.64rem 0 0;
+  max-height: 18rem;
+  border: 1px solid #dfe7f2;
+  border-radius: 0.64rem;
+  background: #0b0d12;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-support__image {
+  order: 3;
+  margin-top: 1.18rem;
+  max-height: 18rem;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-support__image--kafka-integrity-result {
+  overflow: hidden;
+  aspect-ratio: 975 / 305;
+  max-height: none;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support__image img,
+.case-study--k-server #kafka-boundary .case-tab-support__image img {
+  display: block;
+  width: 100%;
+  min-width: 42rem;
+  height: auto;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-support__image--kafka-integrity-result img {
+  min-width: 0;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 34%;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support h4,
+.case-study--k-server #kafka-boundary .case-tab-support h4 {
+  order: 0;
+  margin: 0;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support p,
+.case-study--k-server #kafka-boundary .case-tab-support p {
+  order: 1;
+  margin: 0.42rem 0 0;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-support p {
+  margin-top: 0.6rem;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support dl,
+.case-study--k-server #kafka-boundary .case-tab-support dl {
+  display: grid;
+  order: 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.42rem;
+  margin: 0.62rem 0 0;
+}
+
+.case-study--k-server #kafka-boundary .case-tab-support dl {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-support dl {
+  order: 2;
+  width: fit-content;
+  max-width: 100%;
+  grid-template-columns: repeat(2, max-content);
+  gap: 0.62rem;
+  margin-top: 1.05rem;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support div,
+.case-study--k-server #kafka-boundary .case-tab-support div {
+  padding: 0.46rem 0.52rem;
+  border-radius: 0.52rem;
+  background: #f4f8fc;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-support div {
+  min-width: 11rem;
+  min-height: 4.4rem;
+  padding: 0.72rem 0.88rem;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-support article:last-child dl div:first-child {
+  min-width: 12.5rem;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support dt,
+.case-study--k-server #order-point-consistency .case-tab-support dd,
+.case-study--k-server #kafka-boundary .case-tab-support dt,
+.case-study--k-server #kafka-boundary .case-tab-support dd {
+  margin: 0;
+  font-family: var(--sans);
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support dt {
+  color: #6680ad;
+  font-size: 0.66rem;
+  font-weight: 820;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support dd {
+  margin-top: 0.18rem;
+  color: #1d2b43;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.32;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support dt {
+  font-size: var(--type-case-meta);
+  line-height: 1.38;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support dd {
+  font-size: var(--type-case-card-copy);
+  line-height: 1.38;
+}
+
+.case-study--k-server #kafka-boundary .case-tab-support h4,
+.case-study--k-server #kafka-boundary .case-tab-support p,
+.case-study--k-server #kafka-boundary .case-tab-support dt,
+.case-study--k-server #kafka-boundary .case-tab-support dd {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+
+.case-study--k-server #kafka-boundary .case-tab-support h4 {
+  color: #172033;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 820;
+  line-height: 1.38;
+}
+
+.case-study--k-server #kafka-boundary .case-tab-support p {
+  color: #4b5870;
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  line-height: 1.76;
+}
+
+.case-study--k-server #kafka-boundary .case-tab-support dt {
+  color: #6680ad;
+  font-size: var(--type-case-meta);
+  font-weight: 780;
+  line-height: 1.38;
+}
+
+.case-study--k-server #kafka-boundary .case-tab-support dd {
+  color: #172033;
+  font-size: var(--type-case-card-copy);
+  font-weight: 850;
+  line-height: 1.28;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-support dt {
+  font-size: 0.82rem;
+}
+
+.case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-support dd {
+  margin-top: 0.26rem;
+  font-size: clamp(1rem, 1.1vw, 1.12rem);
+}
+
+@media (max-width: 920px) {
+  .case-study--k-server #kafka-boundary #kafka-boundary-failure-verification-panel .case-tab-support dl {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support {
+  gap: 1.35rem;
+  margin-top: 1.12rem;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support article {
+  padding: 1.1rem;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support article + article {
+  margin-top: 0.35rem;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support h4 {
+  order: 0;
+  font-size: var(--type-case-detail);
+  line-height: 1.38;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support h4,
+.case-study--k-server #order-point-consistency .case-tab-support p,
+.case-study--k-server #order-point-consistency .case-tab-support dt,
+.case-study--k-server #order-point-consistency .case-tab-support dd {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support h4 {
+  font-size: var(--type-case-detail);
+  line-height: 1.38;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support p {
+  font-size: var(--type-case-card-copy);
+  line-height: 1.62;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support dt {
+  font-size: var(--type-case-meta);
+  line-height: 1.38;
+}
+
+.case-study--k-server #order-point-consistency .case-tab-support dd {
+  font-size: var(--type-case-card-copy);
+  line-height: 1.38;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support dl {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 0.62rem;
+  margin-top: 1.05rem;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support div {
+  width: max-content;
+  min-width: 8.8rem;
+  min-height: 4.4rem;
+  padding: 0.72rem 0.88rem;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support dt {
+  font-size: 0.82rem;
+  line-height: 1.38;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support dd {
+  margin-top: 0.26rem;
+  font-size: clamp(1rem, 1.1vw, 1.12rem);
+  line-height: 1.28;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel .case-tab-subsection {
+  display: grid;
+  width: min(100%, 68rem);
+  gap: 0.86rem;
+  margin-top: 0;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel .case-tab-subsection h4 {
+  margin: 0;
+  color: #315d9b;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.34;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel .case-tab-subsection p {
+  margin: 0;
+  color: #43516a;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  line-height: 1.76;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+.case-study--k-server #order-point-consistency-lock-design-panel .case-tab-subsection .case-tab-callout {
+  margin-top: 0.16rem;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support dl {
+  order: 1;
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 0.62rem;
+  margin-top: 1.05rem;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support p {
+  order: 2;
+  margin-top: 0.88rem;
+  font-size: var(--type-case-card-copy);
+  line-height: 1.62;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__target {
+  order: 1;
+  margin-top: 0.5rem;
+  color: #315d9b;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-meta);
+  font-weight: 820;
+  line-height: 1.45;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__target + p {
+  order: 3;
+  margin-top: 0.56rem;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__target ~ dl {
+  order: 2;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__target ~ .case-tab-support__image {
+  order: 4;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__image {
+  overflow: visible;
+  order: 3;
+  margin-top: 1rem;
+  max-height: none;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__image--order-verification-result,
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__image--charge-verification-result {
+  overflow: hidden;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__image--order-verification-result {
+  aspect-ratio: 975 / 298;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__image--charge-verification-result {
+  aspect-ratio: 979 / 255;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__image img {
+  width: 100%;
+  min-width: 0;
+  height: auto;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__image--order-verification-result img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel > h3 {
+  color: #14223a;
+  font-family: var(--font-sans);
+  font-size: clamp(1.28rem, 1.55vw, 1.42rem);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tabs__intro,
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support p {
+  color: #4b5870;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 1.76;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support h4 {
+  color: #172033;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.08vw, 1.12rem);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.38;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__target,
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support dt {
+  color: #6680ad;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 780;
+  letter-spacing: 0;
+  line-height: 1.38;
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support__target {
+  font-size: clamp(0.88rem, 0.96vw, 1rem);
+}
+
+.case-study--k-server #order-point-consistency #order-point-consistency-order-verification-panel .case-tab-support dd {
+  margin-top: 0.26rem;
+  color: #172033;
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 1.1vw, 1.12rem);
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 1.28;
+}
+
+.case-study--k-server .case-tabs__list button {
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease,
+    transform 180ms var(--ease-out);
+}
+
+.case-study--k-server .case-tabs__list button:hover {
+  background: #f3f7fc;
+  border-color: #cddceb;
+}
+
+.case-study--k-server .case-tabs__list button[aria-selected="true"]:hover {
+  background: linear-gradient(110deg, #587ff0 0%, #2f8bd5 100%);
+  border-color: #8bb9ec;
+  box-shadow:
+    0 -0.22rem 0.7rem rgba(47, 125, 211, 0.12),
+    0 0.3rem 0.8rem rgba(47, 125, 211, 0.1);
+}
