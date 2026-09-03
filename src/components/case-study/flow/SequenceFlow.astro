@@ -12,6 +12,7 @@ const isDeck = diagram.layout === 'deck';
 const isRoles = diagram.layout === 'roles';
 const isPhased = diagram.layout === 'phased';
 const phases = isPhased ? diagram.phases ?? [] : [];
+const isListText = (text: string) => text.split('\n').length > 2;
 ---
 
 <section class:list={['case-diagram', 'case-diagram--sequence', diagram.density && `case-diagram--${diagram.density}`, diagram.layout && `case-diagram--layout-${diagram.layout}`, diagram.spacingAfter && `case-diagram--spacing-after-${diagram.spacingAfter}`]} aria-label={diagram.label ?? '순차 흐름'}>
@@ -58,7 +59,11 @@ const phases = isPhased ? diagram.phases ?? [] : [];
           <article class:list={['case-flow-node', step.tone && `is-${step.tone}`]}>
             <span>{String(index + 1).padStart(2, '0')}</span>
             <strong>{step.title}</strong>
-            {step.text && <p>{step.text}</p>}
+            {step.text && (
+              <p class:list={[isListText(step.text) && 'case-flow-node__list']}>
+                {isListText(step.text) ? step.text.split('\n').map((line) => <span>{line}</span>) : step.text}
+              </p>
+            )}
           </article>
           {!isDeck && index < diagram.steps.length - 1 && (
             <FlowConnector variant="down" density={diagram.density} tone={diagram.connectorTone} />

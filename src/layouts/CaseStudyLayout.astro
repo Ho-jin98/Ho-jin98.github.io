@@ -189,7 +189,10 @@ const highlightTextParts = (text: string) =>
                 aria-labelledby={`${section.id}-title`}
               >
                 <div class="case-section__inner">
-	                  {!(project.slug === 'k-server' && section.id === 'overview') && (
+	                  {!(
+	                    (project.slug === 'k-server' && section.id === 'overview') ||
+	                    (project.slug === 'readys7' && section.id === 'overview')
+	                  ) && (
 	                    <header class="case-section__heading">
 	                      <h2 id={`${section.id}-title`}>
 	                        {leadParts.map((part) => part.accent ? <em>{part.text}</em> : part.text)}
@@ -283,6 +286,11 @@ const highlightTextParts = (text: string) =>
                               <div class="case-overview-hero">
                                 <div class="case-overview-hero__copy">
                                   <span class="case-overview-hero__label">{block.label}</span>
+                                  {block.visualSrc && (
+                                    <h2 id={`${section.id}-title`}>
+                                      {leadParts.map((part) => part.accent ? <em>{part.text}</em> : part.text)}
+                                    </h2>
+                                  )}
                                   <div class="case-overview-hero__prose">
                                     {block.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
                                   </div>
@@ -290,6 +298,11 @@ const highlightTextParts = (text: string) =>
                                     {block.scope.map((item) => <li>{item}</li>)}
                                   </ul>
                                 </div>
+                                {block.visualSrc && (
+                                  <figure class="case-overview-hero__visual">
+                                    <img src={block.visualSrc} alt={block.visualAlt ?? ''} loading="eager" decoding="async" />
+                                  </figure>
+                                )}
                               </div>
                             )
                           )}
@@ -1096,7 +1109,7 @@ const highlightTextParts = (text: string) =>
                                     </div>
                                   )}
 
-                                  {section.id !== 'problem' && tab.cards && (
+                                  {(section.id !== 'problem' || !tab.hierarchy) && tab.cards && (
                                     <div class="case-content-group case-content-group--deck">
                                       {tab.cards.label && <h4>{tab.cards.label}</h4>}
                                       <div
@@ -1181,7 +1194,7 @@ const highlightTextParts = (text: string) =>
 
                                   {tab.subsection && (
                                     <section class="case-tab-subsection">
-                                      <h4>{tab.subsection.title}</h4>
+                                      {tab.subsection.title && <h4>{tab.subsection.title}</h4>}
                                       {tab.subsection.paragraphs.map((paragraph) => (
                                         <p>{paragraph}</p>
                                       ))}

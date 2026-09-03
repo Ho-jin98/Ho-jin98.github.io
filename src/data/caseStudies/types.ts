@@ -204,6 +204,8 @@ export type CaseStudyContentBlock =
       label: string;
       paragraphs: string[];
       scope: string[];
+      visualSrc?: string;
+      visualAlt?: string;
     }
   | {
       type: 'prose';
