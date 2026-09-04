@@ -128,7 +128,12 @@ export interface CaseStudyTab {
     image?: {
       src: string;
       alt: string;
-      crop?: 'order-verification-result' | 'charge-verification-result' | 'kafka-integrity-result';
+      crop?:
+        | 'order-verification-result'
+        | 'charge-verification-result'
+        | 'kafka-integrity-result'
+        | 'k6-v1-result'
+        | 'k6-v2-result';
     };
     items: CaseStudyFact[];
   }[];
@@ -212,198 +217,14 @@ export type CaseStudyContentBlock =
       paragraphs: string[];
     }
   | {
-      type: 'overviewDashboard';
-      performance: {
-        title: string;
-        before: {
-          title: string;
-          text: string;
-        };
-        after: {
-          title: string;
-          text: string;
-        };
-        metrics: {
-          label: string;
-          before: string;
-          after: string;
-          tone?: 'primary' | 'dark';
-        }[];
-      };
-      freshness: {
-        title: string;
-        before: string;
-        after: string[];
-        result: string;
-        items: CaseStudyFact[];
-      };
-    }
-  | {
-      type: 'cacheDesign';
-      flow: {
-        title: string;
-        entry: string[];
-        hit: string[];
-        miss: string[];
-      };
-      why: {
-        title: string;
-        items: string[];
-      };
-      keyRules: {
-        title: string;
-        items: CaseStudyBlock[];
-      };
-    }
-  | {
-      type: 'facts';
-      items: CaseStudyFact[];
-    }
-  | {
-      type: 'scope';
-      label: string;
-      text: string;
-    }
-  | {
-      type: 'flow';
-      items: string[];
-    }
-  | {
-      type: 'stepFlow';
-      label: string;
-      steps: string[];
-    }
-  | {
-      type: 'summaryBox';
-      label: string;
-      items: string[];
-    }
-  | {
-      type: 'flowGroups';
-      showArrows?: boolean;
-      groups: {
-        label: string;
-        title: string;
-        modifier?: 'primary' | 'secondary';
-        items: (string | { text: string; modifier?: 'commit' })[];
-      }[];
-    }
-  | {
-      type: 'approach';
-      label?: string;
-      steps: string[];
-      items: CaseStudyBlock[];
-    }
-  | {
-      type: 'comparison';
-      columns: string[];
-      rows: {
-        label: string;
-        values: string[];
-      }[];
-      highlightColumn?: number;
-    }
-  | {
-      type: 'accordion';
-      items: {
-        title: string;
-        text?: string;
-        cards?: CaseStudyBlock[];
-        facts?: CaseStudyFact[];
-      }[];
-    }
-  | {
-      type: 'decision';
-      from: {
-        label: string;
-        text: string;
-      };
-      to: {
-        label: string;
-        text: string;
-      };
-    }
-  | {
-      type: 'states';
-      items: CaseStudyFact[];
-    }
-  | {
       type: 'cards';
       label?: string;
       columns?: 2 | 3 | 4 | 5;
       items: CaseStudyBlock[];
     }
   | {
-      type: 'reliabilityFlow';
-      main: {
-        title: string;
-        columns: {
-          title: string;
-          checkpoints: {
-            label: string;
-            text: string;
-          }[];
-        }[];
-        conclusion: string;
-      };
-      followups: {
-        title: string;
-        text: string;
-        flow: string[];
-        note?: string;
-      }[];
-    }
-  | {
-      type: 'metrics';
-      label?: string;
-      items: CaseStudyMetric[];
-    }
-  | {
-      type: 'subsection';
-      label?: string;
-      title: string;
-      text?: string;
-    }
-  | {
-      type: 'feature';
-      label?: string;
-      title: string;
-      items: CaseStudyBlock[];
-      evidence: CaseStudyEvidence;
-    }
-  | {
-      type: 'evidence';
-      label?: string;
-      items: CaseStudyEvidence[];
-    }
-  | {
-      type: 'proofs';
-      label?: string;
-      items: {
-        title: string;
-        text: string;
-        image: {
-          src: string;
-          alt: string;
-        };
-        items: CaseStudyFact[];
-      }[];
-    }
-  | {
-      type: 'hierarchy';
-      label?: string;
-      parent: string;
-      items: CaseStudyHierarchyItem[];
-      footer: string;
-    }
-  | {
       type: 'tabs';
       tabs: CaseStudyTab[];
-    }
-  | {
-      type: 'callout';
-      label?: string;
-      text: string;
     }
   | {
       type: 'video';
