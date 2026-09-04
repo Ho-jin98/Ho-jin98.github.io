@@ -473,15 +473,6 @@ const highlightTextParts = (text: string) =>
                             </div>
                           )}
 
-                          {block.type === 'summaryBox' && (
-                            <aside class="case-summary-box">
-                              <h3>{block.label}</h3>
-                              <ul>
-                                {block.items.map((item) => <li>{item}</li>)}
-                              </ul>
-                            </aside>
-                          )}
-
                           {block.type === 'flowGroups' && (
                             <div class="case-flow-groups" aria-label={`${section.title} 처리 흐름`}>
                               {block.groups.map((group, groupListIndex) => (
@@ -1238,7 +1229,7 @@ const highlightTextParts = (text: string) =>
                                               <div>
                                                 <dt>{item.label}</dt>
                                                 {section.id === 'gps-verification' && tab.id === 'server-policy' && (
-                                                  <span class="case-support-arrow" aria-hidden="true">→</span>
+                                                  <span class="case-support-arrow" aria-hidden="true">|</span>
                                                 )}
                                                 <dd>{item.value}</dd>
                                               </div>

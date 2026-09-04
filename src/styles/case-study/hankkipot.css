@@ -2254,6 +2254,11 @@ body.case-study-page--hankkipot {
 }
 
 /* Problem refinement: MVP expansion context and backend-oriented constraints. */
+.case-study--hankkipot #problem .case-section__heading h2 {
+  width: 100%;
+  text-wrap: wrap;
+}
+
 .case-study--hankkipot #problem .case-section__heading h2 em,
 .case-study--hankkipot #problem .case-section__heading h2 em:nth-of-type(1),
 .case-study--hankkipot #problem .case-section__heading h2 em:nth-of-type(2) {
@@ -2967,13 +2972,17 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #gps-verification .case-tabs__panel .case-story-cards article > span {
   color: #1d2b43;
-  font-family: var(--sans);
-  font-weight: 820;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  letter-spacing: 0;
 }
 
 .case-study--hankkipot #gps-verification .case-tabs__panel .case-story-cards article > p {
-  color: #526078;
-  font-family: var(--sans);
+  color: #43516a;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-card-copy);
+  font-weight: 500;
 }
 
 .case-study--hankkipot #gps-verification .case-tab-callout.is-soft {
@@ -3313,14 +3322,22 @@ body.case-study-page--hankkipot {
 .case-study--hankkipot #gps-verification .case-tabs__panel > h3 {
   margin-bottom: 0.62rem;
   color: #14223a;
-  font-size: clamp(1.2rem, 1.6vw, 1.52rem);
-  line-height: 1.3;
+  font-family: var(--font-display);
+  font-size: var(--type-case-feature);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.38;
 }
 
 .case-study--hankkipot #gps-verification .case-tabs__intro {
   width: min(100%, 68rem);
   margin-bottom: 0.94rem;
-  color: #536078;
+  color: #4b5870;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 1.74;
 }
 
 .case-study--hankkipot #gps-verification #gps-verification-sdk-transition-panel .case-tabs__intro {
@@ -3393,9 +3410,9 @@ body.case-study-page--hankkipot {
   border-left: 4px solid #5b94d8;
   border-radius: 0.74rem;
   background: #f3f8ff;
-  font-size: 0.83rem;
-  font-weight: 590;
-  line-height: 1.68;
+  font-size: var(--type-case-copy);
+  font-weight: 650;
+  line-height: 1.74;
   white-space: pre-line;
   box-shadow: inset 0 0 0 1px rgba(88, 148, 216, 0.08);
 }
@@ -3742,6 +3759,15 @@ body.case-study-page--hankkipot {
   white-space: pre-line;
 }
 
+.case-study--hankkipot #problem .case-prose p {
+  color: #4b5870;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 1.74;
+}
+
 .case-study--hankkipot #problem .case-prose p + p,
 .case-study--hankkipot #qr-completion .case-prose p + p {
   margin-top: 0.46rem;
@@ -3881,12 +3907,23 @@ body.case-study-page--hankkipot {
   font-weight: 780;
 }
 
+.case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article > span {
+  font-family: var(--font-sans);
+  font-size: var(--type-case-card-copy);
+  letter-spacing: 0;
+}
+
 .case-study--hankkipot #problem .case-content-group--deck .case-story-cards article p,
 .case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article p {
   color: #43516a;
   font-family: inherit;
   font-weight: 500;
   white-space: pre-line;
+}
+
+.case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article p {
+  font-family: var(--font-sans);
+  font-size: var(--type-case-card-copy);
 }
 
 .case-study--hankkipot #qr-completion .case-flow--deck {
@@ -3937,6 +3974,10 @@ body.case-study-page--hankkipot {
   line-height: 1.74;
   white-space: pre-line;
   box-shadow: inset 0.08rem 0 0 rgba(57, 122, 198, 0.12);
+}
+
+.case-study--hankkipot #qr-completion .case-tab-callout.is-soft {
+  font-weight: 650;
 }
 
 .case-study--hankkipot #qr-completion #qr-completion-verification-panel .case-story-cards article {
@@ -4016,7 +4057,7 @@ body.case-study-page--hankkipot {
   }
 
   .case-study--hankkipot #qr-completion .case-content-group--deck .case-story-cards article p {
-    line-height: 1.68;
+    line-height: 1.62;
   }
 
   .case-study--hankkipot #qr-completion .case-flow--deck li {
@@ -4098,14 +4139,21 @@ body.case-study-page--hankkipot {
 }
 
 .case-study--hankkipot #gps-verification .case-tab-support h4 {
+  color: #315d9b;
   font-family: var(--font-display);
-  font-size: var(--type-case-detail);
-  line-height: 1.34;
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  letter-spacing: 0;
+  line-height: 1.35;
 }
 
 .case-study--hankkipot #gps-verification .case-tab-support > article > p {
+  color: #43516a;
+  font-family: var(--font-sans);
   font-size: var(--type-case-card-copy);
-  line-height: 1.68;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.62;
 }
 
 .case-study--hankkipot #gps-verification #gps-verification-server-policy-panel .case-tab-support {
@@ -4140,6 +4188,24 @@ body.case-study-page--hankkipot {
   font-family: var(--font-sans);
   font-size: var(--type-case-card-copy);
   letter-spacing: 0;
+}
+
+.case-study--hankkipot #gps-verification .case-content-group--deck > h4 {
+  color: #315d9b;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.case-study--hankkipot #qr-completion .case-content-group--deck > h4 {
+  color: #315d9b;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  letter-spacing: 0;
+  line-height: 1.35;
 }
 
 .case-study--hankkipot #problem .case-tabs__panel {
@@ -4257,10 +4323,12 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #problem .case-problem-layout__context .case-content-group--deck > h4 {
   margin: 0.125rem 0 0.75rem;
-  color: var(--color-primary-dark);
-  font-size: 1.0625rem;
-  font-weight: 700;
-  line-height: 1.4;
+  color: #315d9b;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  letter-spacing: 0;
+  line-height: 1.35;
 }
 
 .case-study--hankkipot #problem .case-problem-layout__context .case-story-cards--2 {
@@ -5193,6 +5261,23 @@ body.case-study-page--hankkipot {
   gap: clamp(1.12rem, 2vh, 1.42rem);
 }
 
+.case-study--hankkipot #gps-verification .case-prose {
+  gap: 0.55rem;
+}
+
+.case-study--hankkipot #gps-verification .case-prose p {
+  color: #4b5870;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 1.74;
+}
+
+.case-study--hankkipot #gps-verification .case-prose p + p {
+  margin-top: 0.46rem;
+}
+
 .case-study--hankkipot #gps-verification #gps-verification-server-policy-panel .case-tab-support {
   margin-top: 0.9rem;
 }
@@ -5313,12 +5398,13 @@ body.case-study-page--hankkipot {
 .case-study--hankkipot #gps-verification #gps-verification-kakao-maps-panel .case-flow--deck li p {
   align-self: flex-start;
   margin: 0;
-  color: #526078;
+  color: #43516a;
   font-family: var(--font-sans);
-  font-size: 0.7rem;
+  font-size: var(--type-case-card-copy);
   font-weight: 500;
-  line-height: 1.42;
+  line-height: 1.62;
   word-break: keep-all;
+  text-wrap: balance;
 }
 
 .case-study--hankkipot #gps-verification #gps-verification-kakao-maps-panel .case-flow--deck li:last-child p {
@@ -5441,12 +5527,13 @@ body.case-study-page--hankkipot {
   display: block;
   align-self: flex-start;
   margin: 0;
-  color: #526078;
+  color: #43516a;
   font-family: var(--font-sans);
-  font-size: 0.7rem;
+  font-size: var(--type-case-card-copy);
   font-weight: 500;
-  line-height: 1.42;
+  line-height: 1.62;
   word-break: keep-all;
+  text-wrap: balance;
 }
 
 .case-study--hankkipot #qr-completion #qr-completion-match-completion-panel .case-flow--deck li.is-primary p,
@@ -5483,8 +5570,26 @@ body.case-study-page--hankkipot {
   gap: clamp(1.08rem, 2vh, 1.4rem);
 }
 
+.case-study--hankkipot #limitations .case-prose p {
+  color: #4b5870;
+  font-family: var(--font-sans);
+  font-size: var(--type-case-copy);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 1.74;
+}
+
 .case-study--hankkipot #limitations .case-tabs__panel {
   min-height: 0;
+}
+
+.case-study--hankkipot #limitations .case-tabs__panel > h3 {
+  color: #14223a;
+  font-family: var(--font-display);
+  font-size: var(--type-case-feature);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.38;
 }
 
 .case-study--hankkipot #limitations .case-limitation-panel {
@@ -5507,18 +5612,20 @@ body.case-study-page--hankkipot {
 
 .case-study--hankkipot #limitations .case-limitation-panel section strong {
   color: #315d9b;
-  font-family: var(--font-sans);
-  font-size: 0.92rem;
-  font-weight: 840;
-  line-height: 1.4;
+  font-family: var(--font-display);
+  font-size: var(--type-case-card-copy);
+  font-weight: 780;
+  letter-spacing: 0;
+  line-height: 1.35;
 }
 
 .case-study--hankkipot #limitations .case-limitation-panel p {
   margin: 0;
   color: #4b5870;
   font-family: var(--font-sans);
-  font-size: 0.96rem;
+  font-size: var(--type-case-copy);
   font-weight: 520;
+  letter-spacing: 0;
   line-height: 1.74;
   word-break: keep-all;
 }
