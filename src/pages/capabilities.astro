@@ -29,9 +29,9 @@ const capabilityGroups = [
   },
   {
     number: '05',
-    title: '테스트와 확인',
-    tags: ['JUnit 5', 'MockMvc', 'k6'],
-    description: '기본적인 테스트 코드 작성과 부하 테스트',
+    title: '실행 검증',
+    tags: ['k6'],
+    description: 'k6와 실행 결과를 통해\n동시성, 캐시, 이벤트 흐름의 동작을 확인',
   },
   {
     number: '06',
@@ -89,7 +89,7 @@ const capabilityGroups = [
             <ul aria-label={`${capability.title} 기술`}>
               {capability.tags.map((tag) => <li>{tag}</li>)}
             </ul>
-            <p>{capability.description}</p>
+            <p>{capability.description.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>
           </div>
         </article>
       ))}
@@ -120,6 +120,69 @@ const capabilityGroups = [
   </script>
 
   <style is:global>
+    @media (min-width: 1025px) {
+      .capabilities-page {
+        padding-top: calc(var(--header-height) + clamp(0.75rem, 1.7vh, 1.2rem));
+        padding-bottom: clamp(2rem, 4vh, 3rem);
+      }
+
+      .capabilities-hero,
+      .capabilities-visual {
+        min-height: clamp(12.5rem, 29vh, 22.25rem);
+      }
+
+      .capabilities-hero {
+        margin-bottom: clamp(0.65rem, 1.2vh, 0.95rem);
+      }
+
+      .capabilities-visual img {
+        width: min(94%, 39.48rem);
+      }
+
+      .capability-page-list {
+        row-gap: clamp(0.65rem, 0.9vw, 0.9rem);
+      }
+
+      .capability-page-list article {
+        padding-block: clamp(0.8rem, 0.9vw, 0.95rem);
+      }
+
+      .capability-page-list__number {
+        top: clamp(0.71rem, 0.87vw, 0.83rem);
+      }
+    }
+
+    @media (max-height: 720px) and (min-width: 1025px) {
+      .capabilities-page {
+        padding-top: calc(var(--header-height) + 0.35rem);
+      }
+
+      .capabilities-hero,
+      .capabilities-visual {
+        min-height: 12.5rem;
+      }
+
+      .capabilities-hero {
+        margin-bottom: 0.4rem;
+      }
+
+      .capabilities-visual img {
+        width: min(86.48%, 31.02rem);
+      }
+
+      .capability-page-list {
+        row-gap: 0.5rem;
+      }
+
+      .capability-page-list article {
+        padding-block: 0.6rem;
+      }
+
+      .capability-page-list__number {
+        top: 0.6rem;
+      }
+    }
+
     @keyframes capabilities-fade-in {
       from {
         opacity: 0;

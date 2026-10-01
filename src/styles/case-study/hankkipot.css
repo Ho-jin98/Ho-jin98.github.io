@@ -1652,6 +1652,10 @@ body.case-study-page--hankkipot {
   padding-bottom: 1.75rem;
 }
 
+.case-study--hankkipot #gps-verification-server-policy-panel .case-story-card--primary > p {
+  white-space: pre-line;
+}
+
 .case-study--hankkipot #gps-verification .case-content-stack {
   gap: 0.8rem;
 }
@@ -4728,7 +4732,7 @@ body.case-study-page--hankkipot {
 .case-study--hankkipot #gps-verification #gps-verification-kakao-maps-panel .case-flow--deck {
   margin-top: 0.94rem;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr) minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.4fr);
   gap: 0.62rem;
   overflow: visible;
   border: 0;

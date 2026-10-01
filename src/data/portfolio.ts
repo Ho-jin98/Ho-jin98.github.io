@@ -7,8 +7,8 @@ export const profile = {
   blog: 'https://hojin98.tistory.com/',
   location: 'SEOUL, KR',
   introduction: [
-    '빠르게 배우고, 직접 적용하며',
-    '실제로 동작하는 서비스 흐름을 만들어가는 정호진입니다.',
+    '서비스 흐름에서 발생하는 문제를 이해하고,',
+    '해결 로직을 직접 구현하고 검증하는 백엔드 개발자 정호진입니다.',
   ],
 };
 
@@ -29,7 +29,7 @@ export const projects = [
       '한끼팟은 같은 학교라는 공동체 안에서 식사 메이트를 찾을 수 있도록 기획한 대학생 대상 플랫폼입니다.',
       '완전히 낯선 사람과 만나는 부담을 줄이고,\n학교 이메일 인증 기반의 폐쇄형 구조로 더 자연스러운 만남을 만들고자 했습니다.',
     ],
-    role: 'GPS/QR 만남 인증, 위치 인증 상태 관리, 관리자 API',
+    role: '만남 인증, 위치 도메인(GPS/QR 인증, 인증 상태, 위치 정보 관리), 관리자 API',
     stack: ['Spring Boot', 'JPA', 'Redis', 'React', 'TypeScript', 'Kakao Maps'],
     keywords: ['GPS 인증', 'QR 인증', '노쇼 판정', '관리자 처리', '위치 데이터'],
     metadata: [
@@ -58,7 +58,7 @@ export const projects = [
       'K-server는 메뉴 조회, 포인트 충전, 주문 결제,\n인기 메뉴 집계를 다루는 커피 주문 시스템입니다.',
       '요구사항을 해석하고 설계 방향을 정리하며,\n주문 흐름과 데이터 일관성을 어떻게 안정적으로 다룰지 고민했습니다.',
     ],
-    role: '백엔드 전체 설계 및 구현',
+    role: '주문, 포인트, 이벤트 처리 중심 전체 백엔드 설계 및 구현',
     stack: ['Spring Boot', 'Redisson', 'Kafka', 'MySQL', 'Docker', 'k6'],
     keywords: ['Redis Lock', 'DB Lock', 'Kafka Event', 'Transaction', 'Concurrency'],
     metadata: [
@@ -84,10 +84,10 @@ export const projects = [
     team: '5인 팀 프로젝트',
     headline: ['Redis Cache로', '반복 조회를 줄여봤습니다.'],
     description: [
-      'Ready’s7은 프로젝트를 의뢰하려는 클라이언트와 기술 역량을 가진 개발자를 연결하는 용역 매칭 플랫폼입니다.',
+      'Ready’s7은 프로젝트를 의뢰하려는 클라이언트와 기술 역량을 가진 개발자를 연결하는\n용역 매칭 플랫폼입니다.',
       '개발자는 제안서를 통해 프로젝트에 지원하고,\n클라이언트는 포트폴리오와 리뷰를 바탕으로 적합한 파트너를 찾을 수 있도록 기획했습니다.',
     ],
-    role: '인증/인가, 클라이언트, 관리자, 통합 검색',
+    role: '회원 및 인증 API 구현, 통합 검색, Redis 캐시 및 성능 검증',
     stack: ['Spring Security', 'JWT', 'QueryDSL', 'Redis', 'MySQL', 'k6'],
     keywords: ['Redis Cache', 'Search', 'K6 Test', 'Performance', 'Query Optimization'],
     metadata: [
@@ -117,9 +117,9 @@ export const capabilities = [
   },
   {
     number: '03',
-    title: 'Quality',
-    description: '테스트 코드와 부하 테스트를 통해 기능 동작과 개선 효과를 확인했습니다.',
-    items: 'JUnit 5, Mockito, MockMvc, K6, E2E Scenarios',
+    title: 'Validation',
+    description: 'k6와 실행 결과를 통해 동시성, 캐시, 이벤트 흐름의 동작을 확인했습니다.',
+    items: 'k6, E2E Scenario, Runtime Verification',
   },
   {
     number: '04',
