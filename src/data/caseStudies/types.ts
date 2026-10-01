@@ -185,12 +185,6 @@ export interface CaseStudyTab {
       }[];
     }[];
   };
-  limitation?: {
-    current: string[];
-    improvement: string[];
-    chips?: string[];
-    tests?: string[];
-  };
 }
 
 export type CaseStudyContentBlock =

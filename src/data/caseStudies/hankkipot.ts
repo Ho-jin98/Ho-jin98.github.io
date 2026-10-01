@@ -17,9 +17,9 @@ export const hankkipotCaseStudy: CaseStudyContent = {
           type: 'hero',
           label: '만남 인증 상태 흐름',
           paragraphs: [
-            '한끼팟은 같은 대학의 학생들이 함께 식사할 사람을 모집하고, 실제 만남까지 인증하는 서비스입니다.',
-            '저는 GPS 장소 인증과 QR 만남 인증, 위치 정보 처리를 담당하고, 인증 결과가 신청자별 Match 완료로 이어지며 모든 완료 대상 Match가 종료된 경우 Post 완료와 등록자 환급 흐름으로 연결되도록 구성했습니다.',
-            '특히 여러 신청자가 하나의 Post에 참여하는 그룹 매칭에서 등록자의 장소 인증 상태가 모든 Match에 일관되게 반영되어야 하는 문제와, 하나의 QR을 공유하면서도 완료 상태는 신청자별로 분리해야 하는 문제를 중심으로 작업했습니다.',
+            '한끼팟은 같은 대학의 학생들이 함께 식사할 사람을 모집하고,\n실제 만남까지 인증하는 서비스입니다.',
+            '저는 GPS 장소 인증과 QR 만남 인증, 위치 정보 처리를 담당하고,\n인증 결과가 신청자별 Match 완료로 이어지며 모든 완료 대상 Match가 종료된 경우\nPost 완료와 등록자 환급 흐름으로 연결되도록 구성했습니다.',
+            '특히 여러 신청자가 하나의 Post에 참여하는 그룹 매칭에서 등록자의 장소 인증 상태가\n모든 Match에 일관되게 반영되어야 하는 문제와, 하나의 QR을 공유하면서도 완료 상태는 신청자별로 분리해야 하는 문제를 중심으로 작업했습니다.',
           ],
           scope: ['서버 기준 GPS 인증', 'Post 단위 QR', '신청자별 Match 완료 연결', 'Post 완료 및 등록자 환급 흐름 연결'],
         },
@@ -64,11 +64,11 @@ export const hankkipotCaseStudy: CaseStudyContent = {
                 items: [
                   {
                     label: 'QR 진입 조건',
-                    text: 'QR 인증은 GPS 장소 인증 완료 상태를 전제로 진행되므로, 등록자 인증 결과가 같은 Post의 활성 Match에 일관되게 반영될 필요가 있었습니다.',
+                    text: 'QR 인증은 GPS 장소 인증 완료 상태를 전제로 진행되므로,\n등록자 인증 결과가 같은 Post의 활성 Match에 일관되게 반영될 필요가 있었습니다.',
                   },
                   {
                     label: '노쇼 판정 연결',
-                    text: '등록자 인증 결과가 일부 MeetVerification에만 남으면 같은 등록자가 Match마다 다른 장소 인증 상태를 갖게 되어 이후 노쇼 판정에도 영향을 줄 수 있습니다.',
+                    text: '등록자 인증 결과가 일부 MeetVerification에만 남으면 같은 등록자가 Match마다\n다른 장소 인증 상태를 갖게 되어 이후 노쇼 판정에도 영향을 줄 수 있습니다.',
                     tone: 'primary',
                   },
                 ],
@@ -78,7 +78,7 @@ export const hankkipotCaseStudy: CaseStudyContent = {
               id: 'qr-completion-unit',
               label: 'QR 공유 / 완료 단위',
               title: 'QR은 Post 단위로 공유하고, 신청자 완료와 책임비 환급은 Match 단위로 구분해야 했습니다.',
-              text: '하나의 QR을 여러 신청자가 함께 사용하더라도, QR 스캔 결과는 해당 신청자의 Match에만 반영되어야 했습니다.\n\n또한 한 신청자의 완료가 전체 Post 완료로 이어지지 않도록, 같은 Post의 완료 대상 Match가 모두 종료된 시점을 전체 모임의 완료 시점으로 판단해야 했습니다.',
+              text: '하나의 QR을 여러 신청자가 함께 사용하더라도, QR 스캔 결과는 해당 신청자의 Match에만 반영되어야 했습니다.\n또한 한 신청자의 완료가 전체 Post 완료로 이어지지 않도록, 같은 Post의 완료 대상 Match가 모두 종료된 시점을 전체 모임의 완료 시점으로 판단해야 했습니다.',
               hierarchy: {
                 parent: 'Post',
                 items: [
@@ -98,7 +98,7 @@ export const hankkipotCaseStudy: CaseStudyContent = {
                   },
                   {
                     label: '완료와 환급 범위',
-                    text: '신청자의 참석 완료와 책임비 환급은 다른 신청자의 상태에 영향을 주지 않도록 Match 단위로 구분할 필요가 있었습니다.',
+                    text: '신청자의 참석 완료와 책임비 환급은 다른 신청자의 상태에 영향을 주지 않도록\nMatch 단위로 구분할 필요가 있었습니다.',
                     tone: 'primary',
                   },
                 ],
@@ -172,7 +172,7 @@ export const hankkipotCaseStudy: CaseStudyContent = {
                 items: [
                   {
                     label: '등록자',
-                    text: 'GPS 인증 1회 후 같은 Post의 활성 Match를 조회하고, 각 MeetVerification에 등록자 인증 상태를 일괄 반영',
+                    text: 'GPS 인증 1회 후 같은 Post의 활성 Match를 조회하고,\n각 MeetVerification에 등록자 인증 상태를 일괄 반영',
                     tone: 'primary',
                   },
                   {
@@ -206,11 +206,11 @@ export const hankkipotCaseStudy: CaseStudyContent = {
                   },
                   {
                     label: '화면 표시',
-                    text: '약속 장소와 현재 위치를 Kakao Maps에서 확인할 수 있도록 표시했습니다.',
+                    text: '약속 장소와 현재 위치를\nKakao Maps에서 확인할 수 있도록 표시했습니다.',
                   },
                   {
                     label: '서버 검증',
-                    text: '서버에서 두 좌표 사이의 거리를 계산해 인증 범위 충족 여부를 판정했습니다.',
+                    text: '서버에서 두 좌표 사이의 거리를 계산해\n인증 범위 충족 여부를 판정했습니다.',
                     tone: 'primary',
                   },
                 ],
@@ -232,7 +232,8 @@ export const hankkipotCaseStudy: CaseStudyContent = {
         {
           type: 'prose',
           paragraphs: [
-            'QR 조회와 스캔, 신청자별 완료 처리를 구현했습니다.\n이후 그룹 매칭 대응 과정에서 Post 단위 공통 QR과 일부 완료 조건이 팀 차원에서 보완되며 현재 구조로 정리되었습니다.',
+            'QR 조회와 스캔, 신청자별 완료 처리를 구현하고, 그룹 매칭 대응 과정에서 Match 중심 QR 구조를 Post 단위 공통 QR로 전환했습니다.',
+            '또한 신청자별 Match 완료와 Post 완료 처리를 분리해 현재 흐름으로 정리했습니다.',
           ],
         },
         {
@@ -242,22 +243,22 @@ export const hankkipotCaseStudy: CaseStudyContent = {
               id: 'verification',
               label: 'QR 발급과 검증',
               title: 'QR 토큰은 DB에 저장하고, 스캔 시 서버에서 인증 조건을 다시 확인했습니다.',
-              text: 'QR 토큰은 hp_qr_ 접두사와 하이픈을 제거한 UUID 문자열을 조합해 생성하고, 만남 인증 정보에 저장했습니다.\n토큰은 발급 시각부터 10분간 유효하며, 신청자가 스캔할 때 서버에서 인증 조건을 다시 확인하도록 구성했습니다.',
+              text: 'QR 토큰은 hp_qr_ 접두사와 하이픈을 제거한 UUID 문자열을 조합해 생성하고, MeetVerification의 QR 토큰 필드에 저장했습니다.\n새로 발급한 QR 토큰은 발급 시각부터 10분간 유효하며, 신청자가 스캔할 때 서버에서 인증 조건을 다시 확인하도록 구성했습니다.',
               cards: {
                 columns: 3,
                 items: [
                   {
                     label: '토큰 형식',
-                    text: 'hp_qr_ + UUID\nUUID의 하이픈은 제거',
+                    text: 'hp_qr_ + UUID, UUID의 하이픈은 제거',
                   },
                   {
                     label: '저장 위치',
-                    text: '만남 인증 정보의 QR 토큰\nDB에 저장',
+                    text: 'MeetVerification QR 토큰 필드에 저장',
                     tone: 'primary',
                   },
                   {
                     label: '만료 기준',
-                    text: '발급 시각부터 10분\n만료된 QR은 완료 처리 차단',
+                    text: '새로 발급한 QR 토큰은 발급 시각부터\n10분 만료된 QR은 완료 처리 차단',
                   },
                 ],
               },
@@ -268,7 +269,7 @@ export const hankkipotCaseStudy: CaseStudyContent = {
               id: 'match-completion',
               label: '신청자별 완료',
               title: 'QR 스캔 성공 시 해당 신청자의 Match만 완료하도록 분리했습니다.',
-              text: 'QR은 같은 Post의 식사 모임을 확인하는 용도로 공유하지만, 참석 결과와 책임비 정산은 신청자별로 달라집니다.\n한 신청자의 QR 스캔이 다른 신청자의 상태까지 변경하지 않도록 QR 공유 범위와 완료 처리 단위를 분리했습니다.',
+              text: 'QR은 같은 Post의 식사 모임을 확인하는 용도로 공유하지만, 참석 결과와 책임비 정산은 신청자별로 달라집니다.\n한 신청자의 QR 스캔이 다른 신청자의 Match 완료 상태까지 함께 변경하지 않도록 QR 공유 범위와 완료 처리 단위를 분리했습니다.',
               flow: [
                 { title: 'QR 스캔', text: '신청자가 등록자 QR 스캔' },
                 { title: '만남 인증 완료', text: '해당 신청자의 만남 인증 완료' },
@@ -286,7 +287,7 @@ export const hankkipotCaseStudy: CaseStudyContent = {
                   },
                   {
                     label: '신청자별 완료 범위',
-                    text: 'QR 스캔 1회는 해당 신청자의 MeetVerification과 Match만 완료합니다.\n다른 신청자의 Match에는 영향을 주지 않습니다.',
+                    text: 'QR 스캔 1회는 해당 신청자의 MeetVerification과 Match만 완료합니다.\n다른 Match의 완료 상태를 함께 변경하지 않습니다.',
                     tone: 'primary',
                   },
                 ],
@@ -313,7 +314,7 @@ export const hankkipotCaseStudy: CaseStudyContent = {
                   },
                   {
                     label: 'Post 완료',
-                    text: '남은 완료 대상 Match가 없을 때만 Post를 최종 완료하고 등록자 책임비 환급으로 이어집니다.',
+                    text: '남은 완료 대상 Match가 없을 때만 Post를 최종 완료하고, \n등록자 책임비 환급으로 이어집니다.',
                     tone: 'primary',
                   },
                 ],
@@ -329,7 +330,7 @@ export const hankkipotCaseStudy: CaseStudyContent = {
       title: '안정성 및 후속 처리',
       navTitle: '안정성 및 후속 처리',
       navSubtitle: '중복 처리와 노쇼 판정',
-      lead: '중복 완료와 환급을 방지하고, 위치 데이터 정리와 노쇼 판정까지 후속 흐름으로 연결했습니다.',
+      lead: '완료 상태와 정산 이력을 단계별로 재확인하고, 위치 데이터 정리와 노쇼 판정까지 후속 흐름으로 연결했습니다.',
       content: [
         {
           type: 'tabs',
@@ -344,10 +345,10 @@ export const hankkipotCaseStudy: CaseStudyContent = {
                   {
                     title: '신청자 Match 단위',
                     rows: [
-                      { label: '01 만남 인증 상태', text: '활성 MeetVerification을 비관락으로 조회해 기존 만남 인증 완료 상태를 확인' },
+                      { label: '01 만남 인증 상태', text: '활성 MeetVerification을 비관락으로 조회해\n기존 만남 인증 완료 상태를 확인' },
                       { label: '02 Match', text: 'Match를 비관락으로 조회해 기존 완료 상태를 확인' },
-                      { label: '03 신청자 정산', text: '최신 정산 이력을 확인하고, 이미 환급됐다면 생략한 뒤 필요한 경우 신청자 책임비를 환급' },
-                      { label: '04 결과', text: '같은 요청의 중복 완료와 중복 환급 방지' },
+                      { label: '03 신청자 정산', text: '최신 정산 이력을 확인하고, 이미 환급됐다면 생략한 뒤\n필요한 경우 신청자 책임비를 환급' },
+                      { label: '04 결과', text: '완료와 환급 처리 전 단계별 상태와 정산 이력 재확인' },
                     ],
                   },
                   {
@@ -356,7 +357,7 @@ export const hankkipotCaseStudy: CaseStudyContent = {
                       { label: '01 Post 조회', text: 'Post를 비관락으로 조회' },
                       { label: '02 남은 Match 확인', text: '같은 Post에 남아 있는 완료 대상 Match를 확인' },
                       { label: '03 완료 상태 확인', text: 'Post가 이미 완료됐는지 확인' },
-                      { label: '04 등록자 정산', text: '최신 정산 이력을 확인하고, 이미 환급됐다면 생략한 뒤 필요한 경우 등록자 책임비를 환급' },
+                      { label: '04 등록자 정산', text: '최신 정산 이력을 확인하고, 이미 환급됐다면 생략한 뒤\n필요한 경우 등록자 책임비를 환급' },
                     ],
                   },
                 ],
@@ -368,7 +369,7 @@ export const hankkipotCaseStudy: CaseStudyContent = {
               id: 'location-cleanup',
               label: '위치 데이터 정리',
               title: '인증과 노쇼 판단에 사용한 위치 데이터는 더 이상 필요하지 않은 시점에 정리했습니다.',
-              text: '위치 정보는 GPS 장소 인증과 QR 만료 이후의 노쇼 판단에 필요한 동안만 사용했습니다.\n각 Match의 판단이 끝난 뒤에는 다른 신청자의 위치 데이터에 영향을 주지 않고 해당 Match의 위치 데이터만 정리했습니다.',
+              text: '위치 정보는 GPS 장소 인증과 QR 만료 이후의 노쇼 판단에 필요한 동안만 사용했습니다.\n각 Match의 판단이 끝난 뒤에는 해당 Match에 저장된 위치 데이터만 정리했습니다.',
               locationCleanup: {
                 lifecycleTitle: '위치 데이터 처리 흐름',
                 steps: [
@@ -379,21 +380,21 @@ export const hankkipotCaseStudy: CaseStudyContent = {
                   },
                   {
                     label: '02',
-                    title: '완료된 Match 위치 정리',
-                    text: '다른 신청자의 위치에는 영향을 주지 않고, 완료된 신청자의 Match에 저장된 위치 데이터만 정리했습니다.',
+                    title: '해당 Match 위치 정리',
+                    text: '해당 Match에 저장된 위치 데이터만 정리했습니다.',
                     tone: 'primary',
                   },
                   {
                     label: '03',
                     title: '후속 완료 처리',
-                    text: '위치 데이터를 정리한 뒤에도 Match 완료와 신청자 책임비 환급은 이어서 처리했습니다.',
+                    text: '위치 데이터를 정리한 뒤에도 Match 완료와\n신청자 책임비 환급은 이어서 처리했습니다.',
                   },
                 ],
                 reasonTitle: '위치 정보가 필요한 시점',
                 reasons: [
                   {
                     title: 'GPS 노쇼 판정',
-                    text: 'GPS 노쇼는 최신 위치를 다시 조회하지 않고, 인증 가능 시간 안에 기록된 등록자와 신청자의 장소 인증 완료 여부로 판단했습니다. 판정이 끝난 뒤에는 해당 Match의 위치 데이터를 정리했습니다.',
+                    text: 'GPS 노쇼는 최신 위치를 다시 조회하지 않고,\n인증 가능 시간 안에 기록된 등록자와 신청자의 장소 인증 완료 여부로 판단했습니다.\n판정이 끝난 뒤에는 해당 Match의 위치 데이터를 정리했습니다.',
                   },
                   {
                     title: 'QR 노쇼 판정',
@@ -425,7 +426,7 @@ export const hankkipotCaseStudy: CaseStudyContent = {
                       },
                       {
                         heading: '무엇을 확인하나요?',
-                        text: '장소 인증은 서비스 기준 50m에 GPS 오차 허용 10m를 더한 서버 판정 범위 60m를 사용합니다.\n노쇼 판정에서는 위치를 다시 계산하지 않고, 인증 가능 시간 안에 장소 인증을 완료했는지만 확인합니다.',
+                        text: '장소 인증은 서버 판정 기준 60m를 사용합니다. 노쇼 판정에서는 위치를 다시 계산하지 않고, 인증 가능 시간 안에 장소 인증을 완료했는지만 확인합니다.',
                         items: ['등록자 장소 인증 완료 여부', '신청자 장소 인증 완료 여부'],
                       },
                       {
@@ -463,7 +464,7 @@ export const hankkipotCaseStudy: CaseStudyContent = {
                     sections: [
                       {
                         heading: '언제 판단하나요?',
-                        text: 'GPS 장소 인증까지 완료했지만 QR 발급 후 10분 안에 QR 인증을 완료하지 않은 Match를 노쇼 후보로 확인합니다.\n스케줄러는 1분 주기로 QR 만료 대상을 확인합니다.',
+                        text: 'GPS 장소 인증까지 완료했지만 QR 발급 후 10분 안에 QR 인증을 완료하지 않은 Match를 노쇼 후보로 확인합니다. 스케줄러는 1분 주기로 QR 만료 대상을 확인합니다.',
                       },
                       {
                         heading: '먼저 무엇을 확인하나요?',
@@ -502,90 +503,6 @@ export const hankkipotCaseStudy: CaseStudyContent = {
     },
     {
       number: '06',
-      id: 'limitations',
-      title: '한계 및 개선 방향',
-      navTitle: '한계 및 개선 방향',
-      navSubtitle: '구현 후 확인한 한계',
-      lead: '구현 후 확인한 인증 구조의 한계와 개선 방향을 정리했습니다.',
-      content: [
-        {
-          type: 'prose',
-          paragraphs: [
-            '구현한 GPS와 QR 인증 흐름은 정상 동작을 확인했으며, 추가 검토 과정에서 Post 공통 QR의 유효 시간 동안 토큰이 재사용될 수 있는 여지와 GPS 좌표 신뢰도를 함께 고려할 필요가 있음을 확인했습니다.',
-            '또한 고정된 60m 기준을 통해 일관된 인증 판정 기준을 적용했지만, 실제 운영 환경에서는 기기와 주변 환경에 따라 GPS 측위 품질이 달라질 수 있다는 점도 추가 개선 요소로 정리했습니다.',
-            '향후에는 QR 토큰의 재사용 가능 시간을 줄이고, GPS 판정 시 거리뿐만 아니라 위치 정확도와 최근 위치 신호까지 함께 고려하는 방향으로 인증 신뢰도를 높일 수 있습니다.',
-          ],
-        },
-        {
-          type: 'tabs',
-          tabs: [
-            {
-              id: 'common-qr',
-              label: '공통 QR의 재사용 범위',
-              title: 'Post 공통 QR로 사용성을 단순화했으며, 유효 시간 내 동일 토큰이 유지되는 구조는 토큰 관리 측면의 추가 고도화 지점으로 확인했습니다.',
-              limitation: {
-                current: [
-                  '그룹 매칭에서는 하나의 Post에 여러 신청자 Match가 존재합니다. 등록자가 신청자마다 다른 QR을 제시하지 않도록 같은 Post의 활성 Match가 하나의 QR 토큰을 공유하도록 구성했습니다.',
-                  '등록자는 Post 공통 QR 하나를 표시하고, 각 신청자는 자신의 Match에서 해당 QR을 스캔합니다. 토큰은 발급 후 10분간 유효합니다.',
-                  '이 방식은 등록자가 여러 신청자를 만나더라도 하나의 QR만 제시할 수 있지만, 공통 토큰이 특정 신청자나 특정 Match에 귀속되지는 않습니다.',
-                  '따라서 QR 화면이나 토큰 값이 캡처, 저장, 전달되면 현재 구조에서는 유효 시간 동안의 재사용 가능성이 남습니다.',
-                ],
-                improvement: [
-                  '개선 시에는 Post 공통 QR 방식은 유지하면서, 실제 인증 토큰을 더 짧은 주기로 교체하고 이전 토큰을 폐기하는 토큰 회전을 고려할 수 있습니다.',
-                  '토큰 회전은 QR 공유 구조를 유지하면서도 노출된 토큰이 재사용될 수 있는 시간을 줄이는 보완책입니다.',
-                  '회전 정책이 복잡해질 경우에는 유효 토큰, 발급 시각과 만료 시각, 폐기 여부, 회전 버전을 별도의 QR 세션 또는 QR 발급 엔티티로 분리해 관리하는 방향으로 확장할 수 있습니다.',
-                ],
-                chips: ['Post 공통 QR', '10분 TTL', 'Post 범위 공유'],
-              },
-            },
-            {
-              id: 'gps-coordinate',
-              label: 'GPS 좌표의 신뢰성',
-              title: '서버에서 좌표 간 거리를 재계산해 서버 기준으로 판정하도록 구성했으며, GPS 좌표 자체의 신뢰도까지 고려하는 방식은 추가 개선 영역으로 정리했습니다.',
-              limitation: {
-                current: [
-                  '현재 장소 인증은 브라우저 Geolocation API에서 위도와 경도를 받아 서버로 전달합니다.',
-                  '서버는 클라이언트가 계산한 인증 결과를 그대로 신뢰하지 않고, 전달받은 좌표와 약속 장소 좌표 사이의 거리를 Haversine 공식으로 다시 계산합니다.',
-                  '서비스 반경 50m에 GPS 오차 허용 10m를 더한 60m를 서버 판정 범위로 사용해 최종 인증 여부를 결정합니다.',
-                  '서버에서 약속 장소와의 거리는 다시 검증했지만, 전달된 GPS 좌표 자체의 신뢰도까지 판단하는 별도의 기준은 두지 않았습니다.',
-                ],
-                improvement: [
-                  '개선 시에는 Geolocation API가 제공하는 위치 정확도 값을 함께 받아 측정 오차 범위를 판정에 반영하는 방법을 고려할 수 있습니다.',
-                  '짧은 시간 안에 현실적으로 이동하기 어려운 거리 변화가 발생하는지도 보조 신호로 활용할 수 있습니다.',
-                  '또한 인증 순간의 단일 좌표만 보는 대신 최근 일정 구간의 위치 변화가 자연스러운지도 함께 확인하는 방식으로 확장할 수 있습니다.',
-                  '서로 다른 위치에서 반복 인증과 같은 의심 신호가 발생하면 재측정이나 추가 확인, 인증 제한으로 연결하는 정책도 고려할 수 있습니다.',
-                  '네트워크 기반 위치는 GPS를 대체하기보다 GPS 좌표와 크게 모순되는 상황을 확인하는 보조 신호로 제한적으로 활용할 수 있습니다.',
-                  '다만 추가 신호를 사용할수록 수집 데이터와 판단 복잡도도 증가하므로, 실제 적용 시에는 필요한 신호와 보관 범위를 함께 정해야 합니다.',
-                ],
-                chips: ['위치 정확도', '이동 패턴', '연속 위치', '반복 인증'],
-              },
-            },
-            {
-              id: 'distance-policy',
-              label: '거리 판정 기준 고도화',
-              title: '60m 고정 기준을 적용해 일관된 판정 로직을 구성했으며, 기기와 주변 환경에 따른 GPS 측위 품질 차이는 향후 정확도 기반 판정으로 고도화할 수 있는 요소로 확인했습니다.',
-              limitation: {
-                current: [
-                  '좌표가 정상적으로 수집되더라도 기기와 주변 환경에 따라 GPS 측위 정확도는 달라질 수 있습니다.',
-                  '한끼팟에서 필요한 것은 도보 경로 거리가 아니라 사용자가 약속 장소 근처에 있는지를 판단하는 것입니다. 따라서 두 GPS 좌표 사이의 직선거리를 계산하는 Haversine은 현재 목적에 맞는 방식입니다.',
-                  '현재 서버는 Haversine으로 계산한 거리가 60m 이내인지 모든 요청에 동일한 기준으로 판단합니다. 거리 공식 자체보다 기기와 환경에 따라 달라지는 위치 정확도를 함께 보는 것이 우선 개선 대상입니다.',
-                  '예를 들어 거리 52m, 위치 정확도 ±5m인 사용자와 거리 52m, 위치 정확도 ±30m인 사용자는 거리만 보면 동일하게 판단되지만 실제 위치 데이터의 신뢰도는 다를 수 있습니다.',
-                  '고정 60m 기준을 통해 일관된 판정 로직을 적용했으며, 기기와 건물, 실내외 환경에 따른 GPS 측위 품질 차이는 추가로 고려할 요소로 남았습니다.',
-                ],
-                improvement: [
-                  '개선 시에는 거리뿐 아니라 위치 정확도, 최근 위치 샘플과 갱신 시각을 함께 참고하는 판정 방식으로 확장할 수 있습니다.',
-                  '판정 신뢰도가 낮은 경우에는 반경을 단순히 넓히기보다 재측정이나 추가 확인을 요청하는 방식도 고려할 수 있습니다.',
-                  '정책을 변경할 때는 조합별 자동 테스트를 추가해 새로운 기준이 기존 판정에 미치는 영향과 회귀 가능성을 함께 확인해야 합니다.',
-                ],
-                chips: ['현재: 거리 <= 60m', '개선: 거리 + 위치 정확도 + 최근 위치'],
-              },
-            },
-          ],
-        },
-      ],
-    },
-    {
-      number: '07',
       id: 'demo',
       title: '시연 영상',
       navTitle: '시연 영상',
@@ -596,7 +513,6 @@ export const hankkipotCaseStudy: CaseStudyContent = {
           type: 'prose',
           paragraphs: [
             '게시글 생성과 매칭 이후 GPS 장소 인증 → QR 만남 인증 → Match 완료까지 실제 사용자 화면에서 이어지는 흐름을 확인할 수 있습니다.',
-            '핵심 인증 흐름은 서비스 로직과 실제 시연 흐름에서 동작을 확인했습니다.',
           ],
         },
         {
