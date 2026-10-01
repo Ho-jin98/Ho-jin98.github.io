@@ -218,6 +218,7 @@ export type CaseStudyContentBlock =
     }
   | {
       type: 'tabs';
+      hideTabList?: boolean;
       tabs: CaseStudyTab[];
     }
   | {

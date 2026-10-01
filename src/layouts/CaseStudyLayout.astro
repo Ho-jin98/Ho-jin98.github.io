@@ -334,32 +334,34 @@ const highlightTextParts = (text: string) =>
                           )}
 
                           {block.type === 'tabs' && (
-                            <div class="case-tabs" data-case-tabs>
-                              <div class="case-tabs__list" role="tablist" aria-label={`${section.navTitle} 상세`}>
-                                {block.tabs.map((tab, tabIndex) => (
-                                  <button
-                                    id={`${section.id}-${tab.id}-tab`}
-                                    type="button"
-                                    role="tab"
-                                    aria-controls={`${section.id}-${tab.id}-panel`}
-                                    aria-selected={tabIndex === 0 ? 'true' : 'false'}
-                                    tabindex={tabIndex === 0 ? 0 : -1}
-                                    data-case-tab
-                                  >
-                                    <span>{String(tabIndex + 1).padStart(2, '0')}</span>
-                                    {tab.label}
-                                  </button>
-                                ))}
-                              </div>
+                            <div class="case-tabs" data-case-tabs={block.hideTabList ? undefined : ''}>
+                              {!block.hideTabList && (
+                                <div class="case-tabs__list" role="tablist" aria-label={`${section.navTitle} 상세`}>
+                                  {block.tabs.map((tab, tabIndex) => (
+                                    <button
+                                      id={`${section.id}-${tab.id}-tab`}
+                                      type="button"
+                                      role="tab"
+                                      aria-controls={`${section.id}-${tab.id}-panel`}
+                                      aria-selected={tabIndex === 0 ? 'true' : 'false'}
+                                      tabindex={tabIndex === 0 ? 0 : -1}
+                                      data-case-tab
+                                    >
+                                      <span>{String(tabIndex + 1).padStart(2, '0')}</span>
+                                      {tab.label}
+                                    </button>
+                                  ))}
+                                </div>
+                              )}
 
                               {block.tabs.map((tab, tabIndex) => (
                                 <div
                                   id={`${section.id}-${tab.id}-panel`}
                                   class:list={['case-tabs__panel', tabIndex === 0 && 'is-active']}
-                                  role="tabpanel"
-                                  aria-labelledby={`${section.id}-${tab.id}-tab`}
+                                  role={block.hideTabList ? undefined : 'tabpanel'}
+                                  aria-labelledby={block.hideTabList ? undefined : `${section.id}-${tab.id}-tab`}
                                   hidden={tabIndex !== 0}
-                                  data-case-tab-panel
+                                  data-case-tab-panel={block.hideTabList ? undefined : ''}
                                 >
                                   <h3>{tab.title}</h3>
                                   {tab.text && (
