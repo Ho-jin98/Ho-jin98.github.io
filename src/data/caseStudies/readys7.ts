@@ -28,7 +28,7 @@ export const readys7CaseStudy: CaseStudyContent = {
           type: 'cards',
           columns: 4,
           items: [
-            { label: '통합 검색·탐색', text: '프로젝트·개발자·카테고리·기술스택을\n하나의 통합 검색에서 조회할 수 있습니다.' },
+            { label: '통합 검색·탐색', text: '프로젝트·개발자·카테고리·스킬을\n하나의 통합 검색에서 조회할 수 있습니다.' },
             { label: '프로젝트 등록', text: '클라이언트는 필요한 개발 프로젝트와\n요구 조건을 등록할 수 있습니다.' },
             { label: '제안서 제출·확인', text: '개발자는 프로젝트에 제안서를 제출하고, 클라이언트는 전달된 제안과 개발자 정보를 확인합니다.' },
             { label: '채팅·리뷰', text: '채팅을 통해 프로젝트 조건과 협업 내용을 조율하고, 협업 경험은 리뷰로 남길 수 있습니다.' },
@@ -42,13 +42,13 @@ export const readys7CaseStudy: CaseStudyContent = {
       title: '문제 정의',
       navTitle: '문제 정의',
       navSubtitle: '반복 검색과 결과 최신성',
-      lead: '같은 검색 조건의 요청이 반복될 때마다 검색 과정을 다시 수행했고,\nCache 적용 후에는 변경된 데이터가 기존 검색 결과에 바로 반영되지 않았습니다.',
+      lead: '같은 검색 조건의 요청이 반복될 때마다 검색 과정을 다시 수행했고,\n캐시 적용 후에는 검색 대상 데이터 변경 시 결과 최신성을 고려할 필요가 있었습니다.',
       content: [
         {
           type: 'prose',
           paragraphs: [
             '통합 검색은 프로젝트, 개발자, 카테고리, 스킬을 함께 조회하는 기능이었습니다.',
-            '초기에는 같은 검색 조건에서도 조회와 결과 조합을 다시 수행했고,\n검색 결과를 재사용한 이후에는 데이터 변경이 기존 검색 결과에 바로 반영되지 않는 문제를 확인했습니다.',
+            '초기에는 같은 검색 조건에서도 조회와 결과 조합을 다시 수행했고,\n검색 결과를 캐시한 이후에는 기존 캐시가 남아 있으면 데이터 변경이 검색 결과에 즉시 반영되지 않을 수 있었습니다.',
           ],
         },
         {
@@ -76,7 +76,7 @@ export const readys7CaseStudy: CaseStudyContent = {
                     },
                     {
                       title: '검색 대상 조회',
-                      text: '프로젝트\n개발자\n카테고리\n기술스택',
+                      text: '프로젝트\n개발자\n카테고리\n스킬',
                     },
                     {
                       title: '결과 조합',
@@ -98,28 +98,28 @@ export const readys7CaseStudy: CaseStudyContent = {
             {
               id: 'after-cache',
               label: '결과 최신성',
-              title: '데이터가 변경된 뒤에도 이전 검색 결과가 그대로 반환되는 문제가 발생했습니다.',
-              text: '기존 통합 검색 결과가 Cache에 저장된 뒤, 신규 개발자 회원가입으로 개발자와 기술스택 정보가 저장되었습니다.\n이후 이전과 동일한 조건으로 다시 검색했을 때 기존 Cache 결과가 반환되어 신규 개발자 정보가 통합 검색 결과에 바로 나타나지 않았습니다.',
+              title: '캐시 적용 후 결과 최신성',
+              text: '통합 검색 결과를 Redis에 캐시하면 동일한 검색 조건에서는 이전 결과를 재사용할 수 있습니다.\n하지만 프로젝트나 개발자처럼 검색 대상 데이터가 변경된 뒤 기존 캐시가 그대로 남아 있으면, 변경된 내용이 검색 결과에 즉시 반영되지 않을 수 있었습니다.\n따라서 검색 대상 데이터가 변경되는 주요 경로에서 globalSearch 캐시를 무효화하도록 구성할 필요가 있었습니다.',
               flow: [
                 {
-                  title: '기존 통합 검색 수행',
-                  text: '동일 검색 조건의 결과가 Cache에 저장됨',
+                  title: '검색 결과 캐시',
+                  text: '검색 조건별 통합 검색 결과를 Redis에 저장',
                 },
                 {
-                  title: '신규 개발자 회원가입',
-                  text: '개발자와 기술스택 정보가 함께 저장되어 원천 데이터 변경',
+                  title: '검색 대상 데이터 변경',
+                  text: '프로젝트나 개발자 등 검색 대상 데이터가 변경되는 경우',
                 },
                 {
-                  title: '이전과 동일한 조건으로 다시 검색',
-                  text: '같은 검색 조건으로 다시 요청',
+                  title: '동일 조건으로 재검색',
+                  text: '데이터 변경 후 같은 검색 조건으로 다시 요청하는 경우',
                 },
                 {
-                  title: '데이터 변경 전 Cache 결과 반환',
-                  text: '기존에 저장되어 있던 검색 결과 반환',
+                  title: '기존 캐시가 남아 있는 경우',
+                  text: '데이터 변경 전에 저장된 검색 결과가 재사용될 수 있음',
                 },
                 {
-                  title: '신규 개발자 정보 미반영',
-                  text: '신규 개발자가 통합 검색 결과에 나타나지 않음',
+                  title: '변경 내용 반영 지연 가능성',
+                  text: '변경된 내용이 검색 결과에 즉시 반영되지 않을 수 있음',
                 },
               ],
               cards: {
@@ -128,11 +128,11 @@ export const readys7CaseStudy: CaseStudyContent = {
                 items: [
                   {
                     label: '원천 데이터 변경',
-                    text: '신규 개발자 회원가입으로 개발자와 기술스택 관련 데이터가 변경됐습니다.',
+                    text: '프로젝트나 개발자 등 검색 대상 데이터는 캐시 저장 이후에도 변경될 수 있습니다.',
                   },
                   {
                     label: '기존 검색 결과 유지',
-                    text: '동일 조건에서는 데이터 변경 전에 저장된 검색 결과가 반환됐습니다.',
+                    text: '기존 캐시가 남아 있으면 동일 조건의 검색에서 데이터 변경 전 결과가 재사용될 수 있습니다.',
                   },
                 ],
               },
@@ -171,8 +171,8 @@ export const readys7CaseStudy: CaseStudyContent = {
           tabs: [
             {
               id: 'cache-structure',
-              label: '캐시 구조 선택',
-              title: '반복 검색 결과를 재사용하기 위해 Cache 구조를 단계적으로 전환했습니다.',
+              label: '캐시 구조 변화',
+              title: '초기에는 Caffeine Local Cache를 사용했고, 이후 외부 캐시인 Redis Cache로 전환했습니다.',
               flow: [
                 {
                   title: '캐시 미적용 초기 구조',
@@ -184,20 +184,20 @@ export const readys7CaseStudy: CaseStudyContent = {
                 },
                 {
                   title: 'Redis Cache',
-                  text: '여러 인스턴스로 확장할 경우 Local Cache가\n인스턴스별로 분리될 수 있는 구조를 고려해 공유\nCache로 사용할 수 있는 Redis Cache로 전환했습니다.',
+                  text: '이후 외부 캐시인 Redis Cache로 전환했습니다.\nRedis는 애플리케이션 외부에 위치해 여러 인스턴스에서 공유 가능한 구조입니다.',
                 },
               ],
               supplementalCards: {
-                label: 'Redis 선택 이유',
+                label: 'Local Cache와 Redis 구조 차이',
                 columns: 2,
                 items: [
                   {
-                    label: 'Local Cache의 한계',
+                    label: 'Local Cache 구조',
                     text: 'Local Cache는 애플리케이션 인스턴스 내부에 존재하므로,\n인스턴스가 여러 개가 되면 캐시가 서로 분리될 수 있습니다.',
                   },
                   {
-                    label: 'Redis 선택',
-                    text: '여러 인스턴스로 확장할 경우에도 검색 결과를 공유할 수 있도록 외부 캐시인 Redis를 선택했습니다.',
+                    label: 'Redis 구조',
+                    text: 'Redis는 애플리케이션 외부에 위치하므로\n여러 인스턴스에서 동일한 캐시 저장소를 사용할 수 있습니다.',
                   },
                 ],
               },
@@ -233,7 +233,7 @@ export const readys7CaseStudy: CaseStudyContent = {
                 ],
               },
               supplementalCards: {
-                label: 'Cache-Aside를 선택한 이유',
+                label: 'Cache-Aside 형태의 조회 흐름',
                 columns: 2,
                 items: [
                   {
@@ -257,7 +257,7 @@ export const readys7CaseStudy: CaseStudyContent = {
                 items: [
                   {
                     label: '캐시 대상',
-                    text: '프로젝트, 카테고리, 기술스택, 개발자 정보를 포함한 통합 검색 결과',
+                    text: '프로젝트, 카테고리, 스킬, 개발자 정보를 포함한 통합 검색 결과',
                   },
                   {
                     label: '캐시 키 구성',
@@ -285,23 +285,23 @@ export const readys7CaseStudy: CaseStudyContent = {
       title: 'Cache Consistency Design',
       navTitle: '캐시 정합성',
       navSubtitle: '데이터 변경과 캐시 무효화',
-      lead: '데이터 변경 이후에도 검색 결과의 최신성을 유지할 방법이 필요했습니다.\n현재 구조에서는 주요 데이터 변경 시 검색 캐시를 무효화하는 방향을 선택했습니다.',
+      lead: '주요 데이터 변경 시 globalSearch 캐시를 전체 무효화했습니다.',
       content: [
         {
           type: 'prose',
           paragraphs: [
-            '통합 검색 결과를 keyword / page / size 조합별로 Redis 캐시에 저장하도록 구성했습니다. 하나의 데이터 변경이 여러 검색어와 페이지 조합에 영향을 줄 수 있어,\n변경된 데이터가 포함된 캐시 키를 변경 시점에 모두 역추적하기는 어려웠습니다.',
-            '데이터 변경 이후에도 검색 결과의 최신성을 유지할 방법이 필요했습니다.\n현재 구조에서는 검색 결과에 영향을 주는 주요 데이터가 변경되면 기존 검색 캐시를 무효화하는 방향을 선택했습니다.',
+            '통합 검색 결과는 keyword / page / size 조합별로 여러 Redis 캐시 키로 저장됩니다.\n하나의 검색 대상 데이터 변경이 여러 검색 조건의 결과에 영향을 줄 수 있습니다.',
+            '검색 결과에 영향을 주는 주요 데이터 변경 경로에 @CacheEvict를 적용하고,\nallEntries = true로 globalSearch 캐시를 전체 무효화했습니다.',
           ],
         },
         {
           type: 'cards',
-          label: '검색 결과 최신성 기준',
+          label: '캐시 무효화 적용 범위',
           columns: 2,
           items: [
             {
-              label: '검색 결과 최신성 기준',
-              text: '데이터가 변경된 이후에는 변경 전 검색 결과를 재사용하지 않고, 다음 검색 요청에서 최신 데이터를 기준으로 실제 통합 검색을 수행하는 것을 캐시 정합성의 기준으로 삼았습니다.',
+              label: '@CacheEvict 적용 경로',
+              text: 'Project: 생성 / 수정 / 삭제 / 상태 변경\nCategory: 생성 / 수정 / 삭제\nSkill: 수정 / 삭제\nUser: 정보 수정 / 탈퇴\nDeveloper: 가입 / 프로필 수정 / 평점 수정',
             },
           ],
         },
@@ -310,15 +310,15 @@ export const readys7CaseStudy: CaseStudyContent = {
           tabs: [
             {
               id: 'all-entries',
-              label: '무효화 결정',
-              title: '검색 결과의 최신성과 구현 복잡도를 함께 고려해, 주요 데이터 변경 경로에서는 검색 결과 캐시 전체 무효화를 선택했습니다.',
-              text: '변경된 데이터가 어떤 검색 조건에 포함되는지 역추적해 선택적으로 삭제하려면 별도의 키 매핑 구조가 필요했습니다.\n현재 프로젝트에서는 이 구조를 추가하는 복잡도보다 검색 결과의 최신성을 우선하는 방향을 선택했습니다.\n\n검색 결과에 영향을 주는 주요 데이터 변경 경로에 @CacheEvict를 적용하고,\nallEntries = true를 사용해 globalSearch 검색 결과 캐시를 전체 무효화했습니다.',
+              label: '무효화 방식',
+              title: '주요 데이터 변경 경로에서 globalSearch 캐시를 전체 무효화했습니다.',
+              text: '검색 결과에 영향을 주는 주요 데이터 변경 경로에\n@CacheEvict(value = "globalSearch", allEntries = true)를 적용했습니다.',
               cards: {
                 columns: 2,
                 items: [
                   {
-                    label: '선택 삭제 시 고려사항',
-                    text: '검색 결과가 keyword / page / size 조합별로 저장되는 구조였기 때문에, 하나의 데이터 변경이 여러 검색 조건에 영향을 줄 수 있었습니다. 변경된 데이터가 포함된 캐시만 선택적으로 찾으려면 별도의 역추적 구조가 필요했습니다.',
+                    label: '검색 조건별 캐시 구조',
+                    text: '검색 결과는 keyword / page / size 조합별로 여러 캐시 키로 저장됩니다. 하나의 검색 대상 데이터 변경이 여러 검색 조건의 결과에 영향을 줄 수 있습니다.',
                   },
                   {
                     label: '@CacheEvict 적용',
@@ -327,11 +327,11 @@ export const readys7CaseStudy: CaseStudyContent = {
                   },
                   {
                     label: 'allEntries = true',
-                    text: '별도의 키 매핑 구조를 추가하는 대신, 현재 구조에서는 allEntries = true를 사용해\nglobalSearch 검색 결과 캐시를 전체 무효화하는 방식을 선택했습니다.',
+                    text: 'allEntries = true를 사용해\nglobalSearch 검색 결과 캐시를 전체 무효화했습니다.',
                   },
                   {
-                    label: '수용한 한계',
-                    text: '전체 무효화를 선택하면서 변경된 데이터와 직접 관련 없는 검색 결과 캐시까지 함께 제거될 수 있는 점을 수용했습니다. 이후 해당 검색 조건이 다시 요청되면 Cache Miss가 발생해 실제 통합 검색을 다시 수행한 뒤, 최신 결과를 Redis에 재적재하도록 구성했습니다. 현재 프로젝트에서는 이러한 추가 조회 비용보다 변경 전 검색 결과가 계속 재사용되는 문제를 방지하는 것을 우선했습니다.',
+                    label: '전체 무효화 동작 특성',
+                    text: '전체 무효화 시 해당 데이터와 직접 관련 없는 검색 캐시도 함께 제거될 수 있습니다.\n이후 동일 조건 요청에서는 Cache Miss가 발생해 실제 통합 검색을 수행하고 검색 결과를 Redis 캐시에 다시 적재합니다.',
                   },
                 ],
               },
@@ -339,14 +339,14 @@ export const readys7CaseStudy: CaseStudyContent = {
             {
               id: 'change-paths',
               label: '무효화 흐름',
-              title: '데이터 변경 이후 첫 검색 요청에서 최신 결과를 다시 적재했습니다.',
-              text: '검색 캐시를 제거한 뒤에는 다음 검색 요청에서 Cache Miss가 발생했습니다.\n이 요청에서 최신 데이터를 기준으로 실제 통합 검색 로직을 실행해 검색 결과를 생성하고 Redis에 다시 저장했습니다. 이후 동일 조건의 검색부터는 갱신된 캐시를 재사용했습니다.',
+              title: '전체 무효화 후 다음 동일 조건 요청에서 검색 결과를 다시 적재하는 흐름입니다.',
+              text: 'globalSearch 캐시를 전체 무효화한 뒤에는 다음 동일 조건 요청에서 Cache Miss가 발생합니다.\n이 요청에서 실제 통합 검색 로직을 실행해 검색 결과를 생성하고 Redis에 다시 저장합니다. 이후 동일 조건 요청에서는 저장된 캐시를 재사용합니다.',
               cards: {
                 columns: 3,
                 items: [
                   {
                     label: '데이터 변경',
-                    text: '검색 결과에 영향을 주는 데이터 변경',
+                    text: '@CacheEvict가 적용된 주요 경로에서 데이터 변경',
                   },
                   {
                     label: '캐시 무효화',
@@ -373,12 +373,12 @@ export const readys7CaseStudy: CaseStudyContent = {
                 ],
               },
               supplementalCards: {
-                label: '무효화 동작 검증',
+                label: 'k6 검색 결과 변화 확인',
                 columns: 2,
                 items: [
                   {
                     label: '검증 시나리오',
-                    text: '동일 검색 조건으로 캐시를 생성한 뒤 프로젝트 정보를 수정하고 다시 검색해, 변경된 내용이 검색 결과에 반영되는지 확인했습니다.',
+                    text: 'k6 시나리오에서 프로젝트 수정 전후 검색 결과의 제목 변화를 확인했습니다.\n수정 요청값과의 정확한 일치까지는 검증 범위에 포함하지 않았습니다.',
                   },
                 ],
               },
@@ -393,7 +393,7 @@ export const readys7CaseStudy: CaseStudyContent = {
       title: 'k6 Performance Verification',
       navTitle: '성능 검증',
       navSubtitle: 'k6 캐시 적용 전 · 후 비교',
-      lead: '동일한 k6 반복 검색 시나리오에서 캐시 미적용 v1과 Redis Cache 적용 v2를 비교했습니다.',
+      lead: '비교 당시 구현 기준으로, 동일한 k6 반복 검색 시나리오에서 캐시 미적용 v1과 Redis Cache 적용 v2를 비교했습니다.',
       content: [
         {
           type: 'prose',
@@ -419,7 +419,7 @@ export const readys7CaseStudy: CaseStudyContent = {
                   },
                   {
                     label: '검색 데이터',
-                    text: '프로젝트 약 5만 건을 적재한 상태에서\n프로젝트·개발자·카테고리·기술스택을 대상으로 통합 검색 수행',
+                    text: '프로젝트 약 5만 건을 적재한 상태에서\n프로젝트·개발자·카테고리·스킬을 대상으로 통합 검색 수행',
                   },
                   {
                     label: '반복 검색 조건',
@@ -449,14 +449,14 @@ export const readys7CaseStudy: CaseStudyContent = {
                   },
                 ],
               },
-              callout: '비교 당시 v1과 v2는 동일한 통합 검색 대상을 기준으로 했습니다. v1은 요청마다 실제 통합 검색을 수행했고,\nv2는 Redis Cache를 적용해 반복 검색 결과를 재사용하도록 구분해 비교했습니다. 이후 리팩터링과 팀의 검색 최적화 과정에서 최종 검색 구조 일부가 변경되었습니다.',
+              callout: '비교 당시 v1과 v2는 동일한 통합 검색 대상을 기준으로 했습니다. v1은 요청마다 실제 통합 검색을 수행했고,\nv2는 Redis Cache를 적용해 반복 검색 결과를 재사용하도록 구분해 비교했습니다. 이후 리팩터링과 팀의 검색 최적화 과정에서 최종 검색 구조 일부가 변경되었습니다. 현재 최종 코드에서는 v1/v2가 동일한 캐시 적용 메서드를 통과하므로, 아래 결과는 과거 비교 테스트 당시 구현을 기준으로 합니다.',
               calloutTone: 'soft',
             },
             {
               id: 'k6-v1',
               label: 'v1 캐시 미적용',
               title: '같은 검색 조건이 반복되어도 매 요청마다 실제 통합 검색을 수행했습니다.',
-              text: '캐시를 적용하지 않은 상태에서 동일한 검색 조건을 반복 요청했습니다.\n같은 검색 조건이 다시 들어와도 매 요청마다 프로젝트·개발자·카테고리·기술스택을 대상으로 실제 통합 검색을 수행하도록 두고 결과를 측정했습니다.',
+              text: '캐시를 적용하지 않은 상태에서 동일한 검색 조건을 반복 요청했습니다.\n같은 검색 조건이 다시 들어와도 매 요청마다 프로젝트·개발자·카테고리·스킬을 대상으로 실제 통합 검색을 수행하도록 두고 결과를 측정했습니다.',
               callout: '동일 조건의 반복 검색에서도 매 요청마다 실제 통합 검색을 수행했고, 평균 응답 시간 1.94초, p95 응답 시간 3.56초로 측정됐습니다.\n같은 실행 시간 동안 2,436건의 요청이 완료됐습니다.',
               calloutTone: 'soft',
               supportCards: [
@@ -525,7 +525,7 @@ export const readys7CaseStudy: CaseStudyContent = {
               subsection: {
                 title: '비교 결과 해석',
                 paragraphs: [
-                  '동일한 2분 30초, 최대 100 VU 반복 검색 시나리오에서 Redis Cache 적용 후 평균 응답 시간과 p95가 크게 낮아졌고,\n같은 실행 시간 동안 완료된 요청 수와 초당 처리량은 증가했습니다. 두 테스트 모두 실패율은 0%였습니다.',
+                  '동일한 2분 30초, 최대 100 VU 반복 검색 시나리오에서\nRedis Cache 적용 v2는 v1보다 낮은 평균·p95 응답 시간과 높은 처리량을 기록했습니다.\n두 테스트 모두 실패율은 0%였습니다.',
                   '이를 통해 비교 당시 구현 기준으로, 동일한 검색 조건이 반복되는 상황에서 Redis Cache를 통해 검색 결과를 재사용했을 때 응답 시간과 처리량의 차이를 확인했습니다.',
                 ],
               },
@@ -545,7 +545,7 @@ export const readys7CaseStudy: CaseStudyContent = {
         {
           type: 'prose',
           paragraphs: [
-            '프로젝트 등록과 탐색, 제안서 제출·확인, 채팅과 리뷰까지 구현된 주요 흐름을 시연합니다.',
+            '프로젝트 등록과 탐색, 제안서 제출·확인, 채팅과 리뷰까지 서비스의 주요 흐름을 시연합니다.',
           ],
         },
         {

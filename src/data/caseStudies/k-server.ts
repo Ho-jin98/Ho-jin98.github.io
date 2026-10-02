@@ -221,7 +221,7 @@ export const kServerCaseStudy: CaseStudyContent = {
                   target: '검증 대상 · 사용자별 Redis 분산락 + DB 비관락이 적용된 주문 전체 경로',
                   text: '동일 사용자의 주문 100건을 동시에 요청했고, 3건 성공, 97건 실패, 최종 포인트 0P를 확인했습니다.',
                   image: {
-                    src: '/k-server-images/distributed-lock-order-result.png',
+                    src: '/k-server-images/distributed-lock-order-result-display.png',
                     alt: 'k6 동일 사용자 주문 동시성 검증 결과',
                     crop: 'order-verification-result',
                   },
@@ -239,7 +239,7 @@ export const kServerCaseStudy: CaseStudyContent = {
                   target: '검증 대상 · DB 비관락이 적용된 포인트 충전 경로',
                   text: '같은 계정에 1,000P 충전 요청 50건을 동시에 보냈고, 시작 잔액 대비 +50,000P가 모두 반영되어 충전 요청 누락이 없음을 확인했습니다.',
                   image: {
-                    src: '/k-server-images/pessimistic-lock-charge-result.png',
+                    src: '/k-server-images/pessimistic-lock-charge-result-display.png',
                     alt: 'k6 동일 계정 포인트 충전 비관락 검증 결과',
                     crop: 'charge-verification-result',
                   },
@@ -354,25 +354,25 @@ export const kServerCaseStudy: CaseStudyContent = {
               metrics: [
                 { label: '주문 API 성공', value: '60건' },
                 { label: 'Redis 인기 메뉴 카운트', value: '0 → 60', tone: 'primary' },
-                { label: '정상 시나리오 처리 실패', value: '0건' },
+                { label: '주문 API 실패', value: '0건' },
               ],
               supportCards: [
                 {
                   title: '주문 API 60건 처리 결과',
                   text: 'k6 주문 API 60건 성공 후 Consumer 처리 결과와 Redis 인기 메뉴 점수 반영 결과를 확인했습니다.',
-                  image: { src: '/k-server-images/kafka-integrity-result.png', alt: 'k6 주문 API 60건 처리 결과', crop: 'kafka-integrity-result' },
+                  image: { src: '/k-server-images/kafka-integrity-result-display.png', alt: 'k6 주문 API 60건 처리 결과', crop: 'kafka-integrity-result' },
                   items: [
                     { label: '주문 API 성공', value: '60건' },
-                    { label: '정상 시나리오 처리 실패', value: '0건' },
+                    { label: '주문 API 실패', value: '0건' },
+                    { label: '인기 메뉴 카운트', value: '0 → 60' },
                   ],
                 },
                 {
-                  title: 'Redis 인기 메뉴 점수 확인',
-                  text: 'Consumer 처리 결과가 Redis Sorted Set 점수로 반영된 것을 확인했습니다.',
+                  title: 'Redis Sorted Set 저장 구조 확인',
+                  text: 'Redis Sorted Set에 인기 메뉴 점수가 저장된 화면입니다.',
                   image: { src: '/k-server-images/redisinsight-menu-result.png', alt: 'Redis Sorted Set 인기 메뉴 점수 확인 화면' },
                   items: [
                     { label: '저장 방식', value: 'Redis Sorted Set' },
-                    { label: '인기 메뉴 카운트', value: '0 → 60' },
                   ],
                 },
               ],
